@@ -15,8 +15,9 @@ Tasa_de_Paro <- read_delim("input/data/Tasa_de_Paro.csv",
 ## Para importar los datos de suicidios
 library(readr)
 Suicidio <- read_delim("input/data/Suicidio.csv", 
-                       delim = "\t", escape_double = FALSE, 
-                       trim_ws = TRUE)
+                       delim = ";", escape_double = FALSE, trim_ws = TRUE)
+
+
 
 ## Con estos datos ya importados, el objetivo de este seminario será responder a estas preguntas:
 
@@ -109,7 +110,7 @@ levels(factor(Tasa_de_Paro$Periodo))
 
 
 ## EN SEGUNDO LUGAR, NECESITAREMOS MODIFICAR EL SET DE DATOS DE SUICIDIO PARA 
-#QUE NOS MUESTRE SÓLO LA INFORMACIÓN QUE NECESITAMOS
+## QUE NOS MUESTRE SÓLO LA INFORMACIÓN QUE NECESITAMOS
 
 
 ## Para ello necesitamos ver cuáles son las causas de muerte que hay en el set 
@@ -118,9 +119,6 @@ levels(factor(Tasa_de_Paro$Periodo))
 library(dplyr)
 
 levels(factor(Suicidio$`Causa de muerte (lista reducida)`))
-
-str(Suicidio)
-
 
 ## y con eso, filtramos para que sólo nos salgan aquellas CAUSAS DE MUERTE que 
 #se corresponden con el SUICIDIO y/o lesiones autoinfligidas
@@ -131,9 +129,37 @@ Suicidio <-
   filter(`Causa de muerte (lista reducida)` == "098 Suicidio y lesiones autoinfligidas" ) %>%
   droplevels()
 
+Suicidio
+
+## Y filtramos por sexo, para que NOS MUESTRE A HOMBRES Y MUJERES, AMBOS POR 
+#SEPARADO, y nos elimine aquellos que indiquen 'Total' en sexo
+
+Suicidio <-
+  Suicidio %>%
+  mutate( Sexo = Suicidio$Sexo) %>%
+  filter(Sexo != "Total") %>%
+  droplevels() 
+
 
 Suicidio
 
+## Necesitaremos tambien que nos filtre para cualquier lugar de ocurrencia, es 
+#decir, necesitamos el número total de suicidios, no es objetivo del seminario estudiar dónde se produjo
+
+Suicidio <-
+  Suicidio %>%
+  mutate(`Lugar de ocurrencia`= Suicidio$`Lugar de ocurrencia` ) %>%
+  filter(`Lugar de ocurrencia` == "Total") %>%
+  droplevels()
+
+Suicidio
+
+##AQUI ELIMINAMOS TODOS LOS NA YA QUE PUEDE DAR A CONFUSIONES
+
+Suicidio <-
+  na.omit(Suicidio)
+
+Suicidio
 
 ## A su vez, para que coincida en años con el set de datos de Tasa_de_paro, 
 #filtraremos Suicidio para aquellos años que sean mayores que el 2018
@@ -150,40 +176,6 @@ Suicidio <-
 
 Suicidio
 
-
-
-## Necesitaremos tambien que nos filtre para cualquier lugar de ocurrencia, es 
-#decir, necesitamos el número total de suicidios, no nos interesa dónde se 
-#produjo
-
-Suicidio <-
-  Suicidio %>%
-  mutate(`Lugar de ocurrencia`= Suicidio$`Lugar de ocurrencia` ) %>%
-  filter(`Lugar de ocurrencia` == "Total") %>%
-  droplevels()
-
-
-Suicidio
-
-
-## Y filtramos por sexo, para que NOS MUESTRE A HOMBRES Y MUJERES, AMBOS POR 
-#SEPARADO, y nos elimine aquellos que indiquen 'Total' en sexo
-
-Suicidio <-
-  Suicidio %>%
-  mutate( Sexo = Suicidio$Sexo) %>%
-  filter(Sexo != "Total") %>%
-  droplevels() 
-
-
-Suicidio
-
-##AQUI ELEIMINAMOS TODOS LOS NA YA QUE PUEDE DAR A CONFUSIONES
-
-Suicidio <-
-  na.omit(Suicidio)
-
-Suicidio
 
 ## ASÍ OBTENDREMOS EL SET DE DATOS SUICIDIO, QUE NOS INDICA EL NUMERO DE 
 #SUICIDIOS, POR SEXO Y POR COMUNIDAD AUTONOMA QUE SE PRODUJERON ENTRE 2019 Y 
