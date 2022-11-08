@@ -8,14 +8,14 @@
 ## Para los datos de Tasa de paro:
 library(readr)
 
-Tasa_de_Paro <- read_delim("C:/Users/Paula/Desktop/3º ingenieria/fuentes datos biomedicas/seminario/datos/Tasa_de_Paro.csv", 
+Tasa_de_Paro <- read_delim("input/data/Tasa_de_Paro.csv", 
                            delim = "\t", escape_double = FALSE, 
                            trim_ws = TRUE)
  
 
 ## Para  los datos de suicidios
 library(readr)
-Suicidio <- read_delim("C:/Users/Paula/Desktop/3º ingenieria/fuentes datos biomedicas/seminario/datos/Suicidio.csv", 
+Suicidio <- read_delim("input/data/Suicidio.csv", 
                        delim = "\t", escape_double = FALSE, 
                        trim_ws = TRUE)
 
