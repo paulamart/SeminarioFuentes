@@ -3,17 +3,16 @@
 ## REALIZADO POR: PAULA MARTÍNEZ TERRADOS Y JAVIER SÁEZ GARCÍA
 
 
-## ANTES DE REALIZAR NADA, VAMOS A IMPORTAR LOS DATOS QUE NECESITAREMOS:
+## ANTES DE HACER NADA, VAMOS A IMPORTAR LOS DATOS QUE NECESITAREMOS MÁS ADELANTE:
 
-## Para los datos de Tasa de paro:
+## Para importar los datos de Tasa de paro:
 library(readr)
-
 Tasa_de_Paro <- read_delim("input/data/Tasa_de_Paro.csv", 
                            delim = "\t", escape_double = FALSE, 
                            trim_ws = TRUE)
  
 
-## Para  los datos de suicidios
+## Para importar los datos de suicidios
 library(readr)
 Suicidio <- read_delim("input/data/Suicidio.csv", 
                        delim = "\t", escape_double = FALSE, 
@@ -29,11 +28,13 @@ Suicidio <- read_delim("input/data/Suicidio.csv",
 
 ## 2. VARIACION DE SUICIDIOS/PARO RESPECTO A AÑOS POR COMUNIDAD AUTONOMA
 
+## 3. VER SI EXISTE O NO RELACIÓN ENTRE ELLOS
+
 
 ## EN PRIMER LUGAR, NECESITAREMOS MODIFICAR EL SET DE DATOS DE TASA_DE_PARO PARA QUE NOS MUESTRE SÓLO LA INFORMACIÓN QUE NECESITAMOS
 
 ## Filtramos los datos de tasa_de_paro para que nos salgan sólo aquellos datos 
-#que nos muestren HOMBRES Y MUJERES, AMBOS SEPARADOS
+#que nos muestren HOMBRES Y MUJERES, AMBOS SEPARADOS, Y QUE NOS ELIMINE LA LÍNEA DE "AMBOS SEXOS"
 
 library(dplyr)
 Tasa_de_Paro <-
@@ -42,19 +43,42 @@ Tasa_de_Paro <-
   filter(Sexo != "Ambos sexos") %>%
   droplevels()
 
+## para ver qué niveles de sexo tiene ahora el set de datos
 levels(Tasa_de_Paro$Sexo)
 
-
-
 ## PARA ELIMINAR ASÍ LA CATEGORÍA DE 'AMBOS SEXOS' QUE NO NOS INTERESA
-
-## comprobamos que la categoria "ambos sexos", ha desaparecido
+## (comprobamos que la categoria "ambos sexos", ha desaparecido)
 
 Tasa_de_Paro %>%
   filter(Sexo != "Ambos sexos") %>%
   levels() ## nos sale NULL
 
 
+## Asimismo, tendremos que filtrar la tasa de paro para que nos muestre sólo aquellos valores para los que la nacionalidad es "total"
+## ya que no es objeto de estudio de nuestro seminario, distinguir el paro entre nacionalidades
+
+Tasa_de_Paro <-
+  Tasa_de_Paro %>%
+  mutate(Nacionalidad = Tasa_de_Paro$Nacionalidad) %>%
+  filter(Nacionalidad == "Total") %>%
+  droplevels()
+
+Tasa_de_Paro
+
+## Por un lado, para la gráfica de PARO, RESPECTO A AÑOS Y SEXO, necesitaremos tan sólo el total nacional para hombres en cada año, y para mujeres en cada año
+## Para eso debemos crear un nuevo objeto en el que tendremos que filtrar en Comunidades Autónomas por "total nacional"
+
+Paro_Total_Año <-
+  Tasa_de_Paro %>%
+  mutate(`Comunidades y Ciudades Autónomas` = Tasa_de_Paro$`Comunidades y Ciudades Autónomas`) %>%
+  filter(`Comunidades y Ciudades Autónomas` == "Total Nacional") %>%
+  droplevels()
+
+## (deberiamos poder hacer la gráfica con estos datos, HACER LA PRIMERA GRÁFICA)
+
+
+
+## ESTO LO DEBERIAMOS USAR PARA COMPARAR AMBOS
 ## Filtramos los datos de tasa_de_paro para que nos salgan sólo aquellos AÑOS 
 #MAYORES AL 2018 Y MENORES AL 2021 (2019, 2020)
 
@@ -76,16 +100,10 @@ Tasa_de_Paro <-
 levels(factor(Tasa_de_Paro$Periodo))
 
 
-Tasa_de_Paro <-
-  Tasa_de_Paro %>%
-  mutate(Nacionalidad = Tasa_de_Paro$Nacionalidad) %>%
-  filter(Nacionalidad == "Total") %>%
-  droplevels()
 
-Tasa_de_Paro
 
 ## Y ASÍ OBTENDREMOS EL SET DE DATOS DE TASA_DE_PARO QUE NOS INDICA el paro, 
-#por sexo y comunidad autónoma que hubo en los años 2019 y 2020
+#por sexo y comunidad autónoma que hubo en los años 2006 y 2020
 
 
 
