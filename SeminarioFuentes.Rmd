@@ -14,7 +14,7 @@ output:
 4. Resultados
 5. Conclusiones
 
-## Introducción
+## Introducción al seminario
 
 ## Métodos utilizados
 
