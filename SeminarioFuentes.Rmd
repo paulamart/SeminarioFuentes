@@ -1,0 +1,26 @@
+---
+title: "Paro y Suicidios Nacionales"
+author: "Javier Sáez García, Paula Martínez Terrados"
+date: "08/11/2022"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+## Índice
+1. Introducción
+2. Métodos
+3. Desarrollo
+4. Resultados
+5. Conclusiones
+
+## Introducción
+
+
+## Métodos
+
+## Desarrollo
+
+## Resultados
+
+## Conclusiones
