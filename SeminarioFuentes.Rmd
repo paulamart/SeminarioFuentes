@@ -16,7 +16,6 @@ output:
 
 ## Introducción
 
-
 ## Métodos
 
 ## Desarrollo
