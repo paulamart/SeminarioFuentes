@@ -7,7 +7,7 @@ output:
   pdf_document: default
 ---
 
-## Índice
+## Índice de contenidos
 1. Introducción
 2. Métodos
 3. Desarrollo
@@ -16,10 +16,10 @@ output:
 
 ## Introducción
 
-## Métodos
+## Métodos utilizados
 
-## Desarrollo
+## Desarrollo 
 
-## Resultados
+## Resultados obtenidos
 
-## Conclusiones
+## Conclusiones y discusión de los resultados
