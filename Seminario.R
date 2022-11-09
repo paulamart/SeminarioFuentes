@@ -25,9 +25,9 @@ Suicidio <- read_delim("input/data/Suicidio.csv",
 
 ## PREGUNTAS A RESPONDER:
 
-## 1. VARIACIÓN DE PARO/SUICIDIO RESPECTO AL SEXO POR COMUNIDAD AUTONOMA
+## 1. VARIACIÓN DE PARO/SUICIDIO RESPECTO AL SEXO POR AÑOS Y POR COMUNIDAD AUTONOMA
 
-## 2. VARIACION DE SUICIDIOS/PARO RESPECTO A AÑOS POR COMUNIDAD AUTONOMA
+## 2. VARIACION DE SUICIDIOS/PARO RESPECTO A LOS AÑOS
 
 ## 3. VER SI EXISTE O NO RELACIÓN ENTRE ELLOS
 
@@ -76,6 +76,17 @@ Paro_Total_Año <-
   droplevels()
 
 ## (deberiamos poder hacer la gráfica con estos datos, HACER LA PRIMERA GRÁFICA)
+
+## Por otro lado, PARA LA GRÁFICA DE PARO, RESPECTO A COMUNIDAD AUTONOMA/SEXO Y AÑOS necesitaremos:
+
+## que nos quite de la tabla el Total Nacional, puesto que sólo queremos el Total, por sexo, para cada año y comunidad autonoma
+Tasa_de_Paro_CCAA <-
+  Tasa_de_Paro %>%
+  mutate(`Comunidades y Ciudades Autónomas` = Tasa_de_Paro$`Comunidades y Ciudades Autónomas`) %>%
+  filter(`Comunidades y Ciudades Autónomas` != "Total Nacional" ) %>%
+  droplevels()
+
+Tasa_de_Paro
 
 
 
