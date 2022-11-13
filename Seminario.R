@@ -21,10 +21,6 @@ Suicidio <- read_delim("input/data/Suicidio.csv",
 
 ## Con estos datos ya importados, el objetivo de este seminario será responder a estas preguntas:
 
-
-
-## PREGUNTAS A RESPONDER:
-
 ## 1. VARIACIÓN DE PARO/SUICIDIO RESPECTO AL SEXO POR AÑOS Y POR COMUNIDAD AUTONOMA
 
 ## 2. VARIACION DE SUICIDIOS/PARO RESPECTO A LOS AÑOS
@@ -66,8 +62,8 @@ Tasa_de_Paro <-
 
 Tasa_de_Paro
 
-## Por un lado, para la gráfica de PARO, RESPECTO A AÑOS Y SEXO, necesitaremos tan sólo el total nacional para hombres en cada año, y para mujeres en cada año
-## Para eso debemos crear un nuevo objeto en el que tendremos que filtrar en Comunidades Autónomas por "total nacional"
+## Por un lado, para la gráfica de  variación del PARO RESPECTO A LOS AÑOS Y EL SEXO, necesitaremos tan sólo el total nacional para hombres y mujeres en cada año
+## Para eso debemos crear un nuevo objeto (Paro_Total_Año), en el que tendremos que filtrar las Comunidades Autónomas por "total nacional"
 
 Paro_Total_Año <-
   Tasa_de_Paro %>%
@@ -77,9 +73,13 @@ Paro_Total_Año <-
 
 ## (deberiamos poder hacer la gráfica con estos datos, HACER LA PRIMERA GRÁFICA)
 
+
+
+
+
 ## Por otro lado, PARA LA GRÁFICA DE PARO, RESPECTO A COMUNIDAD AUTONOMA/SEXO Y AÑOS necesitaremos:
 
-## que nos quite de la tabla el Total Nacional, puesto que sólo queremos el Total, por sexo, para cada año y comunidad autonoma
+## que nos quite de la tabla el Total Nacional, puesto que sólo queremos que nos indique el paro total de hombres y mujeres por cada comunidad autónoma y por cada año
 Tasa_de_Paro_CCAA <-
   Tasa_de_Paro %>%
   mutate(`Comunidades y Ciudades Autónomas` = Tasa_de_Paro$`Comunidades y Ciudades Autónomas`) %>%
@@ -88,11 +88,12 @@ Tasa_de_Paro_CCAA <-
 
 Tasa_de_Paro
 
+## (necesitamos hacer más cosas para poder sacar el gráfico)
 
 
 ## ESTO LO DEBERIAMOS USAR PARA COMPARAR AMBOS
 ## Filtramos los datos de tasa_de_paro para que nos salgan sólo aquellos AÑOS 
-#MAYORES AL 2018 Y MENORES AL 2021 (2019, 2020)
+## MAYORES AL 2018 Y MENORES AL 2021 (2019, 2020)
 
 
 ## Para ello sacamos los años de Tasa_de_paro
@@ -111,11 +112,25 @@ Tasa_de_Paro <-
 
 levels(factor(Tasa_de_Paro$Periodo))
 
-
-
-
 ## Y ASÍ OBTENDREMOS EL SET DE DATOS DE TASA_DE_PARO QUE NOS INDICA el paro, 
 #por sexo y comunidad autónoma que hubo en los años 2006 y 2020
+
+
+
+## A su vez, para que coincida en años con el set de datos de Tasa_de_paro, 
+#filtraremos Suicidio para aquellos años que sean mayores que el 2018
+
+## (como sólo estudia hasta 2020, saldrán 2019 y 2020, al igual que en el 
+#anterior set de datos)
+
+Suicidio <-
+  Suicidio %>%
+  mutate(año = Suicidio$año) %>%
+  filter(año > 2016 ) %>%
+  droplevels()
+
+
+Suicidio
 
 
 
@@ -169,21 +184,6 @@ Suicidio
 
 Suicidio <-
   na.omit(Suicidio)
-
-Suicidio
-
-## A su vez, para que coincida en años con el set de datos de Tasa_de_paro, 
-#filtraremos Suicidio para aquellos años que sean mayores que el 2018
-
-## (como sólo estudia hasta 2020, saldrán 2019 y 2020, al igual que en el 
-#anterior set de datos)
-
-Suicidio <-
-  Suicidio %>%
-  mutate(año = Suicidio$año) %>%
-  filter(año > 2016 ) %>%
-  droplevels()
-
 
 Suicidio
 

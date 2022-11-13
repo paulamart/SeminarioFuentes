@@ -13,6 +13,11 @@ output: html_document
 5. Conclusiones
 
 ## Introducción
+Los objetivos o preguntas que vamos a plantear durante el desarrollo del seminario son:
+
+1. VARIACIÓN DE PARO/SUICIDIO RESPECTO AL SEXO POR AÑOS Y POR COMUNIDAD AUTONOMA
+2. VARIACION DE SUICIDIOS/PARO RESPECTO A LOS AÑOS
+3. VER SI EXISTE O NO RELACIÓN ENTRE ELLOS
 
 ## Métodos utilizados
 
