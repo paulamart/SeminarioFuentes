@@ -79,14 +79,15 @@ library(ggplot2)
 ggplot(data = Paro_Total_Año, aes(x = Periodo, y = Total)) +
   geom_point(aes(colour = factor(Sexo))) +
   geom_smooth(method = "lm", aes(colour = factor(Sexo))) 
-  lims(x = c(0, 70), y = c(2006,2022))
+  lims(x = c(0, 70), y = c(2006,2022))  
 
 #con scale_manual
 ggplot(data = Paro_Total_Año, aes(x = Periodo, y = Total)) +
   geom_point(aes(colour = factor(Sexo))) +
   scale_size_manual(breaks = c('hombres', 'mujeres'), 
                     labels = c('hombres', 'mujeres'), 
-                    values = c(2006:2022))
+                    values = c(2006:2022)) +
+  theme_classic()  #quitar los cuadraditos
 
 #ambas son iguales, la única diferencia que la seguda de ellas no tiene regresión lineal(elegir la que más nos convenga al final)
 
