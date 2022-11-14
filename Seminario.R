@@ -102,11 +102,13 @@ Tasa_de_Paro_CCAA <-
 ## GRAFICA COMUNIDAD AUTONOMA
 library(ggplot2)
 
-ggplot(data = Tasa_de_Paro, aes(x = Periodo, y = Total)) +
-geom_point(aes(colour = factor(Sexo))) +  
-facet_wrap( ~ drv, nrow = 1)
+##ggplot(data = Tasa_de_Paro, aes(x = Periodo, y = Total)) +
+##geom_point(aes(colour = factor(Sexo))) +  
+##facet_wrap( ~ drv, nrow = 1)
 
-
+ggplot(data = Tasa_de_Paro_CCAA, aes(x = Periodo, y = Total)) +
+  geom_point(aes(colour = factor(Sexo))) +
+  facet_grid(Sexo ~ Tasa_de_Paro_CCAA$`Comunidades y Ciudades Autónomas`)
 ## ----------------------------------------------------------
 
 ## ESTO LO DEBERIAMOS USAR PARA COMPARAR AMBOS
