@@ -111,7 +111,7 @@ library(ggplot2)
 ggplot(data = Tasa_de_Paro_CCAA, aes(x = Periodo, y = Total)) +
   geom_point(aes(colour = factor(Sexo))) +
   facet_grid(Sexo ~ Tasa_de_Paro_CCAA$`Comunidades y Ciudades Autónomas`) +
-  theme_light() +#quitamos el gris de fondo
+  theme_light() + #quitamos el gris de fondo
   theme_classic()  #quitar los cuadraditos
 
 ## ----------------------------------------------------------
