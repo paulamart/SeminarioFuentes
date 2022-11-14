@@ -10,7 +10,7 @@ library(readr)
 Tasa_de_Paro <- read_delim("input/data/Tasa_de_Paro.csv", 
                            delim = "\t", escape_double = FALSE, 
                            trim_ws = TRUE)
- 
+
 
 ## Para importar los datos de suicidios
 library(readr)
@@ -89,7 +89,7 @@ ggplot(data = Paro_Total_Año, aes(x = Periodo, y = Total)) +
   geom_point(aes(colour = factor(Sexo))) +
   geom_smooth(method = "lm", aes(colour = factor(Sexo)))
   #lims(x = c(0, 50), y = c(2006,2022))
-#jjjjjjjjjjjjjjjjj
+#------------------------------------------
 #scale_manual
 
 ## Por otro lado, PARA LA GRÁFICA DE PARO, RESPECTO A COMUNIDAD AUTONOMA/SEXO Y AÑOS necesitaremos:
