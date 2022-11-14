@@ -76,14 +76,8 @@ Paro_Total_Año <-
 library(ggplot2)
 
 ggplot(data = Paro_Total_Año, aes(x = Periodo, y = Total)) +
-  geom_point() + #DE MANERA DIRECTA DAMOS EL COLOR
-  geom_smooth(method = "loess", colour = "blue")
-
-ggplot(data = Paro_Total_Año, aes(x = Periodo, y = Total)) +
-  geom_point() + 
-  geom_smooth(method = "loess", colour = "blue") +
-  #EL MODELO LINEAL LO DIBUJA DE COLOR ROJO
-  geom_smooth(method = "lm", colour = "red")
+  geom_point(aes(colour = factor(Sexo))) +
+  geom_smooth(method = "lm", aes(colour = factor(Sexo)))
 
 ## Por otro lado, PARA LA GRÁFICA DE PARO, RESPECTO A COMUNIDAD AUTONOMA/SEXO Y AÑOS necesitaremos:
 
