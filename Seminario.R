@@ -78,6 +78,7 @@ library(ggplot2)
 
 ggplot(data = Paro_Total_Año, aes(x = Periodo, y = Total)) +
   geom_point(aes(colour = factor(Sexo))) +
+  theme_light() +
   geom_smooth(method = "lm", aes(colour = factor(Sexo))) 
   lims(x = c(0, 70), y = c(2006,2022))  
 
@@ -110,7 +111,7 @@ library(ggplot2)
 ggplot(data = Tasa_de_Paro_CCAA, aes(x = Periodo, y = Total)) +
   geom_point(aes(colour = factor(Sexo))) +
   facet_grid(Sexo ~ Tasa_de_Paro_CCAA$`Comunidades y Ciudades Autónomas`) +
-  theme_light()
+  theme_light() #quitamos el gris de fondo
 
 ## ----------------------------------------------------------
 
