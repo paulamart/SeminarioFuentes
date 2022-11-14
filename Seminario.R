@@ -42,13 +42,11 @@ Tasa_de_Paro <-
 
 ## para ver qué niveles de sexo tiene ahora el set de datos
 levels(Tasa_de_Paro$Sexo)
-
-## PARA ELIMINAR ASÍ LA CATEGORÍA DE 'AMBOS SEXOS' QUE NO NOS INTERESA
+## sólo tendrá Hombres y Mujeres, porque hemos eliminado la categoría "ambos sexos" ya que no es objeto de estudio
 ## (comprobamos que la categoria "ambos sexos", ha desaparecido)
-
 Tasa_de_Paro %>%
   filter(Sexo != "Ambos sexos") %>%
-  levels() ## nos sale NULL
+  levels() ## nos sale NULL porque ha desaparecido
 
 
 ## Asimismo, tendremos que filtrar la tasa de paro para que nos muestre sólo aquellos valores para los que la nacionalidad es "total"
@@ -70,6 +68,7 @@ Paro_Total_Año <-
   mutate(`Comunidades y Ciudades Autónomas` = Tasa_de_Paro$`Comunidades y Ciudades Autónomas`) %>%
   filter(`Comunidades y Ciudades Autónomas` == "Total Nacional") %>%
   droplevels()
+
 
 ## (deberiamos poder hacer la gráfica con estos datos, HACER LA PRIMERA GRÁFICA)
 str(Paro_Total_Año)
