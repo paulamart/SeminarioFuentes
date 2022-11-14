@@ -88,10 +88,12 @@ ggplot(data = Paro_Total_Año, aes(x = Periodo, y = Total)) +
                     labels = c('hombres', 'mujeres'), 
                     values = c(2006:2022))
 
+#ambas son iguales, la única diferencia que la seguda de ellas no tiene regresión lineal(elegir la que más nos convenga al final)
 
 ## Por otro lado, PARA LA GRÁFICA DE PARO, RESPECTO A COMUNIDAD AUTONOMA/SEXO Y AÑOS necesitaremos:
 
 ## que nos quite de la tabla el Total Nacional, puesto que sólo queremos que nos indique el paro total de hombres y mujeres por cada comunidad autónoma y por cada año
+
 Tasa_de_Paro_CCAA <-
   Tasa_de_Paro %>%
   mutate(`Comunidades y Ciudades Autónomas` = Tasa_de_Paro$`Comunidades y Ciudades Autónomas`) %>%
@@ -99,16 +101,15 @@ Tasa_de_Paro_CCAA <-
   droplevels()
 
 
-## GRAFICA COMUNIDAD AUTONOMA
+
+## GRAFICA DE PARO POR COMUNIDAD AUTONOMA
 library(ggplot2)
 
-##ggplot(data = Tasa_de_Paro, aes(x = Periodo, y = Total)) +
-##geom_point(aes(colour = factor(Sexo))) +  
-##facet_wrap( ~ drv, nrow = 1)
 
 ggplot(data = Tasa_de_Paro_CCAA, aes(x = Periodo, y = Total)) +
   geom_point(aes(colour = factor(Sexo))) +
   facet_grid(Sexo ~ Tasa_de_Paro_CCAA$`Comunidades y Ciudades Autónomas`)
+
 ## ----------------------------------------------------------
 
 ## ESTO LO DEBERIAMOS USAR PARA COMPARAR AMBOS
