@@ -75,22 +75,29 @@ Paro_Total_Año <-
 str(Paro_Total_Año)
 str(Paro_Total_Año$Total)
 
-Paro_Total_Año <-
-  Tasa_de_Paro %>%
-  mutate(Total = as.numeric(Paro_Total_Año$Total))
-  droplevels()
+#Paro_Total_Año <-
+  #Tasa_de_Paro %>%
+  #mutate(Total = as.numeric(Paro_Total_Año$Total))
+  #droplevels()
 
-x= c("gola", "juan","3")
-as.numeric(x)
 
 library(ggplot2) 
 
 ggplot(data = Paro_Total_Año, aes(x = Periodo, y = Total)) +
   geom_point(aes(colour = factor(Sexo))) +
-  geom_smooth(method = "lm", aes(colour = factor(Sexo)))
-  #lims(x = c(0, 50), y = c(2006,2022))
+  geom_smooth(method = "lm", aes(colour = factor(Sexo))) 
+  #lims(x = c(0, 70), y = c(2006,2022))
+
+#con scale_manual
+ggplot(data = Paro_Total_Año, aes(x = Periodo, y = Total)) +
+  geom_point(aes(colour = factor(Sexo))) +
+  scale_size_manual(breaks = c('hombres', 'mujeres'), 
+                    labels = c('hombres', 'mujeres'), 
+                    values = c(2006:2022))
+
 #------------------------------------------
-#scale_manual
+
+
 
 ## Por otro lado, PARA LA GRÁFICA DE PARO, RESPECTO A COMUNIDAD AUTONOMA/SEXO Y AÑOS necesitaremos:
 
@@ -104,10 +111,11 @@ Tasa_de_Paro_CCAA <-
 Tasa_de_Paro
 
 ## GRAFICA COMUNIDAD AUTONOMA
+library(ggplot2)
 
-  ggplot(data = Tasa_de_Paro, aes(x = Periodo, y = hwy)) +
-  geom_point(aes(colour = factor(cyl))) +
-  facet_wrap( ~ drv, nrow = 1)
+ggplot(data = Tasa_de_Paro, aes(x = Periodo, y = hwy)) +
+geom_point(aes(colour = factor(cyl))) +  
+facet_wrap( ~ drv, nrow = 1)
 
 
 
