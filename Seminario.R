@@ -10,7 +10,7 @@ library(readr)
 Tasa_de_Paro <- read_delim("input/data/Tasa_de_Paro.csv", 
                            delim = "\t", escape_double = FALSE, 
                            trim_ws = TRUE)
-
+                           #locale = default_locale())
 
 ## Para importar los datos de suicidios
 library(readr)
