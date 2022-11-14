@@ -8,9 +8,9 @@
 ## Para importar los datos de Tasa de paro:
 library(readr)
 Tasa_de_Paro <- read_delim("input/data/Tasa_de_Paro.csv", 
-                           delim = "\t", escape_double = FALSE, 
+                           delim = ";", escape_double = FALSE, 
+                           col_types = cols(Total = col_double()), 
                            trim_ws = TRUE)
-                           #locale = default_locale())
 
 ## Para importar los datos de suicidios
 library(readr)
@@ -69,23 +69,17 @@ Paro_Total_Año <-
   filter(`Comunidades y Ciudades Autónomas` == "Total Nacional") %>%
   droplevels()
 
-
-## (deberiamos poder hacer la gráfica con estos datos, HACER LA PRIMERA GRÁFICA)
 str(Paro_Total_Año)
 str(Paro_Total_Año$Total)
 
-#Paro_Total_Año <-
-  #Tasa_de_Paro %>%
-  #mutate(Total = as.numeric(Paro_Total_Año$Total))
-  #droplevels()
-
+## PARA EL PRIMER GRÁFICO:
 
 library(ggplot2) 
 
 ggplot(data = Paro_Total_Año, aes(x = Periodo, y = Total)) +
   geom_point(aes(colour = factor(Sexo))) +
   geom_smooth(method = "lm", aes(colour = factor(Sexo))) 
-  #lims(x = c(0, 70), y = c(2006,2022))
+  lims(x = c(0, 70), y = c(2006,2022))
 
 #con scale_manual
 ggplot(data = Paro_Total_Año, aes(x = Periodo, y = Total)) +
@@ -93,9 +87,6 @@ ggplot(data = Paro_Total_Año, aes(x = Periodo, y = Total)) +
   scale_size_manual(breaks = c('hombres', 'mujeres'), 
                     labels = c('hombres', 'mujeres'), 
                     values = c(2006:2022))
-
-#------------------------------------------
-
 
 
 ## Por otro lado, PARA LA GRÁFICA DE PARO, RESPECTO A COMUNIDAD AUTONOMA/SEXO Y AÑOS necesitaremos:
@@ -107,16 +98,16 @@ Tasa_de_Paro_CCAA <-
   filter(`Comunidades y Ciudades Autónomas` != "Total Nacional" ) %>%
   droplevels()
 
-Tasa_de_Paro
 
 ## GRAFICA COMUNIDAD AUTONOMA
 library(ggplot2)
 
-ggplot(data = Tasa_de_Paro, aes(x = Periodo, y = hwy)) +
-geom_point(aes(colour = factor(cyl))) +  
+ggplot(data = Tasa_de_Paro, aes(x = Periodo, y = Total)) +
+geom_point(aes(colour = factor(Sexo))) +  
 facet_wrap( ~ drv, nrow = 1)
 
 
+## ----------------------------------------------------------
 
 ## ESTO LO DEBERIAMOS USAR PARA COMPARAR AMBOS
 ## Filtramos los datos de tasa_de_paro para que nos salgan sólo aquellos AÑOS 
@@ -160,7 +151,7 @@ Suicidio <-
 Suicidio
 
 
-
+# ---------------------------------------------------------------------------
 
 ## EN SEGUNDO LUGAR, NECESITAREMOS MODIFICAR EL SET DE DATOS DE SUICIDIO PARA 
 ## QUE NOS MUESTRE SÓLO LA INFORMACIÓN QUE NECESITAMOS
