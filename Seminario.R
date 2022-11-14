@@ -72,12 +72,25 @@ Paro_Total_Año <-
   droplevels()
 
 ## (deberiamos poder hacer la gráfica con estos datos, HACER LA PRIMERA GRÁFICA)
+str(Paro_Total_Año)
+str(Paro_Total_Año$Total)
 
-library(ggplot2)
+Paro_Total_Año <-
+  Tasa_de_Paro %>%
+  mutate(Total = as.numeric(Paro_Total_Año$Total))
+  droplevels()
+
+x= c("gola", "juan","3")
+as.numeric(x)
+
+library(ggplot2) 
 
 ggplot(data = Paro_Total_Año, aes(x = Periodo, y = Total)) +
   geom_point(aes(colour = factor(Sexo))) +
   geom_smooth(method = "lm", aes(colour = factor(Sexo)))
+  #lims(x = c(0, 50), y = c(2006,2022))
+#jjjjjjjjjjjjjjjjj
+#scale_manual
 
 ## Por otro lado, PARA LA GRÁFICA DE PARO, RESPECTO A COMUNIDAD AUTONOMA/SEXO Y AÑOS necesitaremos:
 
@@ -90,7 +103,12 @@ Tasa_de_Paro_CCAA <-
 
 Tasa_de_Paro
 
-## (necesitamos hacer más cosas para poder sacar el gráfico)
+## GRAFICA COMUNIDAD AUTONOMA
+
+  ggplot(data = Tasa_de_Paro, aes(x = Periodo, y = hwy)) +
+  geom_point(aes(colour = factor(cyl))) +
+  facet_wrap( ~ drv, nrow = 1)
+
 
 
 ## ESTO LO DEBERIAMOS USAR PARA COMPARAR AMBOS
