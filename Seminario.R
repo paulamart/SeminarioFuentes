@@ -48,7 +48,6 @@ Tasa_de_Paro %>%
   filter(Sexo != "Ambos sexos") %>%
   levels() ## nos sale NULL porque ha desaparecido
 
-
 ## Asimismo, tendremos que filtrar la tasa de paro para que nos muestre sólo aquellos valores para los que la nacionalidad es "total"
 ## ya que no es objeto de estudio de nuestro seminario, distinguir el paro entre nacionalidades
 
@@ -143,11 +142,11 @@ levels(factor(Tasa_de_Paro$Periodo))
 
 
 ## A su vez, para que coincida en años con el set de datos de Tasa_de_paro, 
-#filtraremos Suicidio para aquellos años que sean mayores que el 2018
+#filtraremos Suicidio para aquellos años que sean mayores que el 2016
 
-## (como sólo estudia hasta 2020, saldrán 2019 y 2020, al igual que en el 
+## (como sólo estudia hasta 2020, saldrán 2017, 2018 2019 y 2020, al igual que en el 
 #anterior set de datos)
-
+ 
 Suicidio <-
   Suicidio %>%
   mutate(año = Suicidio$año) %>%
@@ -214,7 +213,7 @@ Suicidio
 
 
 ## ASÍ OBTENDREMOS EL SET DE DATOS SUICIDIO, QUE NOS INDICA EL NUMERO DE 
-#SUICIDIOS, POR SEXO Y POR COMUNIDAD AUTONOMA QUE SE PRODUJERON ENTRE 2019 Y 
+#SUICIDIOS, POR SEXO Y POR COMUNIDAD AUTONOMA QUE SE PRODUJERON ENTRE 2017 Y 
 #2020
 
 
