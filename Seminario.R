@@ -15,7 +15,9 @@ Tasa_de_Paro <- read_delim("input/data/Tasa_de_Paro.csv",
 ## Para importar los datos de suicidios
 library(readr)
 Suicidio <- read_delim("input/data/Suicidio.csv", 
-                       delim = ";", escape_double = FALSE, trim_ws = TRUE)
+                       delim = ";", escape_double = FALSE, 
+                       col_types = cols(Total = col_double()), 
+                       trim_ws = TRUE)
 
 
 
@@ -216,6 +218,15 @@ Suicidio
 #SUICIDIOS, POR SEXO Y POR COMUNIDAD AUTONOMA QUE SE PRODUJERON ENTRE 2017 Y 
 #2020
 
+library(ggplot2) 
+
+ggplot(data = Suicidio, aes(x = año, y = Total)) +
+  geom_point(aes(colour = factor(Sexo))) +
+  theme_light() 
+  #geom_smooth(method = "lm", aes(colour = factor(Sexo))) 
+  #lims(x = c(0, 700), y = c(2017,2022)) 
+
+str(Suicidio)
 
 #MÉTODOS - PAQUETES UTILIZADOS
 
