@@ -226,7 +226,8 @@ ggplot(data = Suicidio, aes(x = año, y = Total)) +
   theme_light() 
 
 
-#EN ESTE GRÁFICO PODEMOS OSBERVAR EL NºDE SUICIDIOS PARA CADA FCATOR HOMBRE Y MUJER EN CADA COMUNIDAD AUTÓNOMA A LO LARGO DE LOS AÑOS (DE 2017 A 2022)
+
+#EN ESTE GRÁFICO QUE VAMOS A REALIZAR POSTERIORMENTE PODEMOS OSBERVAR EL NºDE SUICIDIOS PARA CADA FCATOR HOMBRE Y MUJER EN CADA COMUNIDAD AUTÓNOMA A LO LARGO DE LOS AÑOS (DE 2017 A 2022)
 library(ggplot2)
 
 ggplot(data = Suicidio, aes(x = año, y = Total)) +
@@ -234,6 +235,7 @@ ggplot(data = Suicidio, aes(x = año, y = Total)) +
   facet_grid(Sexo ~ Suicidio$`Comunidades y Ciudades Autónomas`) +
   theme_light() + #quitamos el gris de fondo
   theme_classic()  #quitar los cuadraditos
+
 
 
 #PARA VER SI HAY O NO RELACIÓN HACEMOS UN JOIN
@@ -246,6 +248,19 @@ Suicidio <-
 
 Suicidio
 
+
+
+#PROBLEMA, PERIODO ES NUM Y AÑO ES CHR
+
+Suicidio_Paro <-  
+  Tasa_de_Paro_CCAA %>% 
+  select(`Periodo`, 'Comunidades y Ciudades Autónomas') %>% 
+  full_join(x = ., 
+            y = Suicidio %>% 
+              select('Periodo','Comunidades y Ciudades Autónomas' ),
+            by = c("Periodo" = "Comunidades y Ciudades Autónomas"))
+
+str(Suicidio)
 
 #MÉTODOS - PAQUETES UTILIZADOS
 
