@@ -220,13 +220,12 @@ Suicidio
 
 library(ggplot2) 
 
+#EN ESTE GRÁFICO PODEMOS OBSERVAR EL NºDE SUICIDIOS ANUALES EN TODAS LAS COMUNIDADES AUTONOMAS
 ggplot(data = Suicidio, aes(x = año, y = Total)) +
   geom_point(aes(colour = factor(Sexo))) +
   theme_light() 
-  #geom_smooth(method = "lm", aes(colour = factor(Sexo))) 
-  #lims(x = c(0, 700), y = c(2017,2022)) 
 
-str(Suicidio)
+
 
 #MÉTODOS - PAQUETES UTILIZADOS
 
