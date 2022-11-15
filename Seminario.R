@@ -236,6 +236,17 @@ ggplot(data = Suicidio, aes(x = año, y = Total)) +
   theme_classic()  #quitar los cuadraditos
 
 
+#PARA VER SI HAY O NO RELACIÓN HACEMOS UN JOIN
+#Pivotes -- años y Cuidades y Comunidades Autónomas
+
+#primero hacemos que las dos columnas se llamen igual
+Suicidio <-
+  Suicidio %>%
+  mutate(`Periodo`= Suicidio$`año`) #no m deja con rename, no se porque
+
+Suicidio
+
+
 #MÉTODOS - PAQUETES UTILIZADOS
 
 #GRAFICOS
