@@ -226,6 +226,15 @@ ggplot(data = Suicidio, aes(x = año, y = Total)) +
   theme_light() 
 
 
+#EN ESTE GRÁFICO PODEMOS OSBERVAR EL NºDE SUICIDIOS PARA CADA FCATOR HOMBRE Y MUJER EN CADA COMUNIDAD AUTÓNOMA A LO LARGO DE LOS AÑOS (DE 2017 A 2022)
+library(ggplot2)
+
+ggplot(data = Suicidio, aes(x = año, y = Total)) +
+  geom_point(aes(colour = factor(Sexo))) +
+  facet_grid(Sexo ~ Suicidio$`Comunidades y Ciudades Autónomas`) +
+  theme_light() + #quitamos el gris de fondo
+  theme_classic()  #quitar los cuadraditos
+
 
 #MÉTODOS - PAQUETES UTILIZADOS
 
