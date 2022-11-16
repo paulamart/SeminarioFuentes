@@ -94,9 +94,11 @@ ggplot(data = Paro_Total_Año, aes(x = Periodo, y = Total)) +
 
 # (ambas son iguales, la única diferencia que la seguda de ellas no tiene regresión lineal(elegir la que más nos convenga al final))
 
+
 ## Por otro lado, PARA LA GRÁFICA DE PARO, RESPECTO A COMUNIDAD AUTONOMA/SEXO Y AÑOS necesitaremos:
 
-## que nos quite de la tabla el Total Nacional, puesto que sólo queremos que nos indique el paro total de hombres y mujeres por cada comunidad autónoma y por cada año
+## que nos quite de la tabla el Total Nacional, puesto que sólo queremos que nos indique el paro total de hombres y mujeres por cada comunidad autónoma 
+## y por cada año
 
 Tasa_de_Paro_CCAA <-
   Tasa_de_Paro %>%
@@ -184,7 +186,7 @@ ggplot(data = Suicidio, aes(x = año, y = Total)) +
 
 
 
-#EN ESTE GRÁFICO QUE VAMOS A REALIZAR POSTERIORMENTE PODEMOS OSBERVAR EL NºDE SUICIDIOS PARA CADA FCATOR HOMBRE Y MUJER EN CADA COMUNIDAD AUTÓNOMA A LO LARGO DE LOS AÑOS (DE 2017 A 2022)
+#EN ESTE GRÁFICO QUE VAMOS A REALIZAR PODEMOS OSBERVAR EL Nº DE SUICIDIOS PARA CADA HOMBRE Y MUJER EN CADA COMUNIDAD AUTÓNOMA A LO LARGO DE LOS AÑOS (DE 2017 A 2022)
 library(ggplot2)
 
 ggplot(data = Suicidio, aes(x = año, y = Total)) +
@@ -222,7 +224,6 @@ levels(factor(Tasa_de_Paro$Periodo))
 #por sexo y comunidad autónoma que hubo en los años 2006 y 2020
 
 
-
 ## A su vez, para que coincida en años con el set de datos de Tasa_de_paro, 
 #filtraremos Suicidio para aquellos años que sean mayores que el 2016
 
@@ -255,4 +256,3 @@ Suicidio_Paro <-
 
 str(Suicidio)
 
-#MÉTODOS - PAQUETES UTILIZADOS
