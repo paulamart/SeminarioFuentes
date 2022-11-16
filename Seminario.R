@@ -50,6 +50,7 @@ Tasa_de_Paro %>%
   filter(Sexo != "Ambos sexos") %>%
   levels() ## nos sale NULL porque ha desaparecido
 
+
 ## Asimismo, tendremos que filtrar la tasa de paro para que nos muestre sólo aquellos valores para los que la nacionalidad es "total"
 ## ya que no es objeto de estudio de nuestro seminario, distinguir el paro entre nacionalidades
 
@@ -61,7 +62,7 @@ Tasa_de_Paro <-
 
 Tasa_de_Paro
 
-## Por un lado, para la gráfica de  variación del PARO RESPECTO A LOS AÑOS Y EL SEXO, necesitaremos tan sólo el total nacional para hombres y mujeres en cada año
+## Para la gráfica de  variación del PARO RESPECTO A LOS AÑOS Y EL SEXO, necesitaremos tan sólo el total nacional para hombres y mujeres por año
 ## Para eso debemos crear un nuevo objeto (Paro_Total_Año), en el que tendremos que filtrar las Comunidades Autónomas por "total nacional"
 
 Paro_Total_Año <-
@@ -89,9 +90,9 @@ ggplot(data = Paro_Total_Año, aes(x = Periodo, y = Total)) +
   scale_size_manual(breaks = c('hombres', 'mujeres'), 
                     labels = c('hombres', 'mujeres'), 
                     values = c(2006:2022)) +
-  theme_classic()  #quitar los cuadraditos
+  theme_classic()  # para quitar los cuadrados del fondo de la gráfica
 
-#ambas son iguales, la única diferencia que la seguda de ellas no tiene regresión lineal(elegir la que más nos convenga al final)
+# (ambas son iguales, la única diferencia que la seguda de ellas no tiene regresión lineal(elegir la que más nos convenga al final))
 
 ## Por otro lado, PARA LA GRÁFICA DE PARO, RESPECTO A COMUNIDAD AUTONOMA/SEXO Y AÑOS necesitaremos:
 
