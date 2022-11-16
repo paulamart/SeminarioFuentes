@@ -115,50 +115,6 @@ ggplot(data = Tasa_de_Paro_CCAA, aes(x = Periodo, y = Total)) +
   theme_light() + #quitamos el gris de fondo
   theme_classic()  #quitar los cuadraditos
 
-## ----------------------------------------------------------
-
-## ESTO LO DEBERIAMOS USAR PARA COMPARAR AMBOS
-## Filtramos los datos de tasa_de_paro para que nos salgan sólo aquellos AÑOS 
-## MAYORES AL 2018 Y MENORES AL 2021 (2019, 2020)
-
-
-## Para ello sacamos los años de Tasa_de_paro
-
-as.numeric(levels(factor(Tasa_de_Paro$Periodo)))
-
-
-## Y filtramos los datos para que nos salgan sólo aquellos que nos interesan
-
-Tasa_de_Paro <-
-  Tasa_de_Paro %>%
-  mutate(Periodo = Tasa_de_Paro$Periodo) %>%
-  filter(Periodo > 2016 & Periodo < 2021) %>%
-  droplevels()
-
-
-levels(factor(Tasa_de_Paro$Periodo))
-
-## Y ASÍ OBTENDREMOS EL SET DE DATOS DE TASA_DE_PARO QUE NOS INDICA el paro, 
-#por sexo y comunidad autónoma que hubo en los años 2006 y 2020
-
-
-
-## A su vez, para que coincida en años con el set de datos de Tasa_de_paro, 
-#filtraremos Suicidio para aquellos años que sean mayores que el 2016
-
-## (como sólo estudia hasta 2020, saldrán 2017, 2018 2019 y 2020, al igual que en el 
-#anterior set de datos)
- 
-Suicidio <-
-  Suicidio %>%
-  mutate(año = Suicidio$año) %>%
-  filter(año > 2016 ) %>%
-  droplevels()
-
-
-Suicidio
-
-
 # ---------------------------------------------------------------------------
 
 ## EN SEGUNDO LUGAR, NECESITAREMOS MODIFICAR EL SET DE DATOS DE SUICIDIO PARA 
@@ -238,6 +194,46 @@ ggplot(data = Suicidio, aes(x = año, y = Total)) +
 
 
 
+## ----------------------------------------------------------
+
+## ESTO LO DEBERIAMOS USAR PARA COMPARAR AMBOS
+## Filtramos los datos de tasa_de_paro para que nos salgan sólo aquellos AÑOS 
+## MAYORES AL 2018 Y MENORES AL 2021 (2019, 2020)
+
+
+## Para ello sacamos los años de Tasa_de_paro
+
+as.numeric(levels(factor(Tasa_de_Paro$Periodo)))
+
+
+## Y filtramos los datos para que nos salgan sólo aquellos que nos interesan
+
+Tasa_de_Paro <-
+  Tasa_de_Paro %>%
+  mutate(Periodo = Tasa_de_Paro$Periodo) %>%
+  filter(Periodo > 2016 & Periodo < 2021) %>%
+  droplevels()
+
+
+levels(factor(Tasa_de_Paro$Periodo))
+
+## Y ASÍ OBTENDREMOS EL SET DE DATOS DE TASA_DE_PARO QUE NOS INDICA el paro, 
+#por sexo y comunidad autónoma que hubo en los años 2006 y 2020
+
+
+
+## A su vez, para que coincida en años con el set de datos de Tasa_de_paro, 
+#filtraremos Suicidio para aquellos años que sean mayores que el 2016
+
+## (como sólo estudia hasta 2020, saldrán 2017, 2018 2019 y 2020, al igual que en el 
+#anterior set de datos)
+
+Suicidio <-
+  Suicidio %>%
+  mutate(año = Suicidio$año) %>%
+  filter(año > 2016 ) %>%
+  droplevels()
+
 #PARA VER SI HAY O NO RELACIÓN HACEMOS UN JOIN
 #Pivotes -- años y Cuidades y Comunidades Autónomas
 
@@ -245,10 +241,6 @@ ggplot(data = Suicidio, aes(x = año, y = Total)) +
 Suicidio <-
   Suicidio %>%
   mutate(`Periodo`= Suicidio$`año`) #no m deja con rename, no se porque
-
-Suicidio
-
-
 
 #PROBLEMA, PERIODO ES NUM Y AÑO ES CHR
 
@@ -263,14 +255,3 @@ Suicidio_Paro <-
 str(Suicidio)
 
 #MÉTODOS - PAQUETES UTILIZADOS
-
-#GRAFICOS
-ggplot(data = Tasa_de_Paro, aes(x = Total)) +
-  geom_bar()
-
-ggplot(data = Tasa_de_Paro) + 
-  geom_bar(
-    mapping = aes(x = Total, fill = Total), 
-    show.legend = FALSE, #pa q no slaga la leyenda
-    width = 1 #0,5 -> queda espacio entre las barritas
-  )
