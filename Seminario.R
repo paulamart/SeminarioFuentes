@@ -197,6 +197,17 @@ ggplot(data = Suicidio, aes(x = año, y = Total)) +
 
 
 
+## GRAFICA EL NUMERO DE SUICIDIOS POR SEXO Y POR COMUNIDAD AUTONOMA
+library(ggplot2)
+
+ggplot(data = Suicidio, aes(x = año, y = Total)) +
+  geom_point(aes(colour = factor(Sexo))) +
+  facet_grid(Sexo ~ Suicidio$`Comunidades y Ciudades Autónomas`) +
+  theme_light() + #quitamos el gris de fondo
+  theme_classic()  #quitar los cuadraditos
+
+
+
 ## ----------------------------------------------------------
 
 ## ESTO LO DEBERIAMOS USAR PARA COMPARAR AMBOS
