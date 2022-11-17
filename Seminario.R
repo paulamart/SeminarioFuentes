@@ -179,7 +179,7 @@ Suicidio
 
 library(ggplot2) 
 
-#EN ESTE GRÁFICO PODEMOS OBSERVAR EL NºDE SUICIDIOS ANUALES EN TODAS LAS COMUNIDADES AUTONOMAS
+#EN ESTE GRÁFICO PODEMOS OBSERVAR EL NºDE SUICIDIOS TOTALES POR CADA AÑO 
 ggplot(data = Suicidio, aes(x = año, y = Total)) +
   geom_point(aes(colour = factor(Sexo))) +
   theme_light() 
@@ -191,18 +191,7 @@ library(ggplot2)
 
 ggplot(data = Suicidio, aes(x = año, y = Total)) +
   geom_point(aes(colour = factor(Sexo))) +
-  facet_grid(Sexo ~ Suicidio$`Comunidades y Ciudades Autónomas`) +
-  theme_light() + #quitamos el gris de fondo
-  theme_classic()  #quitar los cuadraditos
-
-
-
-## GRAFICA EL NUMERO DE SUICIDIOS POR SEXO Y POR COMUNIDAD AUTONOMA
-library(ggplot2)
-
-ggplot(data = Suicidio, aes(x = año, y = Total)) +
-  geom_point(aes(colour = factor(Sexo))) +
-  facet_grid(Sexo ~ Suicidio$`Comunidades y Ciudades Autónomas`) +
+  facet_grid(Suicidio$`Comunidades y Ciudades Autónomas` ~ Sexo) +
   theme_light() + #quitamos el gris de fondo
   theme_classic()  #quitar los cuadraditos
 
