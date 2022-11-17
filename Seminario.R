@@ -180,6 +180,17 @@ Suicidio
 library(ggplot2) 
 
 #EN ESTE GRÁFICO PODEMOS OBSERVAR EL NºDE SUICIDIOS TOTALES POR CADA AÑO 
+## (preguntarle a él, porque no sé cómo se hace)
+Suicidio_Total <-
+  Suicidio %>%
+  group_by(año, `Comunidades y Ciudades Autónomas`)%>%
+  summarise(MT = mean (Total),
+            Year = unique(año))
+  
+ggplot(data = Suicidio_Total, aes(x = Year, y = MT))
+  
+
+## (esto no muestra el suicidio total de hombres y mujeres por cada año) (esta no es la gráfica que buscamos)
 ggplot(data = Suicidio, aes(x = año, y = Total)) +
   geom_point(aes(colour = factor(Sexo))) +
   theme_light() 
