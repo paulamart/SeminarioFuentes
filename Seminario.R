@@ -65,7 +65,7 @@ Tasa_de_Paro <-
   filter(Nacionalidad == "Total") %>%
   droplevels()
 
-## ** Paro Total por SEXO/AÑOS ----------------------------------------------------------------------------------------------------
+## ** PARO TOTAL por SEXO/AÑOS ----------------------------------------------------------------------------------------------------
 
 ## Para la gráfica de  variación del PARO RESPECTO A LOS AÑOS Y EL SEXO, necesitaremos tan sólo el total nacional 
 ## para hombres y mujeres por año.
@@ -80,7 +80,7 @@ Paro_Total_Año <-
 str(Paro_Total_Año)
 str(Paro_Total_Año$Total)
 
-## *** Gráfica PARO TOTAL SEZO/AÑOS -----------------------------------------------------------------------------
+## *** Gráfica PARO TOTAL SEXO/AÑOS -----------------------------------------------------------------------------
 ## PARA EL PRIMER GRÁFICO:
 
 library(ggplot2) 
@@ -103,7 +103,7 @@ ggplot(data = Paro_Total_Año, aes(x = Periodo, y = Total)) +
 
 
 
-## ** Paro por COMUNIDAD AUTÓNOMA ---------------------------------------------------------------------------------------
+## ** PARO por COMUNIDAD AUTÓNOMA ---------------------------------------------------------------------------------------
 
 ## Por otro lado, PARA LA GRÁFICA DE PARO, RESPECTO A COMUNIDAD AUTONOMA/SEXO Y AÑOS necesitaremos que nos quite 
 ## "Total Nacional", puesto que sólo queremos que nos indique el paro total de hombres y mujeres por cada 
@@ -117,9 +117,8 @@ Tasa_de_Paro_CCAA <-
 
 
 
-## *** Grafica PARO POR COMUNIDAD AUTONOMA ------------------------------------------------------------------------------ 
+## *** Gráfica PARO POR COMUNIDAD AUTONOMA ------------------------------------------------------------------------------ 
 library(ggplot2)
-
 
 ggplot(data = Tasa_de_Paro_CCAA, aes(x = Periodo, y = Total)) +
   geom_point(aes(colour = factor(Sexo))) +
@@ -128,12 +127,8 @@ ggplot(data = Tasa_de_Paro_CCAA, aes(x = Periodo, y = Total)) +
   theme_classic()  #quitar los cuadraditos
 
 
+
 # * Modificaciones SUICIDIO ------------------------------------------------------------------------------------------
-
-
-## EN SEGUNDO LUGAR, NECESITAREMOS MODIFICAR EL SET DE DATOS DE SUICIDIO PARA 
-## QUE NOS MUESTRE SÓLO LA INFORMACIÓN QUE NECESITAMOS
-
 
 ## Para ello necesitamos ver cuáles son las causas de muerte que hay en el set 
 #de datos
@@ -141,8 +136,12 @@ ggplot(data = Tasa_de_Paro_CCAA, aes(x = Periodo, y = Total)) +
 library(dplyr)
 levels(factor(Suicidio$`Causa de muerte (lista reducida)`))
 
-## y con eso, filtramos para que sólo nos salgan aquellas CAUSAS DE MUERTE que 
-#se corresponden con el SUICIDIO y/o lesiones autoinfligidas
+
+
+## ** Muestra de causa de muerte por Suicidio --------------------------------------------------------------------------------
+
+## Filtramos para que sólo nos salgan aquellas CAUSAS DE MUERTE que 
+## se corresponden con el SUICIDIO y/o lesiones autoinfligidas
 
 Suicidio <-
   Suicidio %>%
@@ -150,8 +149,9 @@ Suicidio <-
   filter(`Causa de muerte (lista reducida)` == "098 Suicidio y lesiones autoinfligidas" ) %>%
   droplevels()
 
-Suicidio
 
+
+## ** Muestra de ambos sexos por separado -----------------------------------------------------------------------------
 ## Y filtramos por sexo, para que NOS MUESTRE A HOMBRES Y MUJERES, AMBOS POR 
 #SEPARADO, y nos elimine aquellos que indiquen 'Total' en sexo
 
@@ -161,8 +161,9 @@ Suicidio <-
   filter(Sexo != "Total") %>%
   droplevels() 
 
-Suicidio
 
+
+## ** Muestra de Lugar de ocurrencia Total -----------------------------------------------------------------------------
 ## Necesitaremos tambien que nos filtre para cualquier lugar de ocurrencia, es 
 #decir, necesitamos el número total de suicidios, no es objetivo del seminario estudiar dónde se produjo
 
@@ -172,42 +173,41 @@ Suicidio <-
   filter(`Lugar de ocurrencia` == "Total") %>%
   droplevels()
 
-Suicidio
 
+
+## ** Eliminación de datos NA ---------------------------------------------------------------------------------------
 ## AQUI ELIMINAMOS TODOS LOS NA YA QUE PUEDE DAR A CONFUSIONES
 
 Suicidio <-
   na.omit(Suicidio)
 
 
+## ** SUICIDIO TOTAL POR SEXO ------------------------------------------------------------------
 
-
-## ASÍ OBTENDREMOS EL SET DE DATOS SUICIDIO, QUE NOS INDICA EL NUMERO DE 
-#SUICIDIOS, POR SEXO Y POR COMUNIDAD AUTONOMA QUE SE PRODUJERON ENTRE 2017 Y 
-#2020
-
-library(ggplot2) 
-
-# EN ESTE GRÁFICO PODEMOS OBSERVAR EL NºDE SUICIDIOS TOTALES POR CADA AÑO 
-## (preguntarle a él, porque no sé cómo se hace)
+## Creamos un nuevo objeto (Suicidio_Total), en el que incluimos la media del total de suicidios que se han 
+## producido en cada año, y la desviación, respecto de la media, del numero total de suicidios
 Suicidio_Total <-
   Suicidio %>%
   group_by(año, Sexo)%>%
   summarise(MT = mean (Total),
             Year = unique(año),
             desviacion = sd(Total))
-  
+
+### *** Gráfica SUICIDIO TOTAL POR CADA SEXO/AÑO --------------------------------------------------------------------
+
+library(ggplot2)
 ggplot(data = Suicidio_Total, aes(x = Year, y = MT, fill = Sexo))+
   geom_bar( stat = "identity", position = "dodge")+
   geom_errorbar(aes(ymin = MT- desviacion, ymax = MT + desviacion), width=.2,
   position=position_dodge(.9) )   
 
 
+### *** Gráfica SUICIDIO POR COMUNIDAD AUTÓNOMA -----------------------------------------------------------------------
 
-# EN ESTE GRÁFICO QUE VAMOS A REALIZAR PODEMOS OSBERVAR EL Nº DE SUICIDIOS PARA CADA HOMBRE Y MUJER EN CADA COMUNIDAD AUTÓNOMA 
-# A LO LARGO DE LOS AÑOS (DE 2017 A 2022)
+# EN ESTE GRÁFICO QUE VAMOS A REALIZAR PODEMOS OSBERVAR EL Nº DE SUICIDIOS PARA CADA HOMBRE Y MUJER EN CADA 
+# COMUNIDAD AUTÓNOMA A LO LARGO DE LOS AÑOS (DE 2017 A 2022)
+
 library(ggplot2)
-
 ggplot(data = Suicidio, aes(x = año, y = Total)) +
   geom_point(aes(colour = factor(Sexo))) +
   facet_grid(Sexo ~ Suicidio$`Comunidades y Ciudades Autónomas`) +
@@ -216,35 +216,26 @@ ggplot(data = Suicidio, aes(x = año, y = Total)) +
 
 
 
-## ----------------------------------------------------------
+### * RELACIÓN ENTRE PARO Y SUICIDIO ------------------------------------------------------------------------------------
 
-## ESTO LO DEBERIAMOS USAR PARA COMPARAR AMBOS
 ## Filtramos los datos de tasa_de_paro para que nos salgan sólo aquellos AÑOS 
 ## MAYORES AL 2018 Y MENORES AL 2021 (2019, 2020)
 
-
 ## Para ello sacamos los años de Tasa_de_paro
-
 as.numeric(levels(factor(Tasa_de_Paro$Periodo)))
 
-
 ## Y filtramos los datos para que nos salgan sólo aquellos que nos interesan
-
 Tasa_de_Paro <-
   Tasa_de_Paro %>%
   mutate(Periodo = Tasa_de_Paro$Periodo) %>%
   filter(Periodo > 2016 & Periodo < 2021) %>%
   droplevels()
 
-
 levels(factor(Tasa_de_Paro$Periodo))
-
-## Y ASÍ OBTENDREMOS EL SET DE DATOS DE TASA_DE_PARO QUE NOS INDICA el paro, 
-#por sexo y comunidad autónoma que hubo en los años 2006 y 2020
 
 
 ## A su vez, para que coincida en años con el set de datos de Tasa_de_paro, 
-#filtraremos Suicidio para aquellos años que sean mayores que el 2016
+# filtraremos Suicidio para aquellos años que sean mayores que el 2016
 
 ## (como sólo estudia hasta 2020, saldrán 2017, 2018 2019 y 2020, al igual que en el 
 #anterior set de datos)
@@ -255,13 +246,15 @@ Suicidio <-
   filter(año > 2016 ) %>%
   droplevels()
 
-#PARA VER SI HAY O NO RELACIÓN HACEMOS UN JOIN
-#Pivotes -- años y Cuidades y Comunidades Autónomas
+## ** JOIN entre PARO Y SUICIDIO ----------------------------------------------------------------------------------------
 
-#primero hacemos que las dos columnas se llamen igual
+# PARA VER SI HAY O NO RELACIÓN HACEMOS UN JOIN
+# Pivotes -- años y Cuidades y Comunidades Autónomas
+
+# primero hacemos que las dos columnas se llamen igual
 Suicidio <-
   Suicidio %>%
-  mutate(`Periodo`= Suicidio$`año`) #no m deja con rename, no se porque
+  mutate(`Periodo`= Suicidio$`año`) # No me deja con rename, no se por que
 
 #PROBLEMA, PERIODO ES NUM Y AÑO ES CHR
 
@@ -284,3 +277,5 @@ Suicidio_Paro
 library(ggplot2)
 ggplot(data = Suicidio_Paro, mapping = aes(x = , y = IM)) +
   geom_point(na.rm = TRUE)
+
+
