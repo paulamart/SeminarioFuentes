@@ -108,7 +108,7 @@ Tasa_de_Paro_CCAA <-
 
 
 
-## GRAFICA DE PARO POR COMUNIDAD AUTONOMA
+## GRAFICA DE PARO POR COMUNIDAD AUTONOMA  (+- parecido en hombres y mujeres)
 library(ggplot2)
 
 
@@ -192,14 +192,6 @@ ggplot(data = Suicidio_Total, aes(x = Year, y = MT, fill = Sexo))+
   geom_bar( stat = "identity", position = "dodge")+
   geom_errorbar(aes(ymin = MT- desviacion, ymax = MT + desviacion), width=.2,
   position=position_dodge(.9) )   
-  
-
-
-
-## (esto no muestra el suicidio total de hombres y mujeres por cada año) (esta no es la gráfica que buscamos)
-ggplot(data = Suicidio, aes(x = año, y = Total)) +
-  geom_point(aes(colour = factor(Sexo))) +
-  theme_light() 
 
 
 
@@ -208,7 +200,7 @@ library(ggplot2)
 
 ggplot(data = Suicidio, aes(x = año, y = Total)) +
   geom_point(aes(colour = factor(Sexo))) +
-  facet_grid(Suicidio$`Comunidades y Ciudades Autónomas` ~ Sexo) +
+  facet_grid(Sexo ~ Suicidio$`Comunidades y Ciudades Autónomas` ) +
   theme_light() + #quitamos el gris de fondo
   theme_classic()  #quitar los cuadraditos
 
