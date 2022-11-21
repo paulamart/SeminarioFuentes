@@ -20,8 +20,8 @@ Suicidio <- read_delim("input/data/Suicidio.csv",
                        trim_ws = TRUE)
 
 
-#* Cuestiones a Resolver--------------------------------------------------------------------------
-#* 
+# * Cuestiones a Resolver--------------------------------------------------------------------------
+
 ## Con los datos ya importados, el objetivo de este seminario será responder a estas preguntas:
 
 ## 1. VARIACIÓN DE PARO/SUICIDIO RESPECTO AL SEXO POR AÑOS Y POR COMUNIDAD AUTONOMA
@@ -29,7 +29,6 @@ Suicidio <- read_delim("input/data/Suicidio.csv",
 ## 2. VARIACION DE SUICIDIOS/PARO RESPECTO A LOS AÑOS
 
 ## 3. VER SI EXISTE O NO RELACIÓN ENTRE ELLOS
-
 
 
 # * Modificaciones TASA_DE_PARO--------------------------------------------------------------------
@@ -54,10 +53,11 @@ Tasa_de_Paro %>%
   filter(Sexo != "Ambos sexos") %>%
   levels() ## nos sale NULL porque ha desaparecido
 
-# 
 
-## Asimismo, tendremos que filtrar la tasa de paro para que nos muestre sólo aquellos valores para los que la nacionalidad es "total"
-## ya que no es objeto de estudio de nuestro seminario, distinguir el paro entre nacionalidades
+##** Muestra de Nacionalidad Total --------------------------------------------------------------------------------------------------
+
+## Asimismo, tendremos que filtrar la tasa de paro para que nos muestre sólo aquellos valores para 
+## los que la nacionalidad es "total", ya que no es objetivo de estudio distinguir entre nacionalidades
 
 Tasa_de_Paro <-
   Tasa_de_Paro %>%
@@ -65,9 +65,10 @@ Tasa_de_Paro <-
   filter(Nacionalidad == "Total") %>%
   droplevels()
 
-Tasa_de_Paro
+## ** Paro Total por SEXO/AÑOS ----------------------------------------------------------------------------------------------------
 
-## Para la gráfica de  variación del PARO RESPECTO A LOS AÑOS Y EL SEXO, necesitaremos tan sólo el total nacional para hombres y mujeres por año
+## Para la gráfica de  variación del PARO RESPECTO A LOS AÑOS Y EL SEXO, necesitaremos tan sólo el total nacional 
+## para hombres y mujeres por año.
 ## Para eso debemos crear un nuevo objeto (Paro_Total_Año), en el que tendremos que filtrar las Comunidades Autónomas por "total nacional"
 
 Paro_Total_Año <-
@@ -79,6 +80,7 @@ Paro_Total_Año <-
 str(Paro_Total_Año)
 str(Paro_Total_Año$Total)
 
+## *** Gráfica PARO TOTAL SEZO/AÑOS -----------------------------------------------------------------------------
 ## PARA EL PRIMER GRÁFICO:
 
 library(ggplot2) 
@@ -100,10 +102,12 @@ ggplot(data = Paro_Total_Año, aes(x = Periodo, y = Total)) +
 # (ambas son iguales, la única diferencia que la seguda de ellas no tiene regresión lineal(elegir la que más nos convenga))
 
 
-## Por otro lado, PARA LA GRÁFICA DE PARO, RESPECTO A COMUNIDAD AUTONOMA/SEXO Y AÑOS necesitaremos:
 
-## que nos quite de la tabla el Total Nacional, puesto que sólo queremos que nos indique el paro total de hombres y mujeres por cada comunidad autónoma 
-## y por cada año
+## ** Paro por COMUNIDAD AUTÓNOMA ---------------------------------------------------------------------------------------
+
+## Por otro lado, PARA LA GRÁFICA DE PARO, RESPECTO A COMUNIDAD AUTONOMA/SEXO Y AÑOS necesitaremos que nos quite 
+## "Total Nacional", puesto que sólo queremos que nos indique el paro total de hombres y mujeres por cada 
+## comunidad autónoma y por cada año
 
 Tasa_de_Paro_CCAA <-
   Tasa_de_Paro %>%
@@ -113,7 +117,7 @@ Tasa_de_Paro_CCAA <-
 
 
 
-## GRAFICA DE PARO POR COMUNIDAD AUTONOMA 
+## *** Grafica PARO POR COMUNIDAD AUTONOMA ------------------------------------------------------------------------------ 
 library(ggplot2)
 
 
@@ -124,7 +128,7 @@ ggplot(data = Tasa_de_Paro_CCAA, aes(x = Periodo, y = Total)) +
   theme_classic()  #quitar los cuadraditos
 
 
-# ---------------------------------------------------------------------------
+# * Modificaciones SUICIDIO ------------------------------------------------------------------------------------------
 
 
 ## EN SEGUNDO LUGAR, NECESITAREMOS MODIFICAR EL SET DE DATOS DE SUICIDIO PARA 
