@@ -1,6 +1,6 @@
 ---
 title: "Seminario Fuentes de  Biómédicas y Web Semántica"
-author: "Javier Sáez García y Paula Martinez Terrados"
+author: "Javier Sáez García y Paula Martínez Terrados"
 date: "2022-11-08"
 output: html_document
 ---
@@ -26,6 +26,12 @@ Los objetivos o preguntas que vamos a plantear durante el desarrollo del seminar
 ## Resultados obtenidos
 Para la primera pregunta que nos hicimos, necesitamos un gráfico que muestre cómo varía el paro respecto al sexo y respecto al paso del tiempo
 ```{r Plot_Paro_Sexo_Años, echo=TRUE}
+Plot_Paro_Sexo_Años <-
+  ggplot(data = Paro_Total_Año, aes(x = Periodo, y = Total)) +
+  geom_point(aes(colour = factor(Sexo))) +
+  theme_light() +
+  geom_smooth(method = "lm", aes(colour = factor(Sexo))) +
+  theme_classic()
 plot(Plot_Paro_Sexo_Años)
 ```
 
