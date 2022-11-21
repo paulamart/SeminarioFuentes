@@ -261,7 +261,7 @@ Suicidio_Paro <-
   full_join(x = ., 
             y = Suicidio %>% 
               select('Comunidades y Ciudades Autónomas', 'año':'Year'),
-            by = c("Periodo" = "Year"))
+            by = c("Periodo" = "Year") )
 
 str(Suicidio_Paro)
 
