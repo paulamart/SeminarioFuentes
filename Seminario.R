@@ -81,7 +81,8 @@ library(ggplot2)
 ggplot(data = Paro_Total_Año, aes(x = Periodo, y = Total)) +
   geom_point(aes(colour = factor(Sexo))) +
   theme_light() +
-  geom_smooth(method = "lm", aes(colour = factor(Sexo)))
+  geom_smooth(method = "lm", aes(colour = factor(Sexo))) +
+  theme_classic()
 
 #con scale_manual
 ggplot(data = Paro_Total_Año, aes(x = Periodo, y = Total)) +
