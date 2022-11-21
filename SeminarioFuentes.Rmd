@@ -25,12 +25,8 @@ Los objetivos o preguntas que vamos a plantear durante el desarrollo del seminar
 
 ## Resultados obtenidos
 Para la primera pregunta que nos hicimos, necesitamos un gráfico que muestre cómo varía el paro respecto al sexo y respecto al paso del tiempo
-```{echo=TRUE}
-  ggplot(data = Paro_Total_Año, aes(x = Periodo, y = Total)) +
-    geom_point(aes(colour = factor(Sexo))) +
-    theme_light() +
-    geom_smooth(method = "lm", aes(colour = factor(Sexo))) +
-    theme_classic()
+```{r Plot_Paro_Sexo_Años, echo=TRUE}
+plot(Plot_Paro_Sexo_Años)
 ```
 
 ## Conclusiones y discusión de los resultados

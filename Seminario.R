@@ -84,12 +84,14 @@ str(Paro_Total_Año$Total)
 ## PARA EL PRIMER GRÁFICO:
 
 library(ggplot2) 
-
-ggplot(data = Paro_Total_Año, aes(x = Periodo, y = Total)) +
+Plot_Paro_Sexo_Años <- ## necesitamos guardarlo con un nombre determinado
+  ggplot(data = Paro_Total_Año, aes(x = Periodo, y = Total)) +
   geom_point(aes(colour = factor(Sexo))) +
   theme_light() +
   geom_smooth(method = "lm", aes(colour = factor(Sexo))) +
   theme_classic()
+
+Plot_Paro_Sexo_Años
 
 #con scale_manual
 ggplot(data = Paro_Total_Año, aes(x = Periodo, y = Total)) +
@@ -120,13 +122,14 @@ Tasa_de_Paro_CCAA <-
 ## *** Gráfica PARO POR COMUNIDAD AUTONOMA ------------------------------------------------------------------------------ 
 library(ggplot2)
 
-ggplot(data = Tasa_de_Paro_CCAA, aes(x = Periodo, y = Total)) +
+Plot_Paro_CCAA <- ## necesitamos guardarlo con un nombre determinado
+  ggplot(data = Tasa_de_Paro_CCAA, aes(x = Periodo, y = Total)) +
   geom_point(aes(colour = factor(Sexo))) +
   facet_grid(Sexo ~ Tasa_de_Paro_CCAA$`Comunidades y Ciudades Autónomas`) +
   theme_light() + #quitamos el gris de fondo
   theme_classic()  #quitar los cuadraditos
 
-
+Plot_Paro_CCAA
 
 # * Modificaciones SUICIDIO ------------------------------------------------------------------------------------------
 
@@ -196,10 +199,13 @@ Suicidio_Total <-
 ### *** Gráfica SUICIDIO TOTAL POR CADA SEXO/AÑO --------------------------------------------------------------------
 
 library(ggplot2)
-ggplot(data = Suicidio_Total, aes(x = Year, y = MT, fill = Sexo))+
+Plot_Suicidio_Total_Sexo_Año <-  
+  ggplot(data = Suicidio_Total, aes(x = Year, y = MT, fill = Sexo))+
   geom_bar( stat = "identity", position = "dodge")+
   geom_errorbar(aes(ymin = MT- desviacion, ymax = MT + desviacion), width=.2,
   position=position_dodge(.9) )   
+
+Plot_Suicidio_Total_Sexo_Año
 
 
 ### *** Gráfica SUICIDIO POR COMUNIDAD AUTÓNOMA -----------------------------------------------------------------------
@@ -208,13 +214,14 @@ ggplot(data = Suicidio_Total, aes(x = Year, y = MT, fill = Sexo))+
 # COMUNIDAD AUTÓNOMA A LO LARGO DE LOS AÑOS (DE 2017 A 2022)
 
 library(ggplot2)
-ggplot(data = Suicidio, aes(x = año, y = Total)) +
+Plot_Suicidio_CCAA <-
+  ggplot(data = Suicidio, aes(x = año, y = Total)) +
   geom_point(aes(colour = factor(Sexo))) +
   facet_grid(Sexo ~ Suicidio$`Comunidades y Ciudades Autónomas`) +
   theme_light() + #quitamos el gris de fondo
   theme_classic()  #quitar los cuadraditos
 
-
+Plot_Suicidio_CCAA
 
 ### * RELACIÓN ENTRE PARO Y SUICIDIO ------------------------------------------------------------------------------------
 
@@ -275,7 +282,8 @@ Suicidio_Paro
 
 # Relación entre el número de suicidios y la tasa de paro
 library(ggplot2)
-ggplot(data = Suicidio_Paro, mapping = aes(x = , y = IM)) +
+Plot_JOIN <-
+  ggplot(data = Suicidio_Paro, mapping = aes(x = , y = IM)) +
   geom_point(na.rm = TRUE)
 
 
