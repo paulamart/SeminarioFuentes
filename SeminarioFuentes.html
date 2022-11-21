@@ -13,7 +13,7 @@
 
 <meta name="date" content="2022-11-08" />
 
-<title>SeminarioFuentes</title>
+<title>Seminario Fuentes de Biómédicas y Web Semántica</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -363,7 +363,8 @@ pre code {
 
 
 
-<h1 class="title toc-ignore">SeminarioFuentes</h1>
+<h1 class="title toc-ignore">Seminario Fuentes de Biómédicas y Web
+Semántica</h1>
 <h4 class="author">Javier Sáez García y Paula Martinez Terrados</h4>
 <h4 class="date">2022-11-08</h4>
 
@@ -385,10 +386,11 @@ pre code {
 <p>Los objetivos o preguntas que vamos a plantear durante el desarrollo
 del seminario son:</p>
 <ol style="list-style-type: decimal">
-<li>VARIACIÓN DE PARO/SUICIDIO RESPECTO AL SEXO POR AÑOS Y POR COMUNIDAD
-AUTONOMA</li>
-<li>VARIACION DE SUICIDIOS/PARO RESPECTO A LOS AÑOS</li>
-<li>VER SI EXISTE O NO RELACIÓN ENTRE ELLOS</li>
+<li>VARIACIÓN DE PARO/SUICIDIO RESPECTO AL SEXO POR AÑOS</li>
+<li>VARIACION DE SUICIDIOS/PARO RESPECTO A LOS AÑOS, AL SEXO Y A
+COMUNIDAD AUTONOMA</li>
+<li>VER SI EXISTE O NO RELACIÓN ENTRE LA CANTIDAD DE PARO, Y EL NÚMERO
+DE SUICIDIOS</li>
 </ol>
 </div>
 <div id="métodos-utilizados" class="section level2">
@@ -399,6 +401,14 @@ AUTONOMA</li>
 </div>
 <div id="resultados-obtenidos" class="section level2">
 <h2>Resultados obtenidos</h2>
+<p>Para la primera pregunta que nos hicimos, necesitamos un gráfico que
+muestre cómo varía el paro respecto al sexo y respecto al paso del
+tiempo</p>
+<pre echo="TRUE"><code>  plot(ggplot(data = Paro_Total_Año, aes(x = Periodo, y = Total)) +
+    geom_point(aes(colour = factor(Sexo))) +
+    theme_light() +
+    geom_smooth(method = &quot;lm&quot;, aes(colour = factor(Sexo))) +
+    theme_classic())</code></pre>
 </div>
 <div id="conclusiones-y-discusión-de-los-resultados" class="section level2">
 <h2>Conclusiones y discusión de los resultados</h2>
