@@ -194,20 +194,12 @@ ggplot(data = Suicidio_Total, aes(x = Year, y = MT, fill = Sexo))+
   
 
 
-
-## (esto no muestra el suicidio total de hombres y mujeres por cada año) (esta no es la gráfica que buscamos)
-ggplot(data = Suicidio, aes(x = año, y = Total)) +
-  geom_point(aes(colour = factor(Sexo))) +
-  theme_light() 
-
-
-
 #EN ESTE GRÁFICO QUE VAMOS A REALIZAR PODEMOS OSBERVAR EL Nº DE SUICIDIOS PARA CADA HOMBRE Y MUJER EN CADA COMUNIDAD AUTÓNOMA A LO LARGO DE LOS AÑOS (DE 2017 A 2022)
 library(ggplot2)
 
 ggplot(data = Suicidio, aes(x = año, y = Total)) +
   geom_point(aes(colour = factor(Sexo))) +
-  facet_grid(Suicidio$`Comunidades y Ciudades Autónomas` ~ Sexo) +
+  facet_grid(Sexo ~ Suicidio$`Comunidades y Ciudades Autónomas`) +
   theme_light() + #quitamos el gris de fondo
   theme_classic()  #quitar los cuadraditos
 
