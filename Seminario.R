@@ -1,5 +1,4 @@
-## SEMINARIO DE FUENTES
-
+## SEMINARIO DE FUENTES DE DATOS BIOMEDICAS Y WEB SEMANTICA
 ## REALIZADO POR: PAULA MARTÍNEZ TERRADOS Y JAVIER SÁEZ GARCÍA
 
 
@@ -42,6 +41,7 @@ Tasa_de_Paro <-
   filter(Sexo != "Ambos sexos") %>%
   droplevels()
 
+## ----------------------------------------
 ## para ver qué niveles de sexo tiene ahora el set de datos
 levels(Tasa_de_Paro$Sexo)
 ## sólo tendrá Hombres y Mujeres, porque hemos eliminado la categoría "ambos sexos" ya que no es objeto de estudio
@@ -49,7 +49,7 @@ levels(Tasa_de_Paro$Sexo)
 Tasa_de_Paro %>%
   filter(Sexo != "Ambos sexos") %>%
   levels() ## nos sale NULL porque ha desaparecido
-
+## ----------------------------------------
 
 ## Asimismo, tendremos que filtrar la tasa de paro para que nos muestre sólo aquellos valores para los que la nacionalidad es "total"
 ## ya que no es objeto de estudio de nuestro seminario, distinguir el paro entre nacionalidades
@@ -92,7 +92,7 @@ ggplot(data = Paro_Total_Año, aes(x = Periodo, y = Total)) +
                     values = c(2006:2022)) +
   theme_classic()  # para quitar los cuadrados del fondo de la gráfica
 
-# (ambas son iguales, la única diferencia que la seguda de ellas no tiene regresión lineal(elegir la que más nos convenga al final))
+# (ambas son iguales, la única diferencia que la seguda de ellas no tiene regresión lineal(elegir la que más nos convenga))
 
 
 ## Por otro lado, PARA LA GRÁFICA DE PARO, RESPECTO A COMUNIDAD AUTONOMA/SEXO Y AÑOS necesitaremos:
@@ -108,7 +108,7 @@ Tasa_de_Paro_CCAA <-
 
 
 
-## GRAFICA DE PARO POR COMUNIDAD AUTONOMA  (+- parecido en hombres y mujeres)
+## GRAFICA DE PARO POR COMUNIDAD AUTONOMA 
 library(ggplot2)
 
 
@@ -118,7 +118,9 @@ ggplot(data = Tasa_de_Paro_CCAA, aes(x = Periodo, y = Total)) +
   theme_light() + #quitamos el gris de fondo
   theme_classic()  #quitar los cuadraditos
 
+
 # ---------------------------------------------------------------------------
+
 
 ## EN SEGUNDO LUGAR, NECESITAREMOS MODIFICAR EL SET DE DATOS DE SUICIDIO PARA 
 ## QUE NOS MUESTRE SÓLO LA INFORMACIÓN QUE NECESITAMOS
@@ -128,7 +130,6 @@ ggplot(data = Tasa_de_Paro_CCAA, aes(x = Periodo, y = Total)) +
 #de datos
 
 library(dplyr)
-
 levels(factor(Suicidio$`Causa de muerte (lista reducida)`))
 
 ## y con eso, filtramos para que sólo nos salgan aquellas CAUSAS DE MUERTE que 
@@ -151,7 +152,6 @@ Suicidio <-
   filter(Sexo != "Total") %>%
   droplevels() 
 
-
 Suicidio
 
 ## Necesitaremos tambien que nos filtre para cualquier lugar de ocurrencia, es 
@@ -165,12 +165,12 @@ Suicidio <-
 
 Suicidio
 
-##AQUI ELIMINAMOS TODOS LOS NA YA QUE PUEDE DAR A CONFUSIONES
+## AQUI ELIMINAMOS TODOS LOS NA YA QUE PUEDE DAR A CONFUSIONES
 
 Suicidio <-
   na.omit(Suicidio)
 
-Suicidio
+
 
 
 ## ASÍ OBTENDREMOS EL SET DE DATOS SUICIDIO, QUE NOS INDICA EL NUMERO DE 
@@ -179,7 +179,7 @@ Suicidio
 
 library(ggplot2) 
 
-#EN ESTE GRÁFICO PODEMOS OBSERVAR EL NºDE SUICIDIOS TOTALES POR CADA AÑO 
+# EN ESTE GRÁFICO PODEMOS OBSERVAR EL NºDE SUICIDIOS TOTALES POR CADA AÑO 
 ## (preguntarle a él, porque no sé cómo se hace)
 Suicidio_Total <-
   Suicidio %>%
@@ -195,7 +195,8 @@ ggplot(data = Suicidio_Total, aes(x = Year, y = MT, fill = Sexo))+
 
 
 
-#EN ESTE GRÁFICO QUE VAMOS A REALIZAR PODEMOS OSBERVAR EL Nº DE SUICIDIOS PARA CADA HOMBRE Y MUJER EN CADA COMUNIDAD AUTÓNOMA A LO LARGO DE LOS AÑOS (DE 2017 A 2022)
+# EN ESTE GRÁFICO QUE VAMOS A REALIZAR PODEMOS OSBERVAR EL Nº DE SUICIDIOS PARA CADA HOMBRE Y MUJER EN CADA COMUNIDAD AUTÓNOMA 
+# A LO LARGO DE LOS AÑOS (DE 2017 A 2022)
 library(ggplot2)
 
 ggplot(data = Suicidio, aes(x = año, y = Total)) +
