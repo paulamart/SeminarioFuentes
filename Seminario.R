@@ -252,7 +252,7 @@ Suicidio <-
 # Pivotes -- años y Cuidades y Comunidades Autónomas
 
 # primero hacemos que las dos columnas se llamen igual
-Suicidio <-
+Suicidio_JOIN <-
   Suicidio %>%
   mutate(`Periodo`= Suicidio$`año`) # No me deja con rename, no se por que
 
