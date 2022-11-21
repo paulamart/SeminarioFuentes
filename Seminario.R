@@ -182,11 +182,15 @@ library(ggplot2)
 ## (preguntarle a él, porque no sé cómo se hace)
 Suicidio_Total <-
   Suicidio %>%
-  group_by(año, `Comunidades y Ciudades Autónomas`)%>%
+  group_by(año, Sexo)%>%
   summarise(MT = mean (Total),
-            Year = unique(año))
+            Year = unique(año),
+            desviacion = sd(Total))
   
-ggplot(data = Suicidio_Total, aes(x = Year, y = MT)) #????
+ggplot(data = Suicidio_Total, aes(x = Year, y = MT, fill = Sexo))+
+  geom_bar( stat = "identity")+
+  geom_errorbar(aes(ymin = MT- desviacion, ymax = MT + desviacion), width=.2,
+  position=position_dodge(.9))
   
 
 ## (esto no muestra el suicidio total de hombres y mujeres por cada año) (esta no es la gráfica que buscamos)
