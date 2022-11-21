@@ -259,7 +259,7 @@ Suicidio_Paro <-
   Tasa_de_Paro_CCAA %>% 
   select('Sexo':'Total') %>% 
   full_join(x = ., 
-            y = Suicidio_Total %>% 
+            y = Suicidio %>% 
               select('Comunidades y Ciudades Autónomas', 'año':'Year'),
             by = c("Periodo" = "Year"))
 
@@ -269,3 +269,8 @@ Suicidio_Paro <-
   na.omit(Suicidio_Paro)
 
 Suicidio_Paro
+
+# Relación entre el número de suicidios y la tasa de paro
+library(ggplot2)
+ggplot(data = Suicidio_Paro, mapping = aes(x = , y = IM)) +
+  geom_point(na.rm = TRUE)
