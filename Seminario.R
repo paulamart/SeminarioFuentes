@@ -108,7 +108,7 @@ Tasa_de_Paro_CCAA <-
 
 
 
-## GRAFICA DE PARO POR COMUNIDAD AUTONOMA
+## GRAFICA DE PARO POR COMUNIDAD AUTONOMA  (+- parecido en hombres y mujeres)
 library(ggplot2)
 
 
@@ -192,7 +192,7 @@ ggplot(data = Suicidio_Total, aes(x = Year, y = MT, fill = Sexo))+
   geom_bar( stat = "identity", position = "dodge")+
   geom_errorbar(aes(ymin = MT- desviacion, ymax = MT + desviacion), width=.2,
   position=position_dodge(.9) )   
-  
+
 
 
 #EN ESTE GRÁFICO QUE VAMOS A REALIZAR PODEMOS OSBERVAR EL Nº DE SUICIDIOS PARA CADA HOMBRE Y MUJER EN CADA COMUNIDAD AUTÓNOMA A LO LARGO DE LOS AÑOS (DE 2017 A 2022)
