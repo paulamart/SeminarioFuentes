@@ -2,16 +2,17 @@
 ## REALIZADO POR: PAULA MARTÍNEZ TERRADOS Y JAVIER SÁEZ GARCÍA
 
 
+#* Importación de  Datos -------------------------------------------------------------------------
 ## ANTES DE HACER NADA, VAMOS A IMPORTAR LOS DATOS QUE NECESITAREMOS MÁS ADELANTE:
 
-## Para importar los datos de Tasa de paro:
+## Para importar los datos de TASA DE PARO:
 library(readr)
 Tasa_de_Paro <- read_delim("input/data/Tasa_de_Paro.csv", 
                            delim = ";", escape_double = FALSE, 
                            col_types = cols(Total = col_double()), 
                            trim_ws = TRUE)
 
-## Para importar los datos de suicidios
+## Para importar los datos de SUICIDIOS:
 library(readr)
 Suicidio <- read_delim("input/data/Suicidio.csv", 
                        delim = ";", escape_double = FALSE, 
@@ -19,8 +20,9 @@ Suicidio <- read_delim("input/data/Suicidio.csv",
                        trim_ws = TRUE)
 
 
-
-## Con estos datos ya importados, el objetivo de este seminario será responder a estas preguntas:
+#* Cuestiones a Resolver--------------------------------------------------------------------------
+#* 
+## Con los datos ya importados, el objetivo de este seminario será responder a estas preguntas:
 
 ## 1. VARIACIÓN DE PARO/SUICIDIO RESPECTO AL SEXO POR AÑOS Y POR COMUNIDAD AUTONOMA
 
@@ -29,7 +31,10 @@ Suicidio <- read_delim("input/data/Suicidio.csv",
 ## 3. VER SI EXISTE O NO RELACIÓN ENTRE ELLOS
 
 
-## EN PRIMER LUGAR, NECESITAREMOS MODIFICAR EL SET DE DATOS DE TASA_DE_PARO PARA QUE NOS MUESTRE SÓLO LA INFORMACIÓN QUE NECESITAMOS
+
+# * Modificaciones TASA_DE_PARO--------------------------------------------------------------------
+
+## ** Muestra de ambos sexos por separado---------------------------------------------------------
 
 ## Filtramos los datos de tasa_de_paro para que nos salgan sólo aquellos datos 
 #que nos muestren HOMBRES Y MUJERES, AMBOS SEPARADOS, Y QUE NOS ELIMINE LA LÍNEA DE "AMBOS SEXOS"
@@ -41,7 +46,6 @@ Tasa_de_Paro <-
   filter(Sexo != "Ambos sexos") %>%
   droplevels()
 
-## ----------------------------------------
 ## para ver qué niveles de sexo tiene ahora el set de datos
 levels(Tasa_de_Paro$Sexo)
 ## sólo tendrá Hombres y Mujeres, porque hemos eliminado la categoría "ambos sexos" ya que no es objeto de estudio
@@ -49,7 +53,8 @@ levels(Tasa_de_Paro$Sexo)
 Tasa_de_Paro %>%
   filter(Sexo != "Ambos sexos") %>%
   levels() ## nos sale NULL porque ha desaparecido
-## ----------------------------------------
+
+# 
 
 ## Asimismo, tendremos que filtrar la tasa de paro para que nos muestre sólo aquellos valores para los que la nacionalidad es "total"
 ## ya que no es objeto de estudio de nuestro seminario, distinguir el paro entre nacionalidades
