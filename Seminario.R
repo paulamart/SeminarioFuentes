@@ -81,8 +81,7 @@ library(ggplot2)
 ggplot(data = Paro_Total_Año, aes(x = Periodo, y = Total)) +
   geom_point(aes(colour = factor(Sexo))) +
   theme_light() +
-  geom_smooth(method = "lm", aes(colour = factor(Sexo))) 
-  lims(x = c(0, 70), y = c(2006,2022))  
+  geom_smooth(method = "lm", aes(colour = factor(Sexo)))
 
 #con scale_manual
 ggplot(data = Paro_Total_Año, aes(x = Periodo, y = Total)) +
@@ -187,7 +186,7 @@ Suicidio_Total <-
   summarise(MT = mean (Total),
             Year = unique(año))
   
-ggplot(data = Suicidio_Total, aes(x = Year, y = MT))
+ggplot(data = Suicidio_Total, aes(x = Year, y = MT)) #????
   
 
 ## (esto no muestra el suicidio total de hombres y mujeres por cada año) (esta no es la gráfica que buscamos)
@@ -259,11 +258,15 @@ Suicidio <-
 
 Suicidio_Paro <-  
   Tasa_de_Paro_CCAA %>% 
-  select(`Periodo`, 'Comunidades y Ciudades Autónomas') %>% 
+  select('Sexo':'Total') %>% 
   full_join(x = ., 
-            y = Suicidio %>% 
-              select('Periodo','Comunidades y Ciudades Autónomas' ),
-            by = c("Periodo" = "Comunidades y Ciudades Autónomas"))
+            y = Suicidio_Total %>% 
+              select('Comunidades y Ciudades Autónomas', 'año':'Year'),
+            by = c("Periodo" = "Year"))
 
-str(Suicidio)
+str(Suicidio_Paro)
 
+Suicidio_Paro <-
+  na.omit(Suicidio_Paro)
+
+Suicidio_Paro
