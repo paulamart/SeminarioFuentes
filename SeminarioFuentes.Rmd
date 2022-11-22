@@ -15,11 +15,18 @@ output: html_document
 ## Introducción
 Los objetivos o preguntas que vamos a plantear durante el desarrollo del seminario son:
 
-1. VARIACIÓN DE PARO/SUICIDIO RESPECTO AL SEXO POR AÑOS
-2. VARIACION DE SUICIDIOS/PARO RESPECTO A LOS AÑOS, AL SEXO Y A COMUNIDAD AUTONOMA
+1. VARIACIÓN DE PARO RESPECTO AL SEXO POR AÑOS
+   VARIACIÓN DE SUICIDIO RESPECTO AL SEXO POR AÑOS
+2. VARIACION DE PARO RESPECTO A LOS AÑOS, AL SEXO Y A COMUNIDAD AUTONOMA
+   VARIACION DE SUICIDIOS RESPECTO A LOS AÑOS, AL SEXO Y A COMUNIDAD AUTONOMA
 3. VER SI EXISTE O NO RELACIÓN ENTRE LA CANTIDAD DE PARO, Y EL NÚMERO DE SUICIDIOS
 
 ## Métodos utilizados
+Durante el desarrollo del seminario, hemos utilizado numerosas librerías, entre las que cabe destacar:
+
+1. library(readr)
+2. library(dplyr)
+3. library(ggplot2)
 
 ## Desarrollo 
 
@@ -69,19 +76,7 @@ ggplot(data = Suicidio, aes(x = año, y = Total)) +
   theme_light() + 
   theme_classic()
 ```
-![(Gráfico del suicidio respecto al sexo)](input/images/Suicidio_CCAA.png)
+![(Gráfico del suicidio respecto a Comunidad Autónoma)](input/images/Suicidio_CCAA.png)
 
 ## Conclusiones y discusión de los resultados
-
-
-
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
-```
 
