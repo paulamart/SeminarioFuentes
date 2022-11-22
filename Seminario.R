@@ -126,8 +126,9 @@ Plot_Paro_CCAA <- ## necesitamos guardarlo con un nombre determinado
   ggplot(data = Tasa_de_Paro_CCAA, aes(x = Periodo, y = Total)) +
   geom_point(aes(colour = factor(Sexo))) +
   facet_grid(Sexo ~ Tasa_de_Paro_CCAA$`Comunidades y Ciudades Autónomas`) +
+  geom_smooth(method = "lm", aes(colour = factor(Sexo))) +
   theme_light() + #quitamos el gris de fondo
-  theme_classic()  #quitar los cuadraditos
+  theme_classic()  #quitamos los cuadraditos
 
 Plot_Paro_CCAA
 
@@ -218,6 +219,7 @@ Plot_Suicidio_CCAA <-
   ggplot(data = Suicidio, aes(x = año, y = Total)) +
   geom_point(aes(colour = factor(Sexo))) +
   facet_grid(Sexo ~ Suicidio$`Comunidades y Ciudades Autónomas`) +
+  geom_smooth(method = "lm", aes(colour = factor(Sexo))) +
   theme_light() + #quitamos el gris de fondo
   theme_classic()  #quitar los cuadraditos
 
