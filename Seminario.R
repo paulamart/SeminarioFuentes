@@ -232,13 +232,13 @@ Plot_Suicidio_CCAA
 as.numeric(levels(factor(Tasa_de_Paro$Periodo)))
 
 ## Y filtramos los datos para que nos salgan sólo aquellos que nos interesan
-Tasa_de_Paro <-
+Paro_JOIN <-
   Tasa_de_Paro %>%
   mutate(Periodo = Tasa_de_Paro$Periodo) %>%
   filter(Periodo > 2016 & Periodo < 2021) %>%
   droplevels()
 
-levels(factor(Tasa_de_Paro$Periodo))
+levels(factor(Paro_JOIN$Periodo))
 
 
 ## A su vez, para que coincida en años con el set de datos de Tasa_de_paro, 
@@ -266,12 +266,12 @@ Suicidio_JOIN <-
 #PROBLEMA, PERIODO ES NUM Y AÑO ES CHR
 
 Suicidio_Paro <-  
-  Tasa_de_Paro_CCAA %>% 
-  select("Sexo":"Total") %>% 
+Paro_JOIN %>% 
+select("Sexo":"Comunidades y Ciudades Autónomas", "Periodo":"Total") %>%
   full_join(x = ., 
         y = Suicidio_JOIN %>% 
-          select("Comunidades y Ciudades Autónomas", "año":"Periodo"),
-            by = c("Periodo", "Comunidades y Ciudades Autónomas") )
+          select("Comunidades y Ciudades Autónomas", "Sexo", "Periodo":"Total"),
+        by = c("Periodo", "Comunidades y Ciudades Autónomas", "Sexo") )
 
 str(Suicidio_Paro)
 
