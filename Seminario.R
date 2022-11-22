@@ -261,17 +261,17 @@ Suicidio <-
 # primero hacemos que las dos columnas se llamen igual
 Suicidio_JOIN <-
   Suicidio %>%
-  mutate(`Periodo`= Suicidio$`año`) # No me deja con rename, no se por que
+  rename(`Periodo`=`año`) #año pasa a llamarse periodo
 
 #PROBLEMA, PERIODO ES NUM Y AÑO ES CHR
 
 Suicidio_Paro <-  
   Tasa_de_Paro_CCAA %>% 
-  select('Sexo':'Total') %>% 
+  select("Sexo":"Total") %>% 
   full_join(x = ., 
-            y = Suicidio %>% 
-              select('Comunidades y Ciudades Autónomas', 'año':'Year'),
-            by = c("Periodo" = "Year") )
+        y = Suicidio_JOIN %>% 
+          select("Comunidades y Ciudades Autónomas", "año":"Periodo"),
+            by = c("Periodo", "Comunidades y Ciudades Autónomas") )
 
 str(Suicidio_Paro)
 
