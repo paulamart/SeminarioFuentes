@@ -5,7 +5,7 @@ date: "2022-11-08"
 output: html_document
 ---
 
-## Índice de contenidos
+# Índice de contenidos
 1. Introducción
 2. Métodos
 3. Desarrollo
@@ -24,22 +24,56 @@ Los objetivos o preguntas que vamos a plantear durante el desarrollo del seminar
 ## Desarrollo 
 
 ## Resultados obtenidos
-Para la primera pregunta que nos hicimos, necesitamos un gráfico que muestre cómo varía el paro respecto al sexo y respecto al paso del tiempo
-```{r}
-Plot_Paro_Sexo_Años <- ## necesitamos guardarlo con un nombre determinado
+
+Para la variación del paro a lo largo de los años, necesitamos un gráfico que muestre cómo varía el paro nacional respecto al sexo y respecto al paso del tiempo.
+Para ello propusimos lo siguiente:
+```{r , eval = FALSE}
   ggplot(data = Paro_Total_Año, aes(x = Periodo, y = Total)) +
   geom_point(aes(colour = factor(Sexo))) +
   theme_light() +
   geom_smooth(method = "lm", aes(colour = factor(Sexo))) +
   theme_classic()
-plot(Plot_Paro_Sexo_Años)
+
 ```
+
+![(Gráfico del paro respecto al sexo)](input/images/Paro_Sexo.png)
+
+Por otro lado, para la variación del paro respecto a las Comunidades Autónomas de las que consta España, necesitamos un gráfico en que que noos muestre el paro respecto a hombres y mujeres, respecto al tiempo en todas y cada una de las comunidades autónomas
+Para ello hicimos lo siguiente:
+```{r , eval = FALSE}
+  ggplot(data = Tasa_de_Paro_CCAA, aes(x = Periodo, y = Total)) +
+  geom_point(aes(colour = factor(Sexo))) +
+  facet_grid(Sexo ~ Tasa_de_Paro_CCAA$`Comunidades y Ciudades Autónomas`) +
+  geom_smooth(method = "lm", aes(colour = factor(Sexo))) +
+  theme_light() + 
+  theme_classic()
+
+```
+![(Gráfico del paro respecto a cada Comunidad Autónoma)](input/images/Paro_CCAA.png)
+Posteriormente, para la variación del suicidio respecto al sexo y al paso del tiempo, necesitabamos una grafica en la que nos mostrara todos los casos de suicidios, tanto de hombres como de mujeres, por cada uno de los años.
+Para ello:
+```{r , eval = FALSE}
+ggplot(data = Suicidio_Total, aes(x = Year, y = MT, fill = Sexo))+
+  geom_bar( stat = "identity", position = "dodge")+
+  geom_errorbar(aes(ymin = MT- desviacion, ymax = MT + desviacion), width=.2,
+  position=position_dodge(.9) ) 
+```
+![(Gráfico del suicidio respecto al sexo)](input/images/Suicidio_Sexo.png)
+Por último, para la variación del suicidio respecto al sexo y al paso del tiempo por cada Comunidad Autónoma de España, necesitabamos una grafica en la que nos mostrara todos los casos de suicidios, tanto de hombres como de mujeres, por cada uno de los años en cada una de las comunidades.
+Para ello:
+```{r , eval = FALSE}
+ggplot(data = Suicidio, aes(x = año, y = Total)) +
+  geom_point(aes(colour = factor(Sexo))) +
+  facet_grid(Sexo ~ Suicidio$`Comunidades y Ciudades Autónomas`) +
+  geom_smooth(method = "lm", aes(colour = factor(Sexo))) +
+  theme_light() + 
+  theme_classic()
+```
+![(Gráfico del suicidio respecto al sexo)](input/images/Suicidio_CCAA.png)
 
 ## Conclusiones y discusión de los resultados
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
+
 
 ## R Markdown
 
@@ -51,8 +85,3 @@ When you click the **Knit** button a document will be generated that includes bo
 summary(cars)
 ```
 
-## Including Plots
-
-You can also embed plots, for example:
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
