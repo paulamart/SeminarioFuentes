@@ -13,7 +13,8 @@ output: html_document
 5. Conclusiones
 
 ## Introducción
-Los objetivos o preguntas que vamos a plantear durante el desarrollo del seminario son:
+En este proyecto, en el que analizamos los datos de suicidio y de paro a nivel nacional a lo largo de un gran periodo de años, buscamos responder a una serie de objetivos o preguntas que nos propusimos antes de iniciar dicho proyecto. 
+Entre los objetivos en los que nos vamos a centrar durante el desarrollo del seminario tenemos:
 
 1. VARIACIÓN DE PARO RESPECTO AL SEXO POR AÑOS
    VARIACIÓN DE SUICIDIO RESPECTO AL SEXO POR AÑOS
@@ -22,11 +23,16 @@ Los objetivos o preguntas que vamos a plantear durante el desarrollo del seminar
 3. VER SI EXISTE O NO RELACIÓN ENTRE LA CANTIDAD DE PARO, Y EL NÚMERO DE SUICIDIOS
 
 ## Métodos utilizados
-Durante el desarrollo del seminario, hemos utilizado numerosas librerías, entre las que cabe destacar:
+Durante el desarrollo y estudio del seminario, hemos utilizado numerosas librerías, entre las que cabe destacar:
 
 1. library(readr)
+Utilizamos readr para importar los datos extraídos de la base de datos del gobierno de España (gob.es), y dichos datos están disponibles en la carpeta input/data del repositorio Github.
+
 2. library(dplyr)
+Utilizamos dplyr para modificar y filtrar los datos, para así obtener tan sólo aquellos que fueran de gran interés para ayudarnos a contestar las preguntas que propusimos antes de comenzar el proyecto.
+
 3. library(ggplot2)
+Utilizamos ggplot2 para representar de forma visual, mediante gráficos de todo tipo, los datos. 
 
 ## Desarrollo 
 
@@ -43,7 +49,7 @@ Para ello propusimos lo siguiente:
 
 ```
 
-![(Gráfico del paro respecto al sexo)](input/images/Paro_Sexo.png)
+![Imagen 1. Gráfico del paro respecto al sexo](input/images/Paro_Sexo.png)
 
 Por otro lado, para la variación del paro respecto a las Comunidades Autónomas de las que consta España, necesitamos un gráfico en que que noos muestre el paro respecto a hombres y mujeres, respecto al tiempo en todas y cada una de las comunidades autónomas
 Para ello hicimos lo siguiente:
@@ -56,7 +62,7 @@ Para ello hicimos lo siguiente:
   theme_classic()
 
 ```
-![(Gráfico del paro respecto a cada Comunidad Autónoma)](input/images/Paro_CCAA.png)
+![Imagen 2. Gráfico del paro respecto a cada Comunidad Autónoma](input/images/Paro_CCAA.png)
 Posteriormente, para la variación del suicidio respecto al sexo y al paso del tiempo, necesitabamos una grafica en la que nos mostrara todos los casos de suicidios, tanto de hombres como de mujeres, por cada uno de los años.
 Para ello:
 ```{r , eval = FALSE}
@@ -65,7 +71,7 @@ ggplot(data = Suicidio_Total, aes(x = Year, y = MT, fill = Sexo))+
   geom_errorbar(aes(ymin = MT- desviacion, ymax = MT + desviacion), width=.2,
   position=position_dodge(.9) ) 
 ```
-![(Gráfico del suicidio respecto al sexo)](input/images/Suicidio_Sexo.png)
+![Imagen 3. Gráfico del suicidio respecto al sexo](input/images/Suicidio_Sexo.png)
 Por último, para la variación del suicidio respecto al sexo y al paso del tiempo por cada Comunidad Autónoma de España, necesitabamos una grafica en la que nos mostrara todos los casos de suicidios, tanto de hombres como de mujeres, por cada uno de los años en cada una de las comunidades.
 Para ello:
 ```{r , eval = FALSE}
@@ -76,7 +82,7 @@ ggplot(data = Suicidio, aes(x = año, y = Total)) +
   theme_light() + 
   theme_classic()
 ```
-![(Gráfico del suicidio respecto a Comunidad Autónoma)](input/images/Suicidio_CCAA.png)
+![Imagen 4. Gráfico del suicidio respecto a Comunidad Autónoma](input/images/Suicidio_CCAA.png)
 
 ## Conclusiones y discusión de los resultados
 
