@@ -26,18 +26,64 @@ Entre los objetivos en los que nos vamos a centrar durante el desarrollo del sem
 Durante el desarrollo y estudio del seminario, hemos utilizado numerosas librerías, entre las que cabe destacar:
 
 1. library(readr)
+
 Utilizamos readr para importar los datos extraídos de la base de datos del gobierno de España (gob.es), y dichos datos están disponibles en la carpeta input/data del repositorio Github.
 
 2. library(dplyr)
+
 Utilizamos dplyr para modificar y filtrar los datos, para así obtener tan sólo aquellos que fueran de gran interés para ayudarnos a contestar las preguntas que propusimos antes de comenzar el proyecto.
 
 3. library(ggplot2)
+
 Utilizamos ggplot2 para representar de forma visual, mediante gráficos de todo tipo, los datos. 
 
 ## Desarrollo 
+Antes de realizar nada, tuvimos que buscar los datos. Ambos sets de datos los recogimos de la base de datos del gobierno de España (gob.es), y lo insertamos en el proyecto, para poder estudiarlos y modificarlos de cara a los objetivos propuestos.
+Para la tasa de paro, importamos los datos de la siguiente manera:
+```{r , eval = FALSE}
+library(readr)
+Tasa_de_Paro <- read_delim("input/data/Tasa_de_Paro.csv", 
+                           delim = ";", escape_double = FALSE, 
+                           col_types = cols(Total = col_double()), 
+                           trim_ws = TRUE)
+```
+Por otro lado, para los datos de suicidio, tuvimos que importarlo de la siguiente forma:
+```{r , eval = FALSE}
+library(readr)
+Suicidio <- read_delim("input/data/Suicidio.csv", 
+                       delim = ";", escape_double = FALSE, 
+                       col_types = cols(Total = col_double()), 
+                       trim_ws = TRUE)
+```
+
+Una vez teníamos los datos importados en el proyecto, procedimos a filtrarlos para que mostraran sólo aquella información que fuera de utilidad para el proyecto. Para poder llegar a los objetivos propuestos, tuvimos que modificar ambos sets de datos.
+
+
+Para los datos de tasa de paro:
+
+1. Filtramos los datos para que nos salieran sólo aquellos datos que nos muestraran HOMBRES Y MUJERES, AMBOS SEPARADOS, eliminando así aquellos datos que contenían una línea para "ambos sexos". Hicimos esto porque, para los objetivos que nos propusimos, era primordial filtrar por sexos, para, posteriormente estudiar, si hubieran, las diferencias entre ambos.
+```{r , eval = FALSE}
+library(dplyr)
+Tasa_de_Paro <-
+  Tasa_de_Paro %>%
+  mutate(Sexo = factor(Sexo)) %>%
+  filter(Sexo != "Ambos sexos") %>%
+  droplevels()
+
+## para ver qué niveles de sexo tiene ahora el set de datos
+levels(Tasa_de_Paro$Sexo)
+## sólo tendrá Hombres y Mujeres, porque hemos eliminado la categoría "ambos sexos" ya que no es objeto de estudio
+## (comprobamos que la categoria "ambos sexos", ha desaparecido)
+Tasa_de_Paro %>%
+  filter(Sexo != "Ambos sexos") %>%
+  levels() ## nos sale NULL porque ha desaparecido
+
+```
+
+
+
 
 ## Resultados obtenidos
-
 Para la variación del paro a lo largo de los años, necesitamos un gráfico que muestre cómo varía el paro nacional respecto al sexo y respecto al paso del tiempo.
 Para ello propusimos lo siguiente:
 ```{r , eval = FALSE}
