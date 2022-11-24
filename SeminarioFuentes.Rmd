@@ -127,6 +127,15 @@ Suicidio <-
   droplevels()
 ```
 
+4. Finalmente, como vimos que el set de datos tenía algún valor no definido (NA), y que lo estábamos arrastrando de los anteriores filtros, tuvimos que eliminar todas las líneas que tuvieran algún valor NA en ellas, ya que ese valor nos produciría problemas más adelante.
+
+```{r , eval = FALSE}
+Suicidio <-
+  na.omit(Suicidio)
+```
+
+Posteriormente, con los datos bein organizados y filtrados, nos propusimos el objetivo de realizar las gráficas que dependieran del set de datos de suicidio
+
 
 
 ## Resultados obtenidos
