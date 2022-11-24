@@ -300,8 +300,8 @@ pre code {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -309,16 +309,9 @@ pre code {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -465,6 +458,69 @@ levels(Tasa_de_Paro$Sexo)
 Tasa_de_Paro %&gt;%
   filter(Sexo != &quot;Ambos sexos&quot;) %&gt;%
   levels() ## nos sale NULL porque ha desaparecido</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>Posteriormente, filtramos los datos anteriores, para que nos
+muestren sólo aquellos valores para los que la nacionalidad es “total”,
+ya que no es objetivo de estudio de nuestro seminario distinguir entre
+el paro de España respecto a las nacionalidades de las personas.</li>
+</ol>
+<pre class="r"><code>Tasa_de_Paro &lt;-
+  Tasa_de_Paro %&gt;%
+  mutate(Nacionalidad = Tasa_de_Paro$Nacionalidad) %&gt;%
+  filter(Nacionalidad == &quot;Total&quot;) %&gt;%
+  droplevels()</code></pre>
+<p>Una vez tenemos los datos correctamente filtrados, nos pusimos a
+realizar las gráficas que dependían de los datos de la tasa de paro.</p>
+<p>Para los datos de suicidios:</p>
+<ol style="list-style-type: decimal">
+<li>Filtramos el set de datos para que nos salieran sólo aquellas causas
+de muerte que correspondían con suicidio y/o lesiones autoinflingidas
+(debido a que el set de datos era tan extenso, que recogía el número de
+muertes debidas a otras causas, pero como en nuestro seminario queríamos
+hablar del suicidio, cogimos aquellos datos que nos interesaban)</li>
+</ol>
+<pre class="r"><code>Suicidio &lt;-
+  Suicidio %&gt;%
+  mutate(`Causa de muerte (lista reducida)` = Suicidio$`Causa de muerte (lista reducida)`) %&gt;%
+  filter(`Causa de muerte (lista reducida)` == &quot;098 Suicidio y lesiones autoinfligidas&quot; ) %&gt;%
+  droplevels()</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>Posteriormente, al igual que en el set de datos de tasa de paro,
+tuvimos que filtrar para que nos salieran aquellos datos que mostraran
+hombres y mujeres, ambos por separados, y eliminara aquellos datos que
+unían mabos sexos. Hicimos esto porque nos interesaba estudiar cuál era
+el número de suicidios de hombres y de mujeres, ambos por separado,
+para, posteriormente, compararlos y establecer conclusiones.</li>
+</ol>
+<pre class="r"><code>Suicidio &lt;-
+  Suicidio %&gt;%
+  mutate( Sexo = Suicidio$Sexo) %&gt;%
+  filter(Sexo != &quot;Total&quot;) %&gt;%
+  droplevels()</code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li>Asimismo, tuvimos que filtrar los datos anteriores, porque, al ser
+el set de datos tan largo y extenso, recogía información relacionada con
+el lugar de ocurrencia en el que se había desarrollado la muerte, pero,
+como no era objetivo de estudio de nuestro seminario, tuvimos que
+filtrar los datos para que nos mostrará lugar de ocurrencia
+“Total”.</li>
+</ol>
+<pre class="r"><code>Suicidio &lt;-
+  Suicidio %&gt;%
+  mutate(`Lugar de ocurrencia`= Suicidio$`Lugar de ocurrencia` ) %&gt;%
+  filter(`Lugar de ocurrencia` == &quot;Total&quot;) %&gt;%
+  droplevels()</code></pre>
+<ol start="4" style="list-style-type: decimal">
+<li>Finalmente, como vimos que el set de datos tenía algún valor no
+definido (NA), y que lo estábamos arrastrando de los anteriores filtros,
+tuvimos que eliminar todas las líneas que tuvieran algún valor NA en
+ellas, ya que ese valor nos produciría problemas más adelante.</li>
+</ol>
+<pre class="r"><code>Suicidio &lt;-
+  na.omit(Suicidio)</code></pre>
+<p>Posteriormente, con los datos bein organizados y filtrados, nos
+propusimos el objetivo de realizar las gráficas que dependieran del set
+de datos de suicidio</p>
 </div>
 <div id="resultados-obtenidos" class="section level2">
 <h2>Resultados obtenidos</h2>
