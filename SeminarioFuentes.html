@@ -300,8 +300,8 @@ pre code {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -309,16 +309,9 @@ pre code {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -423,15 +416,15 @@ gráficos de todo tipo, los datos.</p>
 <h2>Desarrollo</h2>
 <p>Antes de realizar nada, tuvimos que buscar los datos. Ambos sets de
 datos los recogimos de la base de datos del gobierno de España (gob.es),
-y lo insertamos en proyecto, para poder estudiarlos y modificarlos de
-cara a realizar adecuadamente el proyecto. Para la tasa de paro,
-importamos los datos de la siguiente manera:</p>
+y lo insertamos en el proyecto, para poder estudiarlos y modificarlos de
+cara a los objetivos propuestos. Para la tasa de paro, importamos los
+datos de la siguiente manera:</p>
 <pre class="r"><code>library(readr)
 Tasa_de_Paro &lt;- read_delim(&quot;input/data/Tasa_de_Paro.csv&quot;, 
                            delim = &quot;;&quot;, escape_double = FALSE, 
                            col_types = cols(Total = col_double()), 
                            trim_ws = TRUE)</code></pre>
-<p>Por otro lado, para los datos de Suicidio, tuvimos que importarlo de
+<p>Por otro lado, para los datos de suicidio, tuvimos que importarlo de
 la siguiente forma:</p>
 <pre class="r"><code>library(readr)
 Suicidio &lt;- read_delim(&quot;input/data/Suicidio.csv&quot;, 
@@ -440,14 +433,13 @@ Suicidio &lt;- read_delim(&quot;input/data/Suicidio.csv&quot;,
                        trim_ws = TRUE)</code></pre>
 <p>Una vez teníamos los datos importados en el proyecto, procedimos a
 filtrarlos para que mostraran sólo aquella información que fuera de
-utilidad para poder llegar a los objetivos que nos propusimos
-inicialmente.Para poder llegar a estos objetivos, tuvimos que modificar
-ambos sets de datos.</p>
+utilidad para el proyecto. Para poder llegar a los objetivos propuestos,
+tuvimos que modificar ambos sets de datos.</p>
 <p>Para los datos de tasa de paro:</p>
 <ol style="list-style-type: decimal">
 <li>Filtramos los datos para que nos salieran sólo aquellos datos que
-nos muestraran HOMBRES Y MUJERES, AMBOS SEPARADOS, ELIMINANDO así
-aquellos datos que contenían una línea para “AMBOS SEXOS”. Hicimos esto
+nos muestraran HOMBRES Y MUJERES, AMBOS SEPARADOS, eliminando así
+aquellos datos que contenían una línea para “ambos sexos”. Hicimos esto
 porque, para los objetivos que nos propusimos, era primordial filtrar
 por sexos, para, posteriormente estudiar, si hubieran, las diferencias
 entre ambos.</li>
@@ -501,12 +493,15 @@ de los años. Para ello:</p>
   geom_bar( stat = &quot;identity&quot;, position = &quot;dodge&quot;)+
   geom_errorbar(aes(ymin = MT- desviacion, ymax = MT + desviacion), width=.2,
   position=position_dodge(.9) ) </code></pre>
-<p><img src="data:image/png;base64,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" alt="Imagen 3. Gráfico del suicidio respecto al sexo" /> Por último,
-para la variación del suicidio respecto al sexo y al paso del tiempo por
-cada Comunidad Autónoma de España, necesitabamos una grafica en la que
-nos mostrara todos los casos de suicidios, tanto de hombres como de
-mujeres, por cada uno de los años en cada una de las comunidades. Para
-ello:</p>
+<div class="figure">
+<img src="data:image/png;base64,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" alt />
+<p class="caption">Imagen 3. Gráfico del suicidio respecto al sexo</p>
+</div>
+<p>Por último, para la variación del suicidio respecto al sexo y al paso
+del tiempo por cada Comunidad Autónoma de España, necesitabamos una
+grafica en la que nos mostrara todos los casos de suicidios, tanto de
+hombres como de mujeres, por cada uno de los años en cada una de las
+comunidades. Para ello:</p>
 <pre class="r"><code>ggplot(data = Suicidio, aes(x = año, y = Total)) +
   geom_point(aes(colour = factor(Sexo))) +
   facet_grid(Sexo ~ Suicidio$`Comunidades y Ciudades Autónomas`) +
@@ -521,6 +516,50 @@ Autónoma</p>
 </div>
 <div id="conclusiones-y-discusión-de-los-resultados" class="section level2">
 <h2>Conclusiones y discusión de los resultados</h2>
+<p>En la primera de las gráficas, en la que representamos tasa de paro
+respecto al sexo, podemos obsevar como la tasa de paro en mujeres es
+mayor respecto a la tasa de hombres, durante todos loa años estudiados,
+es decir, desde 2006 a 2021. Sin embargo, podemos observar como al
+principio de los años esta diferencia de tasas entre ambos sexos era
+bastante más considerable. A partir de la crisis de 2009 podemos
+ovserbar como ambas tasas comienzan a acercarse, hasta 2016 donde
+empiezan a separarse de nuevo, hoy en día, la diferencia sigue siendo
+notable. Esto podemos observarlo más rápidamente con la regresión
+lineal, en la cual vemos como la de las mujeres está siempre por encima
+de la de los hombres.</p>
+<p>En la segunda de las gráficas, donde represnetamos paro respecto a
+cada Comunidad Autónoma, podemos observar como hay diferencias
+considerables entre las diferentes comunidades autónomas, pero, las
+tasas de paro de ambos sexos parecen estar correlacionadas, ya que se
+asemejan entre comunidades autónomas, a pesar que en mujeres son algo
+más elevadas que en hombres; por ejemplo, si nos fijamos en la comunidad
+autónoma de Andalucía, podemos ver que ambas tasas de paro son las
+mayores con respecto a las demás; así como en la comunidad de Aragón,
+ambas tasas descienden con respecto a la de Andalucía. Sin embargo, no
+es siempre así, porque si nos fijamos en la Comunidad valenciana y País
+Vasco, se puede observar como la tasa de paro de mujeres es mayor en la
+Comunidad Valenciana, sin embargo, la tasa de paro en hombres es maor en
+el País Vasco, por lo que confirmamos que no hay una correlacón exacta,
+pero sí que van más o menos al apar.</p>
+<p>En la tercera de las gráficas, en la que represnetamos el suicidio
+respecto al sexo, podemos observar claramente como el número de
+suicidios en todos los años estudiados (2016-2020) es mayor en el sexo
+masculino que en el sexo femenino. Además, hemos representado la
+desviación estándar con una línea sobre las barras, de lo que sacamos la
+concusión que hay gran variedad en el número de suicidios. (no eme
+convence mucho)</p>
+<p>En la cuarta gráfica, en la que representamos el suicidio respecto a
+Comunidad Autónoma, podemos observar como hay diferencias considerables
+entre las diferentes comunidades autónomas, pero, el número de suicidios
+ambos sexos parecen estar correlacionadas, ya que se asemejan entre
+comunidades autónomas, a pesar que en muejeres son algo más elevadas que
+en hombres; por ejemplo, si nos fijamos en la comunidad autónoma de
+Andalucía, podemos ver que ambos números de suicidio son las mayores con
+respecto a las demás; así como en la ciudad de Melilla, ambas tasas
+descienden con respecto a la de Andalucía. En este gráfico hay una cosa
+que llama la atención, ya que en la ciudad de Ceuta en el número de
+suicidios de mujeres hay un único punto, es decir, solo se ha producido
+un suicidio a lo largo de todos los años estudiados.</p>
 </div>
 </div>
 
