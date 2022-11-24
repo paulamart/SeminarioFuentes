@@ -108,7 +108,9 @@ Para ello hicimos lo siguiente:
   theme_classic()
 
 ```
+
 ![Imagen 2. Gráfico del paro respecto a cada Comunidad Autónoma](input/images/Paro_CCAA.png)
+
 Posteriormente, para la variación del suicidio respecto al sexo y al paso del tiempo, necesitabamos una grafica en la que nos mostrara todos los casos de suicidios, tanto de hombres como de mujeres, por cada uno de los años.
 Para ello:
 ```{r , eval = FALSE}
@@ -117,6 +119,7 @@ ggplot(data = Suicidio_Total, aes(x = Year, y = MT, fill = Sexo))+
   geom_errorbar(aes(ymin = MT- desviacion, ymax = MT + desviacion), width=.2,
   position=position_dodge(.9) ) 
 ```
+
 ![Imagen 3. Gráfico del suicidio respecto al sexo](input/images/Suicidio_Sexo.png)
 
 Por último, para la variación del suicidio respecto al sexo y al paso del tiempo por cada Comunidad Autónoma de España, necesitabamos una grafica en la que nos mostrara todos los casos de suicidios, tanto de hombres como de mujeres, por cada uno de los años en cada una de las comunidades.
@@ -129,6 +132,7 @@ ggplot(data = Suicidio, aes(x = año, y = Total)) +
   theme_light() + 
   theme_classic()
 ```
+
 ![Imagen 4. Gráfico del suicidio respecto a Comunidad Autónoma](input/images/Suicidio_CCAA.png)
 
 ## Conclusiones y discusión de los resultados
