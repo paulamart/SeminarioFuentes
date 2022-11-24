@@ -81,6 +81,31 @@ Tasa_de_Paro %>%
 ```
 
 
+2. Posteriormente, filtramos los datos anteriores, para que nos muestren sólo aquellos valores para los que la nacionalidad es "total", ya que no es objetivo de estudio de nuestro seminario distinguir entre el paro de España respecto a las nacionalidades de las personas.
+
+```{r , eval = FALSE}
+Tasa_de_Paro <-
+  Tasa_de_Paro %>%
+  mutate(Nacionalidad = Tasa_de_Paro$Nacionalidad) %>%
+  filter(Nacionalidad == "Total") %>%
+  droplevels()
+```
+
+
+Una vez tenemos los datos correctamente filtrados, nos pusimos a realizar las gráficas que dependían de los datos de la tasa de paro.
+
+Para los datos de suicidios:
+
+1. Filtramos el set de datos para que nos salieran sólo aquellas causas de muerte que correspondían con suicidio y/o lesiones autoinflingidas (debido a que el set de datos era tan extenso, que recogía el número de muertes debidas a otras causas, pero como en nuestro seminario queríamos hablar del suicidio, cogimos aquellos datos que nos interesaban)
+
+```{r , eval = FALSE}
+Suicidio <-
+  Suicidio %>%
+  mutate(`Causa de muerte (lista reducida)` = Suicidio$`Causa de muerte (lista reducida)`) %>%
+  filter(`Causa de muerte (lista reducida)` == "098 Suicidio y lesiones autoinfligidas" ) %>%
+  droplevels()
+```
+
 
 
 ## Resultados obtenidos
