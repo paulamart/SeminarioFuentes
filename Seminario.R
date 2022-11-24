@@ -278,7 +278,7 @@ select("Sexo":"Comunidades y Ciudades Autónomas", "Periodo":"Total") %>%
 str(Suicidio_Paro)
 
 Suicidio_Paro <-
-  na.omit(Suicidio_Paro)
+  na.omit(Suicidio_Paro) #si hacemos esto se borran todas las columnas de total.y porque son todos NA
 
 Suicidio_Paro
 
