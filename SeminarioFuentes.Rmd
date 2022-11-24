@@ -132,3 +132,4 @@ ggplot(data = Suicidio, aes(x = año, y = Total)) +
 
 ## Conclusiones y discusión de los resultados
 
+En la primera de las gráficas podemos obsevar como la tasa de paro en mujeres es mayor respecto a la tasa de hombres, durante todos loa años estudiados, es decir, desde 2006 a 2021. Sin embargo, podemos observar como al principio de los años esta diferencia de tasas entre ambos sexos era bastante más considerable. A partir de la crisis de 2009 podemos ovserbar como ambas tasas comienzan a acercarse, hasta 2016 donde empiezan a separarse de nuevo, hoy en día, la diferencia sigue siendo notable.
