@@ -106,6 +106,27 @@ Suicidio <-
   droplevels()
 ```
 
+2. Posteriormente, al igual que en el set de datos de tasa de paro, tuvimos que filtrar para que nos salieran aquellos datos que mostraran hombres y mujeres, ambos por separados, y eliminara aquellos datos que unían mabos sexos. Hicimos esto porque nos interesaba estudiar cuál era el número de suicidios de hombres y de mujeres, ambos por separado, para, posteriormente, compararlos y establecer conclusiones.
+
+```{r , eval = FALSE}
+Suicidio <-
+  Suicidio %>%
+  mutate( Sexo = Suicidio$Sexo) %>%
+  filter(Sexo != "Total") %>%
+  droplevels()
+```
+
+3. Asimismo, tuvimos que filtrar los datos anteriores, porque, al ser el set de datos tan largo y extenso, recogía información relacionada con el lugar de ocurrencia en el que se había desarrollado la muerte, pero, como no era objetivo de estudio de nuestro seminario, tuvimos que filtrar los datos para que nos mostrará lugar de ocurrencia "Total".
+
+
+```{r , eval = FALSE}
+Suicidio <-
+  Suicidio %>%
+  mutate(`Lugar de ocurrencia`= Suicidio$`Lugar de ocurrencia` ) %>%
+  filter(`Lugar de ocurrencia` == "Total") %>%
+  droplevels()
+```
+
 
 
 ## Resultados obtenidos
