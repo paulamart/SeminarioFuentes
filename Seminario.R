@@ -248,6 +248,39 @@ Paro_JOIN <-
   filter(`Comunidades y Ciudades Autónomas` != "Total Nacional") %>%
   droplevels()
 
+#PRUEBO A CAMBIAR EL NOMBRE DE COMUNIDADES Y CIUDADES AUTONOMAS
+library(dplyr)
+Paro_JOIN <- Paro_JOIN%>%
+  case_when(
+    Paro_JOIN %% Paro_JOIN$`Comunidades y Ciudades Autónomas`== "01 Andalucía" ~ "Andalucia",
+    TRUE ~ as.character(Paro_JOIN)
+)
+
+Paro_JOIN <- Paro_JOIN%>%
+  mutate(
+    CCAA = case_when(
+      Paro_JOIN$`Comunidades y Ciudades Autónomas`== "01 Andalucía" ~ "Andalucia",
+      Paro_JOIN$`Comunidades y Ciudades Autónomas`== "02 Aragón" ~ "Aragon",
+      Paro_JOIN$`Comunidades y Ciudades Autónomas`== "03 Asturias. Principado de" ~ "Asturias",
+      Paro_JOIN$`Comunidades y Ciudades Autónomas`== "04 Balears. Illes" ~ "Baleares",
+      Paro_JOIN$`Comunidades y Ciudades Autónomas`== "05 Canarias" ~ "Canarias",
+      Paro_JOIN$`Comunidades y Ciudades Autónomas`== "06 Cantabria" ~ "Cantabria",
+      Paro_JOIN$`Comunidades y Ciudades Autónomas`== "07 Castilla y León" ~ "CyL",
+      Paro_JOIN$`Comunidades y Ciudades Autónomas`== "08 Castilla - La Mancha" ~ "Castilla la Mancha",
+      Paro_JOIN$`Comunidades y Ciudades Autónomas`== "09 Cataluña" ~ "Cataluña",
+      Paro_JOIN$`Comunidades y Ciudades Autónomas`== "10 Comunitat Valenciana" ~ "C.Valencia",
+      Paro_JOIN$`Comunidades y Ciudades Autónomas`== "11 Extremadura" ~ "Extremadura",
+      Paro_JOIN$`Comunidades y Ciudades Autónomas`== "12 Galicia" ~ "Galicia",
+      Paro_JOIN$`Comunidades y Ciudades Autónomas`== "13 Madrid. Comunidad de" ~ "Madrid",
+      Paro_JOIN$`Comunidades y Ciudades Autónomas`== "14 Murcia. Región de" ~ "Murcia",
+      Paro_JOIN$`Comunidades y Ciudades Autónomas`== "15 Navarra. Comunidad Foral de" ~ "Navarra",
+      Paro_JOIN$`Comunidades y Ciudades Autónomas`== "16 País Vasco" ~ "País Vasco",
+      Paro_JOIN$`Comunidades y Ciudades Autónomas`== "17 Rioja. La" ~ "La Rioja",
+      Paro_JOIN$`Comunidades y Ciudades Autónomas`== "18 Ceuta" ~ "Ceuta",
+      Paro_JOIN$`Comunidades y Ciudades Autónomas`== "19 Melilla" ~ "Melilla",
+  ))
+
+str(Paro_JOIN)
 
 ## A su vez, para que coincida en años con el set de datos de Tasa_de_paro, 
 # filtraremos Suicidio para aquellos años que sean mayores que el 2016
