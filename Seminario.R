@@ -242,6 +242,12 @@ Paro_JOIN <-
 
 levels(factor(Paro_JOIN$Periodo))
 
+Paro_JOIN <-
+  Paro_JOIN %>%
+  mutate(`Comunidades y Ciudades Autónomas` = Paro_JOIN$`Comunidades y Ciudades Autónomas`) %>%
+  filter(`Comunidades y Ciudades Autónomas` != "Total Nacional") %>%
+  droplevels()
+
 
 ## A su vez, para que coincida en años con el set de datos de Tasa_de_paro, 
 # filtraremos Suicidio para aquellos años que sean mayores que el 2016
@@ -263,7 +269,8 @@ Suicidio <-
 # primero hacemos que las dos columnas se llamen igual
 Suicidio_JOIN <-
   Suicidio %>%
-  rename(`Periodo`=`año`) #año pasa a llamarse periodo
+  rename(`Periodo`=`año`, `TotalSuicidio`=`Total`) #año pasa a llamarse periodo
+
 
 #PROBLEMA, PERIODO ES NUM Y AÑO ES CHR
 
@@ -275,8 +282,9 @@ Paro_JOIN %>%
 select("Sexo":"Comunidades y Ciudades Autónomas", "Periodo":"Total") %>%
   full_join(x = ., 
         y = Suicidio_JOIN %>% 
-          select("Comunidades y Ciudades Autónomas", "Sexo", "Periodo":"Total"),
-        by = c("Periodo", "Comunidades y Ciudades Autónomas", "Sexo") )
+          select("Comunidades y Ciudades Autónomas", "Sexo", "Periodo":"TotalSuicidio"),
+        by = c("Periodo", "Comunidades y Ciudades Autónomas", "Sexo") ) %>%
+  summary()
 
 str(Suicidio_Paro)
 
