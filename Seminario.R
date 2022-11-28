@@ -32,6 +32,36 @@ Suicidio <- read_delim("input/data/Suicidio.csv",
 
 
 # * Modificaciones TASA_DE_PARO--------------------------------------------------------------------
+#PRUEBO A CAMBIAR EL NOMBRE DE COMUNIDADES Y CIUDADES AUTONOMAS
+
+library(dplyr)
+
+Tasa_de_Paro <- Tasa_de_Paro%>%
+  mutate(
+    CCAA = case_when(
+      Tasa_de_Paro$`Comunidades y Ciudades Autónomas`== "01 Andalucía" ~ "Andalucia",
+      Tasa_de_Paro$`Comunidades y Ciudades Autónomas`== "02 Aragón" ~ "Aragon",
+      Tasa_de_Paro$`Comunidades y Ciudades Autónomas`== "03 Asturias. Principado de" ~ "Asturias",
+      Tasa_de_Paro$`Comunidades y Ciudades Autónomas`== "04 Balears. Illes" ~ "Baleares",
+      Tasa_de_Paro$`Comunidades y Ciudades Autónomas`== "05 Canarias" ~ "Canarias",
+      Tasa_de_Paro$`Comunidades y Ciudades Autónomas`== "06 Cantabria" ~ "Cantabria",
+      Tasa_de_Paro$`Comunidades y Ciudades Autónomas`== "07 Castilla y León" ~ "CyL",
+      Tasa_de_Paro$`Comunidades y Ciudades Autónomas`== "08 Castilla - La Mancha" ~ "Castilla la Mancha",
+      Tasa_de_Paro$`Comunidades y Ciudades Autónomas`== "09 Cataluña" ~ "Cataluña",
+      Tasa_de_Paro$`Comunidades y Ciudades Autónomas`== "10 Comunitat Valenciana" ~ "C.Valencia",
+      Tasa_de_Paro$`Comunidades y Ciudades Autónomas`== "11 Extremadura" ~ "Extremadura",
+      Tasa_de_Paro$`Comunidades y Ciudades Autónomas`== "12 Galicia" ~ "Galicia",
+      Tasa_de_Paro$`Comunidades y Ciudades Autónomas`== "13 Madrid. Comunidad de" ~ "Madrid",
+      Tasa_de_Paro$`Comunidades y Ciudades Autónomas`== "14 Murcia. Región de" ~ "Murcia",
+      Tasa_de_Paro$`Comunidades y Ciudades Autónomas`== "15 Navarra. Comunidad Foral de" ~ "Navarra",
+      Tasa_de_Paro$`Comunidades y Ciudades Autónomas`== "16 País Vasco" ~ "País Vasco",
+      Tasa_de_Paro$`Comunidades y Ciudades Autónomas`== "17 Rioja. La" ~ "La Rioja",
+      Tasa_de_Paro$`Comunidades y Ciudades Autónomas`== "18 Ceuta" ~ "Ceuta",
+      Tasa_de_Paro$`Comunidades y Ciudades Autónomas`== "19 Melilla" ~ "Melilla",
+    ))
+
+str(Tasa_de_Paro)
+
 
 ## ** Muestra de ambos sexos por separado---------------------------------------------------------
 
@@ -93,16 +123,6 @@ Plot_Paro_Sexo_Años <- ## necesitamos guardarlo con un nombre determinado
 
 Plot_Paro_Sexo_Años
 
-#con scale_manual
-ggplot(data = Paro_Total_Año, aes(x = Periodo, y = Total)) +
-  geom_point(aes(colour = factor(Sexo))) +
-  scale_size_manual(breaks = c('hombres', 'mujeres'), 
-                    labels = c('hombres', 'mujeres'), 
-                    values = c(2006:2022)) +
-  theme_classic()  # para quitar los cuadrados del fondo de la gráfica
-
-# (ambas son iguales, la única diferencia que la seguda de ellas no tiene regresión lineal(elegir la que más nos convenga))
-
 
 
 ## ** PARO por COMUNIDAD AUTÓNOMA ---------------------------------------------------------------------------------------
@@ -113,8 +133,8 @@ ggplot(data = Paro_Total_Año, aes(x = Periodo, y = Total)) +
 
 Tasa_de_Paro_CCAA <-
   Tasa_de_Paro %>%
-  mutate(`Comunidades y Ciudades Autónomas` = Tasa_de_Paro$`Comunidades y Ciudades Autónomas`) %>%
-  filter(`Comunidades y Ciudades Autónomas` != "Total Nacional" ) %>%
+  mutate(`CCAA` = Tasa_de_Paro$`CCAA`) %>%
+  filter(`CCAA` != is.na(CCAA) ) %>%
   droplevels()
 
 
@@ -125,12 +145,13 @@ library(ggplot2)
 Plot_Paro_CCAA <- ## necesitamos guardarlo con un nombre determinado
   ggplot(data = Tasa_de_Paro_CCAA, aes(x = Periodo, y = Total)) +
   geom_point(aes(colour = factor(Sexo))) +
-  facet_grid(Sexo ~ Tasa_de_Paro_CCAA$`Comunidades y Ciudades Autónomas`) +
+  facet_grid(Sexo ~ Tasa_de_Paro_CCAA$`CCAA`) +
   geom_smooth(method = "lm", aes(colour = factor(Sexo))) +
   theme_light() + #quitamos el gris de fondo
   theme_classic()  #quitamos los cuadraditos
 
 Plot_Paro_CCAA
+
 
 # * Modificaciones SUICIDIO ------------------------------------------------------------------------------------------
 
@@ -152,6 +173,32 @@ Suicidio <-
   mutate(`Causa de muerte (lista reducida)` = Suicidio$`Causa de muerte (lista reducida)`) %>%
   filter(`Causa de muerte (lista reducida)` == "098 Suicidio y lesiones autoinfligidas" ) %>%
   droplevels()
+
+
+#CAMBIO DE NOMBRES DATOS 
+Suicidio <- Suicidio%>%
+  mutate(
+    CCAA = case_when(
+      Suicidio$`Comunidades y Ciudades Autónomas`== "Andalucía" ~ "Andalucia",
+      Suicidio$`Comunidades y Ciudades Autónomas`== "Aragón" ~ "Aragon",
+      Suicidio$`Comunidades y Ciudades Autónomas`== "Asturias. Principado de" ~ "Asturias",
+      Suicidio$`Comunidades y Ciudades Autónomas`== "Balears. Illes" ~ "Baleares",
+      Suicidio$`Comunidades y Ciudades Autónomas`== "Canarias" ~ "Canarias",
+      Suicidio$`Comunidades y Ciudades Autónomas`== "Cantabria" ~ "Cantabria",
+      Suicidio$`Comunidades y Ciudades Autónomas`== "Castilla y León" ~ "CyL",
+      Suicidio$`Comunidades y Ciudades Autónomas`== "Castilla - La Mancha" ~ "Castilla la Mancha",
+      Suicidio$`Comunidades y Ciudades Autónomas`== "Cataluña" ~ "Cataluña",
+      Suicidio$`Comunidades y Ciudades Autónomas`== "Comunitat Valenciana" ~ "C.Valencia",
+      Suicidio$`Comunidades y Ciudades Autónomas`== "Extremadura" ~ "Extremadura",
+      Suicidio$`Comunidades y Ciudades Autónomas`== "Galicia" ~ "Galicia",
+      Suicidio$`Comunidades y Ciudades Autónomas`== "Madrid. Comunidad de" ~ "Madrid",
+      Suicidio$`Comunidades y Ciudades Autónomas`== "Murcia. Región de" ~ "Murcia",
+      Suicidio$`Comunidades y Ciudades Autónomas`== "Navarra. Comunidad Foral de" ~ "Navarra",
+      Suicidio$`Comunidades y Ciudades Autónomas`== "País Vasco" ~ "País Vasco",
+      Suicidio$`Comunidades y Ciudades Autónomas`== "Rioja. La" ~ "La Rioja",
+      Suicidio$`Comunidades y Ciudades Autónomas`== "Ceuta" ~ "Ceuta",
+      Suicidio$`Comunidades y Ciudades Autónomas`== "Melilla" ~ "Melilla",
+    ))
 
 
 
@@ -218,12 +265,14 @@ library(ggplot2)
 Plot_Suicidio_CCAA <-
   ggplot(data = Suicidio, aes(x = año, y = Total)) +
   geom_point(aes(colour = factor(Sexo))) +
-  facet_grid(Sexo ~ Suicidio$`Comunidades y Ciudades Autónomas`) +
+  facet_grid(Sexo ~ Suicidio$`CCAA`) +
   geom_smooth(method = "lm", aes(colour = factor(Sexo))) +
   theme_light() + #quitamos el gris de fondo
   theme_classic()  #quitar los cuadraditos
 
 Plot_Suicidio_CCAA
+
+
 
 ### * RELACIÓN ENTRE PARO Y SUICIDIO ------------------------------------------------------------------------------------
 
@@ -248,32 +297,6 @@ Paro_JOIN <-
   filter(`Comunidades y Ciudades Autónomas` != "Total Nacional") %>%
   droplevels()
 
-#PRUEBO A CAMBIAR EL NOMBRE DE COMUNIDADES Y CIUDADES AUTONOMAS
-Paro_JOIN <- Paro_JOIN%>%
-  mutate(
-    CCAA = case_when(
-      Paro_JOIN$`Comunidades y Ciudades Autónomas`== "01 Andalucía" ~ "Andalucia",
-      Paro_JOIN$`Comunidades y Ciudades Autónomas`== "02 Aragón" ~ "Aragon",
-      Paro_JOIN$`Comunidades y Ciudades Autónomas`== "03 Asturias. Principado de" ~ "Asturias",
-      Paro_JOIN$`Comunidades y Ciudades Autónomas`== "04 Balears. Illes" ~ "Baleares",
-      Paro_JOIN$`Comunidades y Ciudades Autónomas`== "05 Canarias" ~ "Canarias",
-      Paro_JOIN$`Comunidades y Ciudades Autónomas`== "06 Cantabria" ~ "Cantabria",
-      Paro_JOIN$`Comunidades y Ciudades Autónomas`== "07 Castilla y León" ~ "CyL",
-      Paro_JOIN$`Comunidades y Ciudades Autónomas`== "08 Castilla - La Mancha" ~ "Castilla la Mancha",
-      Paro_JOIN$`Comunidades y Ciudades Autónomas`== "09 Cataluña" ~ "Cataluña",
-      Paro_JOIN$`Comunidades y Ciudades Autónomas`== "10 Comunitat Valenciana" ~ "C.Valencia",
-      Paro_JOIN$`Comunidades y Ciudades Autónomas`== "11 Extremadura" ~ "Extremadura",
-      Paro_JOIN$`Comunidades y Ciudades Autónomas`== "12 Galicia" ~ "Galicia",
-      Paro_JOIN$`Comunidades y Ciudades Autónomas`== "13 Madrid. Comunidad de" ~ "Madrid",
-      Paro_JOIN$`Comunidades y Ciudades Autónomas`== "14 Murcia. Región de" ~ "Murcia",
-      Paro_JOIN$`Comunidades y Ciudades Autónomas`== "15 Navarra. Comunidad Foral de" ~ "Navarra",
-      Paro_JOIN$`Comunidades y Ciudades Autónomas`== "16 País Vasco" ~ "País Vasco",
-      Paro_JOIN$`Comunidades y Ciudades Autónomas`== "17 Rioja. La" ~ "La Rioja",
-      Paro_JOIN$`Comunidades y Ciudades Autónomas`== "18 Ceuta" ~ "Ceuta",
-      Paro_JOIN$`Comunidades y Ciudades Autónomas`== "19 Melilla" ~ "Melilla",
-  ))
-
-str(Paro_JOIN)
 
 
 #CAMBIO DE NOMBRES DATOS 
@@ -300,6 +323,8 @@ Suicidio_JOIN <- Suicidio_JOIN%>%
       Suicidio_JOIN$`Comunidades y Ciudades Autónomas`== "Ceuta" ~ "Ceuta",
       Suicidio_JOIN$`Comunidades y Ciudades Autónomas`== "Melilla" ~ "Melilla",
     ))
+
+
 
 ## A su vez, para que coincida en años con el set de datos de Tasa_de_paro, 
 # filtraremos Suicidio para aquellos años que sean mayores que el 2016
