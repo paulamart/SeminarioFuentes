@@ -34,12 +34,12 @@ Suicidio <- read_delim("input/data/Suicidio.csv",
 # * Modificaciones TASA_DE_PARO--------------------------------------------------------------------
 
 # ** Cambio en el nombre de las COMUNIDADES AUTÓNOMAS ------------------------------------------------
-## Cambiamos el nombre de las comunidades y ciudades autónomas, y añadimos los nuevos nombres en una columna nueva
-## que llamaremos CCAA
+## Cambiamos el nombre de las comunidades y ciudades autónomas,principalmente para eliminar los números que las acompañan
+## y añadimos los nuevos nombres en una columna nueva  del set de datosque llamaremos CCAA
 library(dplyr)
 Tasa_de_Paro <- Tasa_de_Paro%>%
   mutate(
-    CCAA = case_when(
+    CCAA = case_when( ## cambiamos el nombre con un case_When
       Tasa_de_Paro$`Comunidades y Ciudades Autónomas`== "01 Andalucía" ~ "Andalucia",
       Tasa_de_Paro$`Comunidades y Ciudades Autónomas`== "02 Aragón" ~ "Aragon",
       Tasa_de_Paro$`Comunidades y Ciudades Autónomas`== "03 Asturias. Principado de" ~ "Asturias",
@@ -59,7 +59,7 @@ Tasa_de_Paro <- Tasa_de_Paro%>%
       Tasa_de_Paro$`Comunidades y Ciudades Autónomas`== "17 Rioja. La" ~ "La Rioja",
       Tasa_de_Paro$`Comunidades y Ciudades Autónomas`== "18 Ceuta" ~ "Ceuta",
       Tasa_de_Paro$`Comunidades y Ciudades Autónomas`== "19 Melilla" ~ "Melilla",
-    ))
+    )) ## y definimos que los nombres "antiguos", van a tener un "nuevo" nombre
 
 str(Tasa_de_Paro)
 
@@ -88,7 +88,7 @@ Tasa_de_Paro %>%
 ##** Muestra de Nacionalidad Total --------------------------------------------------------------------------------------------------
 
 ## Asimismo, tendremos que filtrar la tasa de paro para que nos muestre sólo aquellos valores para 
-## los que la nacionalidad es "total", ya que no es objetivo de estudio distinguir entre nacionalidades
+## los que la nacionalidad es "total", ya que no es objetivo de estudio de nuestro seminario, distinguir entre nacionalidades
 
 Tasa_de_Paro <-
   Tasa_de_Paro %>%
@@ -101,6 +101,7 @@ Tasa_de_Paro <-
 ## Para la gráfica de  variación del PARO RESPECTO A LOS AÑOS Y EL SEXO, necesitaremos tan sólo el total nacional 
 ## para hombres y mujeres por año.
 ## Para eso debemos crear un nuevo objeto (Paro_Total_Año), en el que tendremos que filtrar las Comunidades Autónomas por "total nacional"
+## nos mostrará el paro total nacional por cada año
 
 Paro_Total_Año <-
   Tasa_de_Paro %>%
@@ -163,24 +164,12 @@ library(dplyr)
 levels(factor(Suicidio$`Causa de muerte (lista reducida)`))
 
 
-
-## ** Muestra de causa de muerte por Suicidio --------------------------------------------------------------------------------
-
-## Filtramos para que sólo nos salgan aquellas CAUSAS DE MUERTE que 
-## se corresponden con el SUICIDIO y/o lesiones autoinfligidas
-
-Suicidio <-
-  Suicidio %>%
-  mutate(`Causa de muerte (lista reducida)` = Suicidio$`Causa de muerte (lista reducida)`) %>%
-  filter(`Causa de muerte (lista reducida)` == "098 Suicidio y lesiones autoinfligidas" ) %>%
-  droplevels()
-
-
 ## ** Cambio del nombre de las COMUNIDADES AUTÓNOMAS -------------------------------------------------------------------------
 ## Modificamos el nombre de las comunidades autónomas, y los añadimos a una nueva columna, que llamaremos CCAA
+
 Suicidio <- Suicidio%>%
   mutate(
-    CCAA = case_when(
+    CCAA = case_when( ## cambiamos el nombre con case_when
       Suicidio$`Comunidades y Ciudades Autónomas`== "Andalucía" ~ "Andalucia",
       Suicidio$`Comunidades y Ciudades Autónomas`== "Aragón" ~ "Aragon",
       Suicidio$`Comunidades y Ciudades Autónomas`== "Asturias, Principado de" ~ "Asturias",
@@ -200,8 +189,19 @@ Suicidio <- Suicidio%>%
       Suicidio$`Comunidades y Ciudades Autónomas`== "Rioja, La" ~ "La Rioja",
       Suicidio$`Comunidades y Ciudades Autónomas`== "Ceuta" ~ "Ceuta",
       Suicidio$`Comunidades y Ciudades Autónomas`== "Melilla" ~ "Melilla",
-    ))
+    )) ## y le damos un "nuevo" nombre a cada comunidad
 
+
+## ** Muestra de causa de muerte por Suicidio --------------------------------------------------------------------------------
+
+## Filtramos para que sólo nos salgan aquellas CAUSAS DE MUERTE que 
+## se corresponden con el SUICIDIO y/o lesiones autoinfligidas
+
+Suicidio <-
+  Suicidio %>%
+  mutate(`Causa de muerte (lista reducida)` = Suicidio$`Causa de muerte (lista reducida)`) %>%
+  filter(`Causa de muerte (lista reducida)` == "098 Suicidio y lesiones autoinfligidas" ) %>%
+  droplevels()
 
 
 ## ** Muestra de ambos sexos por separado -----------------------------------------------------------------------------
@@ -229,7 +229,7 @@ Suicidio <-
 #str(factor(Suicidio$CCAA))
 
 ## ** Eliminación de datos NA ---------------------------------------------------------------------------------------
-## AQUI ELIMINAMOS TODOS LOS NA YA QUE PUEDE DAR A CONFUSIONES
+## AQUI ELIMINAMOS TODOS LOS DATOS QUE DEN COMO RESULTADO "NA", YA QUE PUEDE DAR A CONFUSIONES posteriormente
 
 Suicidio <-
   na.omit(Suicidio)
@@ -292,6 +292,7 @@ Paro_JOIN <-
 
 levels(factor(Paro_JOIN$Periodo))
 
+## filtramos Paro_JOIN para que nos quite aquellas filas de la columna CCAA que tienen "NA"
 Paro_JOIN <-
   Paro_JOIN %>%
   mutate(CCAA = Paro_JOIN$CCAA) %>%
@@ -305,7 +306,7 @@ Paro_JOIN <-
 ## (como sólo estudia hasta 2020, saldrán 2017, 2018 2019 y 2020, al igual que en el 
 #anterior set de datos)
 
-Suicidio <-
+Suicidio_JOIN <-
   Suicidio %>%
   mutate(año = Suicidio$año) %>%
   filter(año > 2016 ) %>%
@@ -319,7 +320,7 @@ Suicidio <-
 # primero hacemos que las dos columnas se llamen igual
 Suicidio_JOIN <-
   Suicidio %>%
-  rename(`Periodo`=`año`, `TotalSuicidio`=`Total`) #año pasa a llamarse periodo
+  rename(`Periodo`=`año`, `TotalSuicidio`=`Total`) #año pasa a llamarse periodo en el set de datos de suicidio_JOIN
 
 
 #PROBLEMA, PERIODO ES NUM Y AÑO ES CHR

@@ -27,7 +27,7 @@ Durante el desarrollo y estudio del seminario, hemos utilizado numerosas librer�
 
 1. library(readr)
 
-Utilizamos readr para importar los datos extraídos de la base de datos del gobierno de España (gob.es), y dichos datos están disponibles en la carpeta input/data del repositorio Github.
+Utilizamos readr para importar los datos extraídos de la base de datos del gobierno de España (gob.es). Dichos datos están disponibles en la carpeta input/data del repositorio Github.
 
 2. library(dplyr)
 
