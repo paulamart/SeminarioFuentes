@@ -74,10 +74,9 @@ Suicidio <- read_delim("input/data/Suicidio.csv",
 
 Una vez teníamos los datos importados en el proyecto, procedimos a filtrarlos para que mostraran sólo aquella información que fuera de utilidad para el proyecto. Para poder llegar a los objetivos propuestos, tuvimos que modificar ambos sets de datos.
 
+De cara a conseguir el primero objetivo de VARIACIÓN DE PARO RESPECTO AL SEXO POR AÑOS, tuvimos que modificar el set de datos respectivo a la tasa de paro, de la siguiente forma:
 
-Para los datos de tasa de paro:
-
-1. Cambiamos el nombre de las comunidades y ciudades autónomas, para poder eliminar los números que aparecían al lado de cada comunidad autónoma, y añadimos los nuevos nombres dados, a una columna nueva  del set de datos que llamaremos CCAA.
+1. Cambiamos el nombre de las comunidades y ciudades autónomas, para poder eliminar los números que aparecían al lado de cada comunidad autónoma, y añadimos los nuevos nombres, a una columna nueva del set de datos, que llamaremos CCAA.
 Para ello tuvimos que utilizar case_when:
 ```{r , eval = FALSE}
 library(dplyr)
@@ -127,7 +126,7 @@ Tasa_de_Paro %>%
 ```
 
 
-3. Posteriormente, filtramos los datos anteriores, para que nos muestren sólo aquellos valores para los que la nacionalidad es "total", ya que no es objetivo de estudio de nuestro seminario distinguir entre el paro de España respecto a las nacionalidades de las personas.
+3. Seguidamente, filtramos los datos anteriores, para que nos muestre sólo aquellos valores para los que la nacionalidad es "total", ya que no es objetivo de estudio de nuestro seminario distinguir entre el paro de España respecto a las nacionalidades de las personas.
 
 ```{r , eval = FALSE}
 Tasa_de_Paro <-
@@ -137,37 +136,55 @@ Tasa_de_Paro <-
   droplevels()
 ```
 
-Una vez tenemos los datos correctamente filtrados, nos pusimos a realizar las gráficas que dependían de los datos de la tasa de paro:
+Una vez tenemos los datos correctamente filtrados, nos pusimos a realizar la gráfica que nos sayudara a conseguir el objetivo inicialmente propuesto:
 
-Para la variación del paro a lo largo de los años, necesitamos un gráfico que muestre cómo varía el paro nacional respecto al sexo y respecto al paso del tiempo.
+Para la variación del paro respecto al sexo a lo largo de los años, necesitamos un gráfico que muestre cómo varía el paro nacional respecto al sexo y respecto al paso del tiempo.
 Para ello propusimos lo siguiente:
 ```{r , eval = FALSE}
+Plot_Paro_Sexo_Años <- ## necesitamos guardarlo con un nombre determinado
   ggplot(data = Paro_Total_Año, aes(x = Periodo, y = Total)) +
   geom_point(aes(colour = factor(Sexo))) +
   theme_light() +
   geom_smooth(method = "lm", aes(colour = factor(Sexo))) +
   theme_classic()
 
+Plot_Paro_Sexo_Años
+
 ```
 
-![Imagen 3. Gráfico del paro respecto al sexo](input/images/Paro_Sexo.png)
+![Imagen 3. Gráfico del paro respecto al sexo a lo largo de los años](input/images/Paro_Sexo.png)
 
-Por otro lado, para la variación del paro respecto a las Comunidades Autónomas de las que consta España, necesitamos un gráfico en que que nos muestre el paro respecto a hombres y mujeres, respecto al tiempo en todas y cada una de las comunidades autónomas
+Por otro lado, para el objetivo de VARIACION DE PARO RESPECTO A LOS AÑOS, AL SEXO Y A COMUNIDAD AUTONOMA, necesitamos un gráfico que nos muestre el paro respecto a hombres y mujeres, a lo largo del tiempo, diferenciando por comunidades autónomas.
 Para ello hicimos lo siguiente:
+
+tuvimos que filtrar los datos, para que, en este caso, nos quitaran las final que incluían "total Nacional", ya que, necesitábamos saber la tasa de paro de cada una de las comunidades de las que consta España
 ```{r , eval = FALSE}
+Tasa_de_Paro_CCAA <-
+  Tasa_de_Paro %>%
+  mutate(`CCAA` = Tasa_de_Paro$`CCAA`) %>%
+  filter(`CCAA` != is.na(CCAA) ) %>%
+  droplevels()
+
+```
+
+Y realizamos el gráfico:
+```{r , eval = FALSE}
+Plot_Paro_CCAA <- ## necesitamos guardarlo con un nombre determinado
   ggplot(data = Tasa_de_Paro_CCAA, aes(x = Periodo, y = Total)) +
   geom_point(aes(colour = factor(Sexo))) +
-  facet_grid(Sexo ~ Tasa_de_Paro_CCAA$`Comunidades y Ciudades Autónomas`) +
+  facet_grid(Sexo ~ Tasa_de_Paro_CCAA$`CCAA`) +
   geom_smooth(method = "lm", aes(colour = factor(Sexo))) +
-  theme_light() + 
-  theme_classic()
+  theme_light() + #quitamos el gris de fondo
+  theme_classic()  #quitamos los cuadrados del fondo
+
+Plot_Paro_CCAA
 
 ```
 
 ![Imagen 4. Gráfico del paro respecto a cada Comunidad Autónoma](input/images/Paro_CCAA.png)
 
 
-Para los datos de suicidios:
+Para el objetivo de VARIACIÓN DE SUICIDIO RESPECTO AL SEXO POR AÑOS, tuvimos que modificar los datos de suicidios para que indicaran aquellos aspectos de interés:
 
 1. Al igual que en el anterior set de datos, cambiamos el nombre de las comunidades y ciudades autónomas, y añadimos los nuevos nombres dados, a una columna nueva  del set de datos que llamaremos CCAA.
 Para ello tuvimos que utilizar case_when:
@@ -216,7 +233,7 @@ Suicidio <-
   Suicidio %>%
   mutate( Sexo = Suicidio$Sexo) %>%
   filter(Sexo != "Total") %>%
-  droplevels()
+  droplevels() 
 ```
 
 4. Asimismo, tuvimos que filtrar los datos anteriores, porque, al ser el set de datos tan largo y extenso, recogía información relacionada con el lugar de ocurrencia en el que se había desarrollado la muerte, pero, como no era objetivo de estudio de nuestro seminario, tuvimos que filtrar los datos para que nos mostrará lugar de ocurrencia "Total".
@@ -239,29 +256,57 @@ Suicidio <-
 
 Posteriormente, con los datos bein organizados y filtrados, nos propusimos el objetivo de realizar las gráficas que dependieran del set de datos de suicidio:
 
-Para la variación del suicidio respecto al sexo y al paso del tiempo, necesitabamos una grafica en la que nos mostrara todos los casos de suicidios, tanto de hombres como de mujeres, por cada uno de los años.
+Para la VARIACIÓN DE SUICIDIO RESPECTO AL SEXO Y AL TIEMPO, necesitabamos una gráfica en la que nos mostrara todos los casos de suicidios, tanto de hombres como de mujeres, por cada uno de los años.
 Para ello:
+
+Creamos un nuevo objeto (Suicidio_Total), en el que incluimos la media del total de suicidios que se han producido en cada año, y la desviación, respecto de la media, del numero total de suicidios.
 ```{r , eval = FALSE}
-ggplot(data = Suicidio_Total, aes(x = Year, y = MT, fill = Sexo))+
+Suicidio_Total <-
+  Suicidio %>%
+  group_by(año, Sexo)%>%
+  summarise(MT = mean (Total),
+            Year = unique(año),
+            desviacion = sd(Total))
+```
+
+Y procedemos a realizar la gráfica:
+```{r , eval = FALSE}
+library(ggplot2)
+Plot_Suicidio_Total_Sexo_Año <-  
+  ggplot(data = Suicidio_Total, aes(x = Year, y = MT, fill = Sexo))+
   geom_bar( stat = "identity", position = "dodge")+
   geom_errorbar(aes(ymin = MT- desviacion, ymax = MT + desviacion), width=.2,
-  position=position_dodge(.9) ) 
+  position=position_dodge(.9) )   
+
+Plot_Suicidio_Total_Sexo_Año 
 ```
 
 ![Imagen 4. Gráfico del suicidio respecto al sexo](input/images/Suicidio_Sexo.png)
 
-Por último, para la variación del suicidio respecto al sexo y al paso del tiempo por cada Comunidad Autónoma de España, necesitabamos una grafica en la que nos mostrara todos los casos de suicidios, tanto de hombres como de mujeres, por cada uno de los años en cada una de las comunidades.
+Para el objetivo de VARIACION DE SUICIDIOS RESPECTO A LOS AÑOS, AL SEXO Y A COMUNIDAD AUTONOMA, necesitábamos una grafica en la que nos mostrara todos los casos de suicidios, tanto de hombres como de mujeres, por cada uno de los años en cada una de las comunidades autónomas de España.
 Para ello:
 ```{r , eval = FALSE}
-ggplot(data = Suicidio, aes(x = año, y = Total)) +
+library(ggplot2)
+Plot_Suicidio_CCAA <-
+  ggplot(data = Suicidio, aes(x = año, y = Total)) +
   geom_point(aes(colour = factor(Sexo))) +
-  facet_grid(Sexo ~ Suicidio$`Comunidades y Ciudades Autónomas`) +
+  facet_grid(Sexo ~ Suicidio$CCAA) +
   geom_smooth(method = "lm", aes(colour = factor(Sexo))) +
-  theme_light() + 
-  theme_classic()
+  theme_light() + #quitamos el gris de fondo
+  theme_classic()  #quitar los cuadraditos
+
+Plot_Suicidio_CCAA
 ```
 
 ![Imagen 5. Gráfico del suicidio respecto a Comunidad Autónoma](input/images/Suicidio_CCAA.png)
+
+Por último, para el obejtivo de si hay o no RELACIÓN ENTRE LA CANTIDAD DE PARO, Y EL NÚMERO DE SUICIDIOS, necesitamos hacer un join, uniendo ambas tablas
+(falta por hacer bien y mejorar)
+
+
+
+
+
 
 ## Conclusiones y discusión de los resultados
 
