@@ -267,6 +267,9 @@ Suicidio_JOIN <-
 
 #PROBLEMA, PERIODO ES NUM Y AÑO ES CHR
 
+str(Paro_JOIN)
+str(Suicidio_JOIN)
+
 Suicidio_Paro <-  
 Paro_JOIN %>% 
 select("Sexo":"Comunidades y Ciudades Autónomas", "Periodo":"Total") %>%
