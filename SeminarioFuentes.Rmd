@@ -38,7 +38,16 @@ Utilizamos dplyr para modificar y filtrar los datos, para así obtener tan sólo
 Utilizamos ggplot2 para representar de forma visual, mediante gráficos de todo tipo, los datos. 
 
 ## Desarrollo 
-Antes de realizar nada, tuvimos que buscar los datos. Ambos sets de datos los recogimos de la base de datos del gobierno de España (gob.es), y lo insertamos en el proyecto, para poder estudiarlos y modificarlos de cara a los objetivos propuestos.
+Antes de empezar el seminario, tuvimos que decidir qué datos utilizar y dónde buscarlos. Tras un buen rato buscando, recogimos ambos sets de datos de la base de datos del gobierno de España (gob.es).
+Concretamente, los datos de tasa de paro, los obtuvimos de la siguiente página:
+
+![Imagen 1. Fotográfia datos de tasa de paro](input/images/Datos.gob_Tasa_de_Paro.png)
+
+Por otro lado, los datos de suicidio los obtuvimos exactamente de la siguiente página:
+![Imagen 2. Fotografía datos de suicidio](input/images/Datos.gob_Suicidios.png)
+
+
+Posteriormente, insertamos los datos en el proyecto, para poder estudiarlos y modificarlos de cara a los objetivos propuestos.
 Para la tasa de paro, importamos los datos de la siguiente manera:
 ```{r , eval = FALSE}
 library(readr)
@@ -56,12 +65,43 @@ Suicidio <- read_delim("input/data/Suicidio.csv",
                        trim_ws = TRUE)
 ```
 
+
 Una vez teníamos los datos importados en el proyecto, procedimos a filtrarlos para que mostraran sólo aquella información que fuera de utilidad para el proyecto. Para poder llegar a los objetivos propuestos, tuvimos que modificar ambos sets de datos.
 
 
 Para los datos de tasa de paro:
 
-1. Filtramos los datos para que nos salieran sólo aquellos datos que nos muestraran HOMBRES Y MUJERES, AMBOS SEPARADOS, eliminando así aquellos datos que contenían una línea para "ambos sexos". Hicimos esto porque, para los objetivos que nos propusimos, era primordial filtrar por sexos, para, posteriormente estudiar, si hubieran, las diferencias entre ambos.
+1. Cambiamos el nombre de las comunidades y ciudades autónomas, para poder eliminar los números que aparecían al lado de cada comunidad autónoma, y añadimos los nuevos nombres dados, a una columna nueva  del set de datos que llamaremos CCAA.
+Para ello tuvimos que utilizar case_when:
+```{r , eval = FALSE}
+library(dplyr)
+Tasa_de_Paro <- Tasa_de_Paro%>%
+  mutate(
+    CCAA = case_when( ## cambiamos el nombre con un case_When
+      Tasa_de_Paro$`Comunidades y Ciudades Autónomas`== "01 Andalucía" ~ "Andalucia",
+      Tasa_de_Paro$`Comunidades y Ciudades Autónomas`== "02 Aragón" ~ "Aragon",
+      Tasa_de_Paro$`Comunidades y Ciudades Autónomas`== "03 Asturias. Principado de" ~ "Asturias",
+      Tasa_de_Paro$`Comunidades y Ciudades Autónomas`== "04 Balears. Illes" ~ "Baleares",
+      Tasa_de_Paro$`Comunidades y Ciudades Autónomas`== "05 Canarias" ~ "Canarias",
+      Tasa_de_Paro$`Comunidades y Ciudades Autónomas`== "06 Cantabria" ~ "Cantabria",
+      Tasa_de_Paro$`Comunidades y Ciudades Autónomas`== "07 Castilla y León" ~ "CyL",
+      Tasa_de_Paro$`Comunidades y Ciudades Autónomas`== "08 Castilla - La Mancha" ~ "Castilla la Mancha",
+      Tasa_de_Paro$`Comunidades y Ciudades Autónomas`== "09 Cataluña" ~ "Cataluña",
+      Tasa_de_Paro$`Comunidades y Ciudades Autónomas`== "10 Comunitat Valenciana" ~ "C.Valencia",
+      Tasa_de_Paro$`Comunidades y Ciudades Autónomas`== "11 Extremadura" ~ "Extremadura",
+      Tasa_de_Paro$`Comunidades y Ciudades Autónomas`== "12 Galicia" ~ "Galicia",
+      Tasa_de_Paro$`Comunidades y Ciudades Autónomas`== "13 Madrid. Comunidad de" ~ "Madrid",
+      Tasa_de_Paro$`Comunidades y Ciudades Autónomas`== "14 Murcia. Región de" ~ "Murcia",
+      Tasa_de_Paro$`Comunidades y Ciudades Autónomas`== "15 Navarra. Comunidad Foral de" ~ "Navarra",
+      Tasa_de_Paro$`Comunidades y Ciudades Autónomas`== "16 País Vasco" ~ "País Vasco",
+      Tasa_de_Paro$`Comunidades y Ciudades Autónomas`== "17 Rioja. La" ~ "La Rioja",
+      Tasa_de_Paro$`Comunidades y Ciudades Autónomas`== "18 Ceuta" ~ "Ceuta",
+      Tasa_de_Paro$`Comunidades y Ciudades Autónomas`== "19 Melilla" ~ "Melilla",
+    )) ## y definimos que los nombres "antiguos", van a tener un "nuevo" nombre
+```
+
+
+2. Filtramos los datos para que nos salieran sólo aquellos datos que nos mostraran hombres y mujeres, ambos por separado, eliminando así aquellos datos que contenían una línea para "ambos sexos". Hicimos esto porque, para los objetivos que nos propusimos, era primordial filtrar por sexos, para, posteriormente estudiar, si hubieran, las diferencias entre ambos.
 ```{r , eval = FALSE}
 library(dplyr)
 Tasa_de_Paro <-
@@ -81,7 +121,7 @@ Tasa_de_Paro %>%
 ```
 
 
-2. Posteriormente, filtramos los datos anteriores, para que nos muestren sólo aquellos valores para los que la nacionalidad es "total", ya que no es objetivo de estudio de nuestro seminario distinguir entre el paro de España respecto a las nacionalidades de las personas.
+3. Posteriormente, filtramos los datos anteriores, para que nos muestren sólo aquellos valores para los que la nacionalidad es "total", ya que no es objetivo de estudio de nuestro seminario distinguir entre el paro de España respecto a las nacionalidades de las personas.
 
 ```{r , eval = FALSE}
 Tasa_de_Paro <-
@@ -91,54 +131,8 @@ Tasa_de_Paro <-
   droplevels()
 ```
 
+Una vez tenemos los datos correctamente filtrados, nos pusimos a realizar las gráficas que dependían de los datos de la tasa de paro:
 
-Una vez tenemos los datos correctamente filtrados, nos pusimos a realizar las gráficas que dependían de los datos de la tasa de paro.
-
-Para los datos de suicidios:
-
-1. Filtramos el set de datos para que nos salieran sólo aquellas causas de muerte que correspondían con suicidio y/o lesiones autoinflingidas (debido a que el set de datos era tan extenso, que recogía el número de muertes debidas a otras causas, pero como en nuestro seminario queríamos hablar del suicidio, cogimos aquellos datos que nos interesaban)
-
-```{r , eval = FALSE}
-Suicidio <-
-  Suicidio %>%
-  mutate(`Causa de muerte (lista reducida)` = Suicidio$`Causa de muerte (lista reducida)`) %>%
-  filter(`Causa de muerte (lista reducida)` == "098 Suicidio y lesiones autoinfligidas" ) %>%
-  droplevels()
-```
-
-2. Posteriormente, al igual que en el set de datos de tasa de paro, tuvimos que filtrar para que nos salieran aquellos datos que mostraran hombres y mujeres, ambos por separados, y eliminara aquellos datos que unían mabos sexos. Hicimos esto porque nos interesaba estudiar cuál era el número de suicidios de hombres y de mujeres, ambos por separado, para, posteriormente, compararlos y establecer conclusiones.
-
-```{r , eval = FALSE}
-Suicidio <-
-  Suicidio %>%
-  mutate( Sexo = Suicidio$Sexo) %>%
-  filter(Sexo != "Total") %>%
-  droplevels()
-```
-
-3. Asimismo, tuvimos que filtrar los datos anteriores, porque, al ser el set de datos tan largo y extenso, recogía información relacionada con el lugar de ocurrencia en el que se había desarrollado la muerte, pero, como no era objetivo de estudio de nuestro seminario, tuvimos que filtrar los datos para que nos mostrará lugar de ocurrencia "Total".
-
-
-```{r , eval = FALSE}
-Suicidio <-
-  Suicidio %>%
-  mutate(`Lugar de ocurrencia`= Suicidio$`Lugar de ocurrencia` ) %>%
-  filter(`Lugar de ocurrencia` == "Total") %>%
-  droplevels()
-```
-
-4. Finalmente, como vimos que el set de datos tenía algún valor no definido (NA), y que lo estábamos arrastrando de los anteriores filtros, tuvimos que eliminar todas las líneas que tuvieran algún valor NA en ellas, ya que ese valor nos produciría problemas más adelante.
-
-```{r , eval = FALSE}
-Suicidio <-
-  na.omit(Suicidio)
-```
-
-Posteriormente, con los datos bein organizados y filtrados, nos propusimos el objetivo de realizar las gráficas que dependieran del set de datos de suicidio
-
-
-
-## Resultados obtenidos
 Para la variación del paro a lo largo de los años, necesitamos un gráfico que muestre cómo varía el paro nacional respecto al sexo y respecto al paso del tiempo.
 Para ello propusimos lo siguiente:
 ```{r , eval = FALSE}
@@ -152,7 +146,7 @@ Para ello propusimos lo siguiente:
 
 ![Imagen 1. Gráfico del paro respecto al sexo](input/images/Paro_Sexo.png)
 
-Por otro lado, para la variación del paro respecto a las Comunidades Autónomas de las que consta España, necesitamos un gráfico en que que noos muestre el paro respecto a hombres y mujeres, respecto al tiempo en todas y cada una de las comunidades autónomas
+Por otro lado, para la variación del paro respecto a las Comunidades Autónomas de las que consta España, necesitamos un gráfico en que que nos muestre el paro respecto a hombres y mujeres, respecto al tiempo en todas y cada una de las comunidades autónomas
 Para ello hicimos lo siguiente:
 ```{r , eval = FALSE}
   ggplot(data = Tasa_de_Paro_CCAA, aes(x = Periodo, y = Total)) +
@@ -166,7 +160,80 @@ Para ello hicimos lo siguiente:
 
 ![Imagen 2. Gráfico del paro respecto a cada Comunidad Autónoma](input/images/Paro_CCAA.png)
 
-Posteriormente, para la variación del suicidio respecto al sexo y al paso del tiempo, necesitabamos una grafica en la que nos mostrara todos los casos de suicidios, tanto de hombres como de mujeres, por cada uno de los años.
+
+Para los datos de suicidios:
+
+1. Al igual que en el anterior set de datos, cambiamos el nombre de las comunidades y ciudades autónomas, y añadimos los nuevos nombres dados, a una columna nueva  del set de datos que llamaremos CCAA.
+Para ello tuvimos que utilizar case_when:
+
+```{r , eval = FALSE}
+## Modificamos el nombre de las comunidades autónomas, y los añadimos a una nueva columna, que llamaremos CCAA
+Suicidio <- Suicidio%>%
+  mutate(
+    CCAA = case_when( ## cambiamos el nombre con case_when
+      Suicidio$`Comunidades y Ciudades Autónomas`== "Andalucía" ~ "Andalucia",
+      Suicidio$`Comunidades y Ciudades Autónomas`== "Aragón" ~ "Aragon",
+      Suicidio$`Comunidades y Ciudades Autónomas`== "Asturias, Principado de" ~ "Asturias",
+      Suicidio$`Comunidades y Ciudades Autónomas`== "Balears, Illes" ~ "Baleares",
+      Suicidio$`Comunidades y Ciudades Autónomas`== "Canarias" ~ "Canarias",
+      Suicidio$`Comunidades y Ciudades Autónomas`== "Cantabria" ~ "Cantabria",
+      Suicidio$`Comunidades y Ciudades Autónomas`== "Castilla y León" ~ "CyL",
+      Suicidio$`Comunidades y Ciudades Autónomas`== "Castilla-La Mancha" ~ "Castilla la Mancha",
+      Suicidio$`Comunidades y Ciudades Autónomas`== "Cataluña" ~ "Cataluña",
+      Suicidio$`Comunidades y Ciudades Autónomas`== "Comunitat Valenciana" ~ "C.Valencia",
+      Suicidio$`Comunidades y Ciudades Autónomas`== "Extremadura" ~ "Extremadura",
+      Suicidio$`Comunidades y Ciudades Autónomas`== "Galicia" ~ "Galicia",
+      Suicidio$`Comunidades y Ciudades Autónomas`== "Madrid, Comunidad de" ~ "Madrid",
+      Suicidio$`Comunidades y Ciudades Autónomas`== "Murcia, Región de" ~ "Murcia",
+      Suicidio$`Comunidades y Ciudades Autónomas`== "Navarra, Comunidad Foral de" ~ "Navarra",
+      Suicidio$`Comunidades y Ciudades Autónomas`== "País Vasco" ~ "País Vasco",
+      Suicidio$`Comunidades y Ciudades Autónomas`== "Rioja, La" ~ "La Rioja",
+      Suicidio$`Comunidades y Ciudades Autónomas`== "Ceuta" ~ "Ceuta",
+      Suicidio$`Comunidades y Ciudades Autónomas`== "Melilla" ~ "Melilla",
+    )) ## y le damos un "nuevo" nombre a cada comunidad
+```
+
+2. Filtramos el set de datos para que nos salieran sólo aquellas causas de muerte que correspondían con suicidio y/o lesiones autoinflingidas (debido a que el set de datos era tan extenso, que recogía el número de muertes debidas a otras causas, pero como en nuestro seminario queríamos hablar del suicidio, cogimos aquellos datos que nos interesaban)
+
+```{r , eval = FALSE}
+Suicidio <-
+  Suicidio %>%
+  mutate(`Causa de muerte (lista reducida)` = Suicidio$`Causa de muerte (lista reducida)`) %>%
+  filter(`Causa de muerte (lista reducida)` == "098 Suicidio y lesiones autoinfligidas" ) %>%
+  droplevels()
+```
+
+3. Posteriormente, al igual que en el set de datos de tasa de paro, tuvimos que filtrar para que nos salieran aquellos datos que mostraran hombres y mujeres, ambos por separados, y eliminara aquellos datos que unían ambos sexos. Hicimos esto porque nos interesaba estudiar cuál era el número de suicidios de hombres y de mujeres, ambos por separado, para, posteriormente, compararlos y establecer conclusiones.
+
+```{r , eval = FALSE}
+Suicidio <-
+  Suicidio %>%
+  mutate( Sexo = Suicidio$Sexo) %>%
+  filter(Sexo != "Total") %>%
+  droplevels()
+```
+
+4. Asimismo, tuvimos que filtrar los datos anteriores, porque, al ser el set de datos tan largo y extenso, recogía información relacionada con el lugar de ocurrencia en el que se había desarrollado la muerte, pero, como no era objetivo de estudio de nuestro seminario, tuvimos que filtrar los datos para que nos mostrará lugar de ocurrencia "Total".
+
+
+```{r , eval = FALSE}
+Suicidio <-
+  Suicidio %>%
+  mutate(`Lugar de ocurrencia`= Suicidio$`Lugar de ocurrencia` ) %>%
+  filter(`Lugar de ocurrencia` == "Total") %>%
+  droplevels()
+```
+
+5. Finalmente, como vimos que el set de datos tenía algún valor no definido (NA), y que lo estábamos arrastrando de los anteriores filtros, tuvimos que eliminar todas las líneas que tuvieran algún valor NA en ellas, ya que ese valor nos produciría problemas más adelante.
+
+```{r , eval = FALSE}
+Suicidio <-
+  na.omit(Suicidio)
+```
+
+Posteriormente, con los datos bein organizados y filtrados, nos propusimos el objetivo de realizar las gráficas que dependieran del set de datos de suicidio:
+
+Para la variación del suicidio respecto al sexo y al paso del tiempo, necesitabamos una grafica en la que nos mostrara todos los casos de suicidios, tanto de hombres como de mujeres, por cada uno de los años.
 Para ello:
 ```{r , eval = FALSE}
 ggplot(data = Suicidio_Total, aes(x = Year, y = MT, fill = Sexo))+
