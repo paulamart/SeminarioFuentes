@@ -32,10 +32,11 @@ Suicidio <- read_delim("input/data/Suicidio.csv",
 
 
 # * Modificaciones TASA_DE_PARO--------------------------------------------------------------------
-#PRUEBO A CAMBIAR EL NOMBRE DE COMUNIDADES Y CIUDADES AUTONOMAS
 
+# ** Cambio en el nombre de las COMUNIDADES AUTÓNOMAS ------------------------------------------------
+## Cambiamos el nombre de las comunidades y ciudades autónomas, y añadimos los nuevos nombres en una columna nueva
+## que llamaremos CCAA
 library(dplyr)
-
 Tasa_de_Paro <- Tasa_de_Paro%>%
   mutate(
     CCAA = case_when(
@@ -175,7 +176,8 @@ Suicidio <-
   droplevels()
 
 
-#CAMBIO DE NOMBRES DATOS 
+## ** Cambio del nombre de las COMUNIDADES AUTÓNOMAS -------------------------------------------------------------------------
+## Modificamos el nombre de las comunidades autónomas, y los añadimos a una nueva columna, que llamaremos CCAA
 Suicidio <- Suicidio%>%
   mutate(
     CCAA = case_when(
@@ -292,37 +294,9 @@ levels(factor(Paro_JOIN$Periodo))
 
 Paro_JOIN <-
   Paro_JOIN %>%
-  mutate(`Comunidades y Ciudades Autónomas` = Paro_JOIN$`Comunidades y Ciudades Autónomas`) %>%
-  filter(`Comunidades y Ciudades Autónomas` != "Total Nacional") %>%
+  mutate(CCAA = Paro_JOIN$CCAA) %>%
+  filter(CCAA != is.na(CCAA)) %>%
   droplevels()
-
-
-
-#CAMBIO DE NOMBRES DATOS 
-Suicidio_JOIN <- Suicidio_JOIN%>%
-  mutate(
-    CCAA = case_when(
-      Suicidio_JOIN$`Comunidades y Ciudades Autónomas`== "Andalucía" ~ "Andalucia",
-      Suicidio_JOIN$`Comunidades y Ciudades Autónomas`== "Aragón" ~ "Aragon",
-      Suicidio_JOIN$`Comunidades y Ciudades Autónomas`== "Asturias. Principado de" ~ "Asturias",
-      Suicidio_JOIN$`Comunidades y Ciudades Autónomas`== "Balears. Illes" ~ "Baleares",
-      Suicidio_JOIN$`Comunidades y Ciudades Autónomas`== "Canarias" ~ "Canarias",
-      Suicidio_JOIN$`Comunidades y Ciudades Autónomas`== "Cantabria" ~ "Cantabria",
-      Suicidio_JOIN$`Comunidades y Ciudades Autónomas`== "Castilla y León" ~ "CyL",
-      Suicidio_JOIN$`Comunidades y Ciudades Autónomas`== "Castilla - La Mancha" ~ "Castilla la Mancha",
-      Suicidio_JOIN$`Comunidades y Ciudades Autónomas`== "Cataluña" ~ "Cataluña",
-      Suicidio_JOIN$`Comunidades y Ciudades Autónomas`== "Comunitat Valenciana" ~ "C.Valencia",
-      Suicidio_JOIN$`Comunidades y Ciudades Autónomas`== "Extremadura" ~ "Extremadura",
-      Suicidio_JOIN$`Comunidades y Ciudades Autónomas`== "Galicia" ~ "Galicia",
-      Suicidio_JOIN$`Comunidades y Ciudades Autónomas`== "Madrid. Comunidad de" ~ "Madrid",
-      Suicidio_JOIN$`Comunidades y Ciudades Autónomas`== "Murcia. Región de" ~ "Murcia",
-      Suicidio_JOIN$`Comunidades y Ciudades Autónomas`== "Navarra. Comunidad Foral de" ~ "Navarra",
-      Suicidio_JOIN$`Comunidades y Ciudades Autónomas`== "País Vasco" ~ "País Vasco",
-      Suicidio_JOIN$`Comunidades y Ciudades Autónomas`== "Rioja. La" ~ "La Rioja",
-      Suicidio_JOIN$`Comunidades y Ciudades Autónomas`== "Ceuta" ~ "Ceuta",
-      Suicidio_JOIN$`Comunidades y Ciudades Autónomas`== "Melilla" ~ "Melilla",
-    ))
-
 
 
 ## A su vez, para que coincida en años con el set de datos de Tasa_de_paro, 
