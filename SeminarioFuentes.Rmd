@@ -7,14 +7,17 @@ output: html_document
 
 # Índice de contenidos
 1. Introducción
-2. Métodos
-3. Desarrollo
-4. Resultados
-5. Conclusiones
+2. Objetivos
+3. Métodos
+4. Desarrollo y Resultados
+5. Conclusiones 
 
-## Introducción
-En este proyecto, en el que analizamos los datos de suicidio y de paro a nivel nacional a lo largo de un gran periodo de años, buscamos responder a una serie de objetivos o preguntas que nos propusimos antes de iniciar dicho proyecto. 
-Entre los objetivos en los que nos vamos a centrar durante el desarrollo del seminario tenemos:
+## 1. Introducción
+En este proyecto de seminario, trataremos de analizar los datos, respecto al sexo y a cada comunidad autónoma, de la tasa de paro nacional desde el año 2006 hasta el año 2021. A su vez, el seminario tratará de analizar los datos, respecto al sexo y a cada comunidad autónoma, del suicidio en España a lo largo de los años 2016, 2017, 2018, 2019 y 2020.
+Posteriormente, tras analizar y estructurar adecuadamente los datos, trataremos de ver la relación, si la hay, entre estos dos aspectos, es decir, trataremos de determinar si hay una relación entre la tasa de paro de una comunidad autónoma, y la cantidad de suicidios que se producen en la misma.
+
+## 2. Objetivos
+El desarrollo del seminario se basa en la resolución y/o respuesta de una serie de objetivos bien marcados desde el inicio del proyecto:
 
 1. VARIACIÓN DE PARO RESPECTO AL SEXO POR AÑOS
    VARIACIÓN DE SUICIDIO RESPECTO AL SEXO POR AÑOS
@@ -22,29 +25,29 @@ Entre los objetivos en los que nos vamos a centrar durante el desarrollo del sem
    VARIACION DE SUICIDIOS RESPECTO A LOS AÑOS, AL SEXO Y A COMUNIDAD AUTONOMA
 3. VER SI EXISTE O NO RELACIÓN ENTRE LA CANTIDAD DE PARO, Y EL NÚMERO DE SUICIDIOS
 
-## Métodos utilizados
+## 3. Métodos utilizados
 Durante el desarrollo y estudio del seminario, hemos utilizado numerosas librerías, entre las que cabe destacar:
 
 1. library(readr)
 
-Utilizamos readr para importar los datos extraídos de la base de datos del gobierno de España (gob.es). Dichos datos están disponibles en la carpeta input/data del repositorio Github.
+Utilizamos readr para importar los datos extraídos de la base de datos del gobierno de España (gob.es). (Dichos datos están disponibles en la carpeta input/data del repositorio Github).
 
 2. library(dplyr)
 
-Utilizamos dplyr para modificar y filtrar los datos, para así obtener tan sólo aquellos que fueran de gran interés para ayudarnos a contestar las preguntas que propusimos antes de comenzar el proyecto.
+Utilizamos dplyr para modificar y filtrar los datos, y obtener así sólo aquellos que fueran de gran interés para ayudarnos a contestar las preguntas que propusimos antes de comenzar el proyecto.
 
 3. library(ggplot2)
 
 Utilizamos ggplot2 para representar de forma visual, mediante gráficos de todo tipo, los datos. 
 
-## Desarrollo 
-Antes de empezar el seminario, tuvimos que decidir qué datos utilizar y dónde buscarlos. Tras un buen rato buscando, recogimos ambos sets de datos de la base de datos del gobierno de España (gob.es).
-Concretamente, los datos de tasa de paro, los obtuvimos de la siguiente página:
+## 4. Desarrollo 
+Antes de empezar el seminario, tuvimos que decidir qué datos utilizar y dónde buscarlos. Tras un tiempo, decidimos recoger ambos sets de datos de la base de datos del gobierno de España (gob.es).
+Concretamente, los datos de tasa de paro los obtivimos de la siguiente fotografía:
 
 ![Imagen 1. Fotográfia datos de tasa de paro](input/images/Datos.gob_Tasa_de_Paro.png)
 
 
-Por otro lado, los datos de suicidio los obtuvimos exactamente de la siguiente página:
+Por otro lado, los datos de suicidio los sacamos de la fotografía que se muestra a continuación:
 
 
 ![Imagen 2. Fotografía datos de suicidio](input/images/Datos.gob_Suicidios.png)
