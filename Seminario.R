@@ -249,13 +249,6 @@ Paro_JOIN <-
   droplevels()
 
 #PRUEBO A CAMBIAR EL NOMBRE DE COMUNIDADES Y CIUDADES AUTONOMAS
-library(dplyr)
-Paro_JOIN <- Paro_JOIN%>%
-  case_when(
-    Paro_JOIN %% Paro_JOIN$`Comunidades y Ciudades Autónomas`== "01 Andalucía" ~ "Andalucia",
-    TRUE ~ as.character(Paro_JOIN)
-)
-
 Paro_JOIN <- Paro_JOIN%>%
   mutate(
     CCAA = case_when(
@@ -336,13 +329,27 @@ Suicidio_JOIN <-
 str(Paro_JOIN)
 str(Suicidio_JOIN)
 
+
+Paro_JOIN
+Suicidio_JOIN
+
+str(full_join(x=Paro_JOIN, y=Suicidio_JOIN))
+
+Suicidio_Paro <-
+  full_join(x=Paro_JOIN, 
+            y =Suicidio_JOIN, 
+            by = c("Periodo", "CCAA", "Sexo") %>%
+              summary()
+            )
+
+
 Suicidio_Paro <-  
 Paro_JOIN %>% 
-select("Sexo":"Comunidades y Ciudades Autónomas", "Periodo":"Total") %>%
+#select("Sexo":"CCAA", "Periodo":"Total") %>%
   full_join(x = ., 
-        y = Suicidio_JOIN %>% 
-          select("Comunidades y Ciudades Autónomas", "Sexo", "Periodo":"TotalSuicidio"),
-        by = c("Periodo", "Comunidades y Ciudades Autónomas", "Sexo") ) %>%
+        y = Suicidio_JOIN, #%>% 
+          #select("CCAA", "Sexo", "Periodo":"TotalSuicidio"),
+        by = c("Periodo", "CCAA", "Sexo") ) %>%
   summary()
 
 str(Suicidio_Paro)
