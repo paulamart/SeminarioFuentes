@@ -43,7 +43,10 @@ Concretamente, los datos de tasa de paro, los obtuvimos de la siguiente página:
 
 ![Imagen 1. Fotográfia datos de tasa de paro](input/images/Datos.gob_Tasa_de_Paro.png)
 
+
 Por otro lado, los datos de suicidio los obtuvimos exactamente de la siguiente página:
+
+
 ![Imagen 2. Fotografía datos de suicidio](input/images/Datos.gob_Suicidios.png)
 
 
@@ -144,7 +147,7 @@ Para ello propusimos lo siguiente:
 
 ```
 
-![Imagen 1. Gráfico del paro respecto al sexo](input/images/Paro_Sexo.png)
+![Imagen 3. Gráfico del paro respecto al sexo](input/images/Paro_Sexo.png)
 
 Por otro lado, para la variación del paro respecto a las Comunidades Autónomas de las que consta España, necesitamos un gráfico en que que nos muestre el paro respecto a hombres y mujeres, respecto al tiempo en todas y cada una de las comunidades autónomas
 Para ello hicimos lo siguiente:
@@ -158,7 +161,7 @@ Para ello hicimos lo siguiente:
 
 ```
 
-![Imagen 2. Gráfico del paro respecto a cada Comunidad Autónoma](input/images/Paro_CCAA.png)
+![Imagen 4. Gráfico del paro respecto a cada Comunidad Autónoma](input/images/Paro_CCAA.png)
 
 
 Para los datos de suicidios:
@@ -242,7 +245,7 @@ ggplot(data = Suicidio_Total, aes(x = Year, y = MT, fill = Sexo))+
   position=position_dodge(.9) ) 
 ```
 
-![Imagen 3. Gráfico del suicidio respecto al sexo](input/images/Suicidio_Sexo.png)
+![Imagen 4. Gráfico del suicidio respecto al sexo](input/images/Suicidio_Sexo.png)
 
 Por último, para la variación del suicidio respecto al sexo y al paso del tiempo por cada Comunidad Autónoma de España, necesitabamos una grafica en la que nos mostrara todos los casos de suicidios, tanto de hombres como de mujeres, por cada uno de los años en cada una de las comunidades.
 Para ello:
@@ -255,7 +258,7 @@ ggplot(data = Suicidio, aes(x = año, y = Total)) +
   theme_classic()
 ```
 
-![Imagen 4. Gráfico del suicidio respecto a Comunidad Autónoma](input/images/Suicidio_CCAA.png)
+![Imagen 5. Gráfico del suicidio respecto a Comunidad Autónoma](input/images/Suicidio_CCAA.png)
 
 ## Conclusiones y discusión de los resultados
 
