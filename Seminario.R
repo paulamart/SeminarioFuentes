@@ -181,21 +181,21 @@ Suicidio <- Suicidio%>%
     CCAA = case_when(
       Suicidio$`Comunidades y Ciudades Autónomas`== "Andalucía" ~ "Andalucia",
       Suicidio$`Comunidades y Ciudades Autónomas`== "Aragón" ~ "Aragon",
-      Suicidio$`Comunidades y Ciudades Autónomas`== "Asturias. Principado de" ~ "Asturias",
-      Suicidio$`Comunidades y Ciudades Autónomas`== "Balears. Illes" ~ "Baleares",
+      Suicidio$`Comunidades y Ciudades Autónomas`== "Asturias, Principado de" ~ "Asturias",
+      Suicidio$`Comunidades y Ciudades Autónomas`== "Balears, Illes" ~ "Baleares",
       Suicidio$`Comunidades y Ciudades Autónomas`== "Canarias" ~ "Canarias",
       Suicidio$`Comunidades y Ciudades Autónomas`== "Cantabria" ~ "Cantabria",
       Suicidio$`Comunidades y Ciudades Autónomas`== "Castilla y León" ~ "CyL",
-      Suicidio$`Comunidades y Ciudades Autónomas`== "Castilla - La Mancha" ~ "Castilla la Mancha",
+      Suicidio$`Comunidades y Ciudades Autónomas`== "Castilla-La Mancha" ~ "Castilla la Mancha",
       Suicidio$`Comunidades y Ciudades Autónomas`== "Cataluña" ~ "Cataluña",
       Suicidio$`Comunidades y Ciudades Autónomas`== "Comunitat Valenciana" ~ "C.Valencia",
       Suicidio$`Comunidades y Ciudades Autónomas`== "Extremadura" ~ "Extremadura",
       Suicidio$`Comunidades y Ciudades Autónomas`== "Galicia" ~ "Galicia",
-      Suicidio$`Comunidades y Ciudades Autónomas`== "Madrid. Comunidad de" ~ "Madrid",
-      Suicidio$`Comunidades y Ciudades Autónomas`== "Murcia. Región de" ~ "Murcia",
-      Suicidio$`Comunidades y Ciudades Autónomas`== "Navarra. Comunidad Foral de" ~ "Navarra",
+      Suicidio$`Comunidades y Ciudades Autónomas`== "Madrid, Comunidad de" ~ "Madrid",
+      Suicidio$`Comunidades y Ciudades Autónomas`== "Murcia, Región de" ~ "Murcia",
+      Suicidio$`Comunidades y Ciudades Autónomas`== "Navarra, Comunidad Foral de" ~ "Navarra",
       Suicidio$`Comunidades y Ciudades Autónomas`== "País Vasco" ~ "País Vasco",
-      Suicidio$`Comunidades y Ciudades Autónomas`== "Rioja. La" ~ "La Rioja",
+      Suicidio$`Comunidades y Ciudades Autónomas`== "Rioja, La" ~ "La Rioja",
       Suicidio$`Comunidades y Ciudades Autónomas`== "Ceuta" ~ "Ceuta",
       Suicidio$`Comunidades y Ciudades Autónomas`== "Melilla" ~ "Melilla",
     ))
@@ -224,7 +224,7 @@ Suicidio <-
   filter(`Lugar de ocurrencia` == "Total") %>%
   droplevels()
 
-
+#str(factor(Suicidio$CCAA))
 
 ## ** Eliminación de datos NA ---------------------------------------------------------------------------------------
 ## AQUI ELIMINAMOS TODOS LOS NA YA QUE PUEDE DAR A CONFUSIONES
@@ -265,13 +265,12 @@ library(ggplot2)
 Plot_Suicidio_CCAA <-
   ggplot(data = Suicidio, aes(x = año, y = Total)) +
   geom_point(aes(colour = factor(Sexo))) +
-  facet_grid(Sexo ~ Suicidio$`CCAA`) +
+  facet_grid(Sexo ~ Suicidio$CCAA) +
   geom_smooth(method = "lm", aes(colour = factor(Sexo))) +
   theme_light() + #quitamos el gris de fondo
   theme_classic()  #quitar los cuadraditos
 
 Plot_Suicidio_CCAA
-
 
 
 ### * RELACIÓN ENTRE PARO Y SUICIDIO ------------------------------------------------------------------------------------
