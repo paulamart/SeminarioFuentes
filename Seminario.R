@@ -282,6 +282,32 @@ Paro_JOIN <- Paro_JOIN%>%
 
 str(Paro_JOIN)
 
+
+#CAMBIO DE NOMBRES DATOS 
+Suicidio_JOIN <- Suicidio_JOIN%>%
+  mutate(
+    CCAA = case_when(
+      Suicidio_JOIN$`Comunidades y Ciudades Autónomas`== "Andalucía" ~ "Andalucia",
+      Suicidio_JOIN$`Comunidades y Ciudades Autónomas`== "Aragón" ~ "Aragon",
+      Suicidio_JOIN$`Comunidades y Ciudades Autónomas`== "Asturias. Principado de" ~ "Asturias",
+      Suicidio_JOIN$`Comunidades y Ciudades Autónomas`== "Balears. Illes" ~ "Baleares",
+      Suicidio_JOIN$`Comunidades y Ciudades Autónomas`== "Canarias" ~ "Canarias",
+      Suicidio_JOIN$`Comunidades y Ciudades Autónomas`== "Cantabria" ~ "Cantabria",
+      Suicidio_JOIN$`Comunidades y Ciudades Autónomas`== "Castilla y León" ~ "CyL",
+      Suicidio_JOIN$`Comunidades y Ciudades Autónomas`== "Castilla - La Mancha" ~ "Castilla la Mancha",
+      Suicidio_JOIN$`Comunidades y Ciudades Autónomas`== "Cataluña" ~ "Cataluña",
+      Suicidio_JOIN$`Comunidades y Ciudades Autónomas`== "Comunitat Valenciana" ~ "C.Valencia",
+      Suicidio_JOIN$`Comunidades y Ciudades Autónomas`== "Extremadura" ~ "Extremadura",
+      Suicidio_JOIN$`Comunidades y Ciudades Autónomas`== "Galicia" ~ "Galicia",
+      Suicidio_JOIN$`Comunidades y Ciudades Autónomas`== "Madrid. Comunidad de" ~ "Madrid",
+      Suicidio_JOIN$`Comunidades y Ciudades Autónomas`== "Murcia. Región de" ~ "Murcia",
+      Suicidio_JOIN$`Comunidades y Ciudades Autónomas`== "Navarra. Comunidad Foral de" ~ "Navarra",
+      Suicidio_JOIN$`Comunidades y Ciudades Autónomas`== "País Vasco" ~ "País Vasco",
+      Suicidio_JOIN$`Comunidades y Ciudades Autónomas`== "Rioja. La" ~ "La Rioja",
+      Suicidio_JOIN$`Comunidades y Ciudades Autónomas`== "Ceuta" ~ "Ceuta",
+      Suicidio_JOIN$`Comunidades y Ciudades Autónomas`== "Melilla" ~ "Melilla",
+    ))
+
 ## A su vez, para que coincida en años con el set de datos de Tasa_de_paro, 
 # filtraremos Suicidio para aquellos años que sean mayores que el 2016
 
