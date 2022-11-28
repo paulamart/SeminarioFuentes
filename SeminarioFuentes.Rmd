@@ -10,7 +10,7 @@ output: html_document
 2. Objetivos
 3. Métodos
 4. Desarrollo y Resultados
-5. Conclusiones 
+5. Conclusiones finales
 
 ## 1. Introducción
 En este proyecto de seminario, trataremos de analizar los datos, respecto al sexo y a cada comunidad autónoma, de la tasa de paro nacional desde el año 2006 hasta el año 2021. A su vez, el seminario tratará de analizar los datos, respecto al sexo y a cada comunidad autónoma, del suicidio en España a lo largo de los años 2016, 2017, 2018, 2019 y 2020.
@@ -153,6 +153,10 @@ Plot_Paro_Sexo_Años
 ```
 
 ![Imagen 3. Gráfico del paro respecto al sexo a lo largo de los años](input/images/Paro_Sexo.png)
+CONCLUSIÓN:
+Podemos obsevar como la tasa de paro en mujeres es mayor respecto a la tasa de paro en hombres, durante todos los años estudiados, es decir, desde 2006 a 2021. Sin embargo, podemos observar como al principio de los años, esta diferencia de tasas entre ambos sexos era bastante más notable. A partir de la crisis de 2009, podemos observar cómo ambas tasas comienzan a acercarse, hasta 2016, donde empiezan a separarse de nuevo. Hoy en día, la diferencia sigue siendo notable. 
+Esto podemos observarlo más rápidamente con la regresión lineal, en la cual vemos como la tasa de par de las mujeres está siempre por encima de la de los hombres.
+
 
 Por otro lado, para el objetivo de VARIACION DE PARO RESPECTO A LOS AÑOS, AL SEXO Y A COMUNIDAD AUTONOMA, necesitamos un gráfico que nos muestre el paro respecto a hombres y mujeres, a lo largo del tiempo, diferenciando por comunidades autónomas.
 Para ello hicimos lo siguiente:
@@ -182,6 +186,9 @@ Plot_Paro_CCAA
 ```
 
 ![Imagen 4. Gráfico del paro respecto a cada Comunidad Autónoma](input/images/Paro_CCAA.png)
+
+CONCLUSIÓN:
+Podemos observar cómo hay diferencias considerables entre las diferentes comunidades autónomas, pero, las tasas de paro de ambos sexos parecen estar correlacionadas, ya que se asemejan entre comunidades autónomas, a pesar de que en mujeres son algo más elevadas que en hombres; por ejemplo, si nos fijamos en la comunidad autónoma de Andalucía, podemos ver que ambas tasas de paro son las mayores con respecto a las demás; así como en la comunidad de Aragón, ambas tasas descienden con respecto a la de Andalucía. Sin embargo, no es siempre así, porque si nos fijamos en la Comunidad valenciana y País Vasco, se puede observar cómo la tasa de paro de mujeres es mayor en la Comunidad Valenciana, sin embargo, la tasa de paro en hombres es mayor en el País Vasco, por lo que confirmamos que no hay una correlacón precisa, pero sí que van a la vez.
 
 
 Para el objetivo de VARIACIÓN DE SUICIDIO RESPECTO AL SEXO POR AÑOS, tuvimos que modificar los datos de suicidios para que indicaran aquellos aspectos de interés:
@@ -282,6 +289,9 @@ Plot_Suicidio_Total_Sexo_Año
 ```
 
 ![Imagen 4. Gráfico del suicidio respecto al sexo](input/images/Suicidio_Sexo.png)
+CONCLUSIÓN:
+En la tercera de las gráficas, podemos observar claramente cómo el número de suicidios en todos los años estudiados (2016-2020) es mayor en el sexo masculino que en el sexo femenino. Además, hemos representado la desviación estándar con una línea sobre las barras, de lo que deducimos que hay gran variedad en el número de suicidios.  
+
 
 Para el objetivo de VARIACION DE SUICIDIOS RESPECTO A LOS AÑOS, AL SEXO Y A COMUNIDAD AUTONOMA, necesitábamos una grafica en la que nos mostrara todos los casos de suicidios, tanto de hombres como de mujeres, por cada uno de los años en cada una de las comunidades autónomas de España.
 Para ello:
@@ -299,6 +309,10 @@ Plot_Suicidio_CCAA
 ```
 
 ![Imagen 5. Gráfico del suicidio respecto a Comunidad Autónoma](input/images/Suicidio_CCAA.png)
+CONCLUSIÓN:
+Podemos observar cómo hay diferencias considerables entre las diferentes comunidades autónomas, pero, el número de suicidios de ambos sexos parecen estar correlacionado, ya que se asemejan entre comunidades autónomas, a pesar de que en hombres son algo más elevadas que en mujeres; por ejemplo, si nos fijamos en la comunidad autónoma de Andalucía, podemos ver que ambos números de suicidio son los más altos, con respecto a las demás; así como en la ciudad de Melilla, ambas tasas descienden con respecto a la de Andalucía. 
+En este gráfico hay una cosa que llama la atención, ya que en la ciudad de Ceuta en el número de suicidios de hombres hay un único punto, es decir, solo se ha producido un suicidio a lo largo de todos los años estudiados.
+
 
 Por último, para el obejtivo de si hay o no RELACIÓN ENTRE LA CANTIDAD DE PARO, Y EL NÚMERO DE SUICIDIOS, necesitamos hacer un join, uniendo ambas tablas
 (falta por hacer bien y mejorar)
@@ -308,19 +322,6 @@ Por último, para el obejtivo de si hay o no RELACIÓN ENTRE LA CANTIDAD DE PARO
 
 
 
-## Conclusiones y discusión de los resultados
+## Conclusiones y discusión de los resultados finales
+Tras analizar todos los aspectos, vemos a simple vista que no hay correlación, ya que la tasa de paro, en cómputo global, es mayor en mujeres que en hombres, y que el número de suicidio es mayor en hombres que en mujeres, pero para asegurarnos procedemos a juntar ambas tablas.
 
-En la primera de las gráficas, en la que representamos tasa de paro respecto al sexo, podemos obsevar como la tasa de paro en mujeres es mayor respecto a la tasa de hombres, durante todos loa años estudiados, es decir, desde 2006 a 2021. Sin embargo, podemos observar como al principio de los años esta diferencia de tasas entre ambos sexos era bastante más considerable. A partir de la crisis de 2009 podemos ovserbar como ambas tasas comienzan a acercarse, hasta 2016 donde empiezan a separarse de nuevo, hoy en día, la diferencia sigue siendo notable. 
-Esto podemos observarlo más rápidamente con la regresión lineal, en la cual vemos como la de las mujeres está siempre por encima de la de los hombres.
-
-
-En la segunda de las gráficas, donde represnetamos paro respecto a cada Comunidad Autónoma, podemos observar como hay diferencias considerables entre las diferentes comunidades autónomas, pero, las tasas de paro de ambos sexos parecen estar correlacionadas, ya que se asemejan entre comunidades autónomas, a pesar que en mujeres son algo más elevadas que en hombres; por ejemplo, si nos fijamos en la comunidad autónoma de Andalucía, podemos ver que ambas tasas de paro son las mayores con respecto a las demás; así como en la comunidad de Aragón, ambas tasas descienden con respecto a la de Andalucía. Sin embargo, no es siempre así, porque si nos fijamos en la Comunidad valenciana y País Vasco, se puede observar como la tasa de paro de mujeres es mayor en la Comunidad Valenciana, sin embargo, la tasa de paro en hombres es maor en el País Vasco, por lo que confirmamos que no hay una correlacón exacta, pero sí que van más o menos al apar.
-
-
-En la tercera de las gráficas, en la que represnetamos el suicidio respecto al sexo, podemos observar claramente como el número de suicidios en todos los años estudiados (2016-2020) es mayor en el sexo masculino que en el sexo femenino. Además, hemos representado la desviación estándar con una línea sobre las barras, de lo que sacamos la concusión que hay gran variedad en el número de suicidios.  (no eme convence mucho)
-
-
-En la cuarta gráfica, en la que representamos el suicidio respecto a Comunidad Autónoma, podemos observar como hay diferencias considerables entre las diferentes comunidades autónomas, pero, el número de suicidios ambos sexos parecen estar correlacionadas, ya que se asemejan entre comunidades autónomas, a pesar que en hombres son algo más elevadas que en muejeres; por ejemplo, si nos fijamos en la comunidad autónoma de Andalucía, podemos ver que ambos números de suicidio son las mayores con respecto a las demás; así como en la ciudad de Melilla, ambas tasas descienden con respecto a la de Andalucía. 
-En este gráfico hay una cosa que llama la atención, ya que en la ciudad de Ceuta en el número de suicidios de hombres hay un único punto, es decir, solo se ha producido un suicidio a lo largo de todos los años estudiados.
-
-Por lo que a simple vista podemos que no hay correlación, ya que la tasa de paro, en cómputo global, es mayor en mujeres que en hombres, y que el número de suicidio es mayor en hombres que en mujeres, pero para asegurarnos procedemos a juntar ambas tablas.
