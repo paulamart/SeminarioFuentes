@@ -74,7 +74,7 @@ Suicidio <- read_delim("input/data/Suicidio.csv",
 
 Una vez teníamos los datos importados en el proyecto, procedimos a filtrarlos para que mostraran sólo aquella información que fuera de utilidad para el proyecto. Para poder llegar a los objetivos propuestos, tuvimos que modificar ambos sets de datos.
 
-De cara a conseguir el primero objetivo de VARIACIÓN DE PARO RESPECTO AL SEXO POR AÑOS, tuvimos que modificar el set de datos respectivo a la tasa de paro, de la siguiente forma:
+De cara a conseguir el primero **objetivo de VARIACIÓN DE PARO RESPECTO AL SEXO POR AÑOS**, tuvimos que modificar el set de datos respectivo a la tasa de paro, de la siguiente forma:
 
 1. Cambiamos el nombre de las comunidades y ciudades autónomas, para poder eliminar los números que aparecían al lado de cada comunidad autónoma, y añadimos los nuevos nombres, a una columna nueva del set de datos, que llamaremos CCAA.
 Para ello tuvimos que utilizar case_when:
@@ -155,12 +155,13 @@ Plot_Paro_Sexo_Años
 ![Imagen 3. Gráfico del paro respecto al sexo a lo largo de los años](input/images/Paro_Sexo.png)
 
 
-CONCLUSIÓN:
+
+**CONCLUSIÓN**:
 Podemos obsevar como la tasa de paro en mujeres es mayor respecto a la tasa de paro en hombres, durante todos los años estudiados, es decir, desde 2006 a 2021. Sin embargo, podemos observar como al principio de los años, esta diferencia de tasas entre ambos sexos era bastante más notable. A partir de la crisis de 2009, podemos observar cómo ambas tasas comienzan a acercarse, hasta 2016, donde empiezan a separarse de nuevo. Hoy en día, la diferencia sigue siendo notable. 
 Esto podemos observarlo más rápidamente con la regresión lineal, en la cual vemos como la tasa de par de las mujeres está siempre por encima de la de los hombres.
 
 
-Por otro lado, para el objetivo de VARIACION DE PARO RESPECTO A LOS AÑOS, AL SEXO Y A COMUNIDAD AUTONOMA, necesitamos un gráfico que nos muestre el paro respecto a hombres y mujeres, a lo largo del tiempo, diferenciando por comunidades autónomas.
+Por otro lado, para el **objetivo de VARIACION DE PARO RESPECTO A LOS AÑOS**, AL SEXO Y A COMUNIDAD AUTONOMA, necesitamos un gráfico que nos muestre el paro respecto a hombres y mujeres, a lo largo del tiempo, diferenciando por comunidades autónomas.
 Para ello hicimos lo siguiente:
 
 tuvimos que filtrar los datos, para que, en este caso, nos quitaran las final que incluían "total Nacional", ya que, necesitábamos saber la tasa de paro de cada una de las comunidades de las que consta España
@@ -189,11 +190,12 @@ Plot_Paro_CCAA
 
 ![Imagen 4. Gráfico del paro respecto a cada Comunidad Autónoma](input/images/Paro_CCAA.png)
 
-CONCLUSIÓN:
+
+**CONCLUSIÓN**:
 Podemos observar cómo hay diferencias considerables entre las diferentes comunidades autónomas, pero, las tasas de paro de ambos sexos parecen estar correlacionadas, ya que se asemejan entre comunidades autónomas, a pesar de que en mujeres son algo más elevadas que en hombres; por ejemplo, si nos fijamos en la comunidad autónoma de Andalucía, podemos ver que ambas tasas de paro son las mayores con respecto a las demás; así como en la comunidad de Aragón, ambas tasas descienden con respecto a la de Andalucía. Sin embargo, no es siempre así, porque si nos fijamos en la Comunidad valenciana y País Vasco, se puede observar cómo la tasa de paro de mujeres es mayor en la Comunidad Valenciana, sin embargo, la tasa de paro en hombres es mayor en el País Vasco, por lo que confirmamos que no hay una correlacón precisa, pero sí que van a la vez.
 
 
-Para el objetivo de VARIACIÓN DE SUICIDIO RESPECTO AL SEXO POR AÑOS, tuvimos que modificar los datos de suicidios para que indicaran aquellos aspectos de interés:
+Para el **objetivo de VARIACIÓN DE SUICIDIO RESPECTO AL SEXO POR AÑOS**, tuvimos que modificar los datos de suicidios para que indicaran aquellos aspectos de interés:
 
 1. Al igual que en el anterior set de datos, cambiamos el nombre de las comunidades y ciudades autónomas, y añadimos los nuevos nombres dados, a una columna nueva  del set de datos que llamaremos CCAA.
 Para ello tuvimos que utilizar case_when:
@@ -265,7 +267,7 @@ Suicidio <-
 
 Posteriormente, con los datos bein organizados y filtrados, nos propusimos el objetivo de realizar las gráficas que dependieran del set de datos de suicidio:
 
-Para la VARIACIÓN DE SUICIDIO RESPECTO AL SEXO Y AL TIEMPO, necesitabamos una gráfica en la que nos mostrara todos los casos de suicidios, tanto de hombres como de mujeres, por cada uno de los años.
+Para la **VARIACIÓN DE SUICIDIO RESPECTO AL SEXO Y AL TIEMPO**, necesitabamos una gráfica en la que nos mostrara todos los casos de suicidios, tanto de hombres como de mujeres, por cada uno de los años.
 Para ello:
 
 Creamos un nuevo objeto (Suicidio_Total), en el que incluimos la media del total de suicidios que se han producido en cada año, y la desviación, respecto de la media, del numero total de suicidios.
@@ -293,11 +295,12 @@ Plot_Suicidio_Total_Sexo_Año
 ![Imagen 4. Gráfico del suicidio respecto al sexo](input/images/Suicidio_Sexo.png)
 
 
-CONCLUSIÓN:
+
+**CONCLUSIÓN**:
 En la tercera de las gráficas, podemos observar claramente cómo el número de suicidios en todos los años estudiados (2016-2020) es mayor en el sexo masculino que en el sexo femenino. Además, hemos representado la desviación estándar con una línea sobre las barras, de lo que deducimos que hay gran variedad en el número de suicidios.  
 
 
-Para el objetivo de VARIACION DE SUICIDIOS RESPECTO A LOS AÑOS, AL SEXO Y A COMUNIDAD AUTONOMA, necesitábamos una grafica en la que nos mostrara todos los casos de suicidios, tanto de hombres como de mujeres, por cada uno de los años en cada una de las comunidades autónomas de España.
+Para el **objetivo de VARIACION DE SUICIDIOS RESPECTO A LOS AÑOS, AL SEXO Y A COMUNIDAD AUTONOMA**, necesitábamos una grafica en la que nos mostrara todos los casos de suicidios, tanto de hombres como de mujeres, por cada uno de los años en cada una de las comunidades autónomas de España.
 Para ello:
 ```{r , eval = FALSE}
 library(ggplot2)
@@ -315,7 +318,8 @@ Plot_Suicidio_CCAA
 ![Imagen 5. Gráfico del suicidio respecto a Comunidad Autónoma](input/images/Suicidio_CCAA.png)
 
 
-CONCLUSIÓN:
+
+**CONCLUSIÓN**:
 Podemos observar cómo hay diferencias considerables entre las diferentes comunidades autónomas, pero, el número de suicidios de ambos sexos parecen estar correlacionado, ya que se asemejan entre comunidades autónomas, a pesar de que en hombres son algo más elevadas que en mujeres; por ejemplo, si nos fijamos en la comunidad autónoma de Andalucía, podemos ver que ambos números de suicidio son los más altos, con respecto a las demás; así como en la ciudad de Melilla, ambas tasas descienden con respecto a la de Andalucía. 
 En este gráfico hay una cosa que llama la atención, ya que en la ciudad de Ceuta en el número de suicidios de hombres hay un único punto, es decir, solo se ha producido un suicidio a lo largo de todos los años estudiados.
 
