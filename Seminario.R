@@ -332,12 +332,14 @@ str(Suicidio_JOIN)
 Paro_JOIN
 Suicidio_JOIN
 
-str(full_join(x=Paro_JOIN, y=Suicidio_JOIN))
+str(full_join(x=Paro_JOIN, y=Suicidio_JOIN)) #sale mal tambien
+
+#EN PARO HAY Q QUITAR LOS Nº A LAS COMUNIDADES AUTONOMAS
 
 Suicidio_Paro <-
   full_join(x=Paro_JOIN, 
             y =Suicidio_JOIN, 
-            by = c("Periodo", "CCAA", "Sexo") %>%
+            by = c("Periodo", "Sexo") %>% #no se puede poner CCAA
               summary()
             )
 
