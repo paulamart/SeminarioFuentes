@@ -159,10 +159,12 @@ Plot_Paro_Sexo_Años
 Podemos obsevar como la tasa de paro en mujeres es mayor respecto a la tasa de paro en hombres, durante todos los años estudiados, es decir, desde 2006 a 2021. Sin embargo, podemos observar como al principio de los años, esta diferencia de tasas entre ambos sexos era bastante más notable. A partir de la crisis de 2009, podemos observar cómo ambas tasas comienzan a acercarse, hasta 2016, donde empiezan a separarse de nuevo. Hoy en día, la diferencia sigue siendo notable. 
 Esto podemos observarlo más rápidamente con la regresión lineal, en la cual vemos como la tasa de par de las mujeres está siempre por encima de la de los hombres.
 
-Podemos comprobar por qué la gráfica sufre un pico ealrededor de 2011-2012, y es porque el paro en España aumentó considerablemente, alcanzando cifras de casi 6.000.000 millones de parados
+
+Podemos comprobar por qué la gráfica sufre un pico alrededor de 2011-2012, y es porque el paro en España aumentó considerablemente, alcanzando cifras de casi 6.000.000 millones de parados
 Adjuntamos, posteriormente la noticia que verifica estos hechos:
 <https://www.libremercado.com/2013-01-24/la-tasa-de-paro-cierra-2012-en-el-26-1276480251/#:~:text=De%20esta%20forma%2C%202012%20se,en%202011%2C%20en%20577.000%20desempleados.>
 ![Imagen 4. Noticia acerca del paro en España en 2012](input/images/Noticia_Paro_2012.png)
+
 
 
 
@@ -194,7 +196,7 @@ Plot_Paro_CCAA
 
 ```
 
-![Imagen 4. Gráfico del paro respecto a cada Comunidad Autónoma](input/images/Paro_CCAA.png)
+![Imagen 5. Gráfico del paro respecto a cada Comunidad Autónoma](input/images/Paro_CCAA.png)
 
 
 **CONCLUSIÓN**:
@@ -298,12 +300,19 @@ Plot_Suicidio_Total_Sexo_Año <-
 Plot_Suicidio_Total_Sexo_Año 
 ```
 
-![Imagen 4. Gráfico del suicidio respecto al sexo](input/images/Suicidio_Sexo.png)
+![Imagen 6. Gráfico del suicidio respecto al sexo](input/images/Suicidio_Sexo.png)
 
 
 
 **CONCLUSIÓN**:
 En la tercera de las gráficas, podemos observar claramente cómo el número de suicidios en todos los años estudiados (2016-2020) es mayor en el sexo masculino que en el sexo femenino. Además, hemos representado la desviación estándar con una línea sobre las barras, de lo que deducimos que hay gran variedad en el número de suicidios.  
+
+El suicidio es una de las causas de muerte más importantes en España, por ejemplo en 2020, las estadísticas marcaron que, al día, se suicidaba la escalofriante cifra de 11 personas, y según estas, irá en aumento a lo largo de los años.
+<https://www.huffingtonpost.es/entry/graficos-suicidio-espana_es_61b85b8de4b0358b5c4af1c5>
+![Imagen 6. Noticia del suicidio en España en 2020](input/images/Noticia_Suicidio_2020.png)
+En este mismo artículo, muestra la estadística, visualmente, del número de suicidios diarios
+![Imagen 7. Número de suicidios en España en 2020](input/images/Noticia_Suicidio_2020.png)
+
 
 
 Para el **objetivo de VARIACION DE SUICIDIOS RESPECTO A LOS AÑOS, AL SEXO Y A COMUNIDAD AUTONOMA**, necesitábamos una grafica en la que nos mostrara todos los casos de suicidios, tanto de hombres como de mujeres, por cada uno de los años en cada una de las comunidades autónomas de España.
