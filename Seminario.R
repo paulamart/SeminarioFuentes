@@ -332,9 +332,20 @@ str(Suicidio_JOIN)
 Paro_JOIN
 Suicidio_JOIN
 
-str(full_join(x=Paro_JOIN, y=Suicidio_JOIN)) 
+#FORMA 1-------------------------
+Paro_Suicidio <-
+  str(full_join(x=Paro_JOIN, y=Suicidio_JOIN))  #SE QUEDA COMO VALOR
 
+summary(Paro_Suicidio)
 
+library(ggplot2)
+Plot_JOIN <-
+  ggplot(data = Paro_Suicidio, aes(x = Total, y = TotalSuicidio)) +
+  geom_point() +
+  theme_light() +
+  theme_classic()
+
+#FORMA 2-----------------------
 Suicidio_Paro <-
   full_join(x=Paro_JOIN, 
             y =Suicidio_JOIN, 
