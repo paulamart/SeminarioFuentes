@@ -41,7 +41,7 @@ Utilizamos dplyr para modificar y filtrar los datos, y obtener así sólo aquell
 Utilizamos ggplot2 para representar de forma visual, mediante gráficos de todo tipo, los datos. 
 
 ## 4. Desarrollo 
-Antes de empezar el seminario, tuvimos que decidir qué datos utilizar y dónde buscarlos. Tras un tiempo, decidimos recoger ambos sets de datos de la base de datos del gobierno de España (gob.es).
+Antes de empezar el seminario, tuvimos que decidir qué datos utilizar y dónde buscarlos. Tras un tiempo, decidimos recoger ambos sets de datos de la base de datos del gobierno de España (<https://datos.gob.es/es/catalogo>).
 Concretamente, los datos de tasa de paro los obtivimos de la siguiente fotografía:
 
 ![Imagen 1. Fotográfia datos de tasa de paro](input/images/Datos.gob_Tasa_de_Paro.png)
@@ -153,7 +153,6 @@ Plot_Paro_Sexo_Años
 ```
 
 ![Imagen 3. Gráfico del paro respecto al sexo a lo largo de los años](input/images/Paro_Sexo.png)
-
 
 
 **CONCLUSIÓN**:
