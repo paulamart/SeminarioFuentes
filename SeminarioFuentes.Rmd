@@ -311,7 +311,7 @@ El suicidio es una de las causas de muerte más importantes en España, por ejem
 <https://www.huffingtonpost.es/entry/graficos-suicidio-espana_es_61b85b8de4b0358b5c4af1c5>
 ![Imagen 6. Noticia del suicidio en España en 2020](input/images/Noticia_Suicidio_2020.png)
 En este mismo artículo, muestra la estadística, visualmente, del número de suicidios diarios
-![Imagen 7. Número de suicidios en España en 2020](input/images/Noticia_Suicidio_2020.png)
+![Imagen 7. Número de suicidios en España en 2020](input/images/Noticia_Suicidios_diarios_2020.png)
 
 
 
@@ -330,13 +330,19 @@ Plot_Suicidio_CCAA <-
 Plot_Suicidio_CCAA
 ```
 
-![Imagen 5. Gráfico del suicidio respecto a Comunidad Autónoma](input/images/Suicidio_CCAA.png)
+![Imagen 8. Gráfico del suicidio respecto a Comunidad Autónoma](input/images/Suicidio_CCAA.png)
 
 
 
 **CONCLUSIÓN**:
 Podemos observar cómo hay diferencias considerables entre las diferentes comunidades autónomas, pero, el número de suicidios de ambos sexos parecen estar correlacionado, ya que se asemejan entre comunidades autónomas, a pesar de que en hombres son algo más elevadas que en mujeres; por ejemplo, si nos fijamos en la comunidad autónoma de Andalucía, podemos ver que ambos números de suicidio son los más altos, con respecto a las demás; así como en la ciudad de Melilla, ambas tasas descienden con respecto a la de Andalucía. 
 En este gráfico hay una cosa que llama la atención, ya que en la ciudad de Ceuta en el número de suicidios de hombres hay un único punto, es decir, solo se ha producido un suicidio a lo largo de todos los años estudiados.
+
+
+En el anterior artículo, tambien habla acerca de cuál de las Comunidades Autónomas de España sufren mayor cantidad de suicidios. Entre las más destacadas habla de Andalucí, la cual a fue la comunidad en la que más personas se quitaron la vida con más de 600  suicidios en 2020, seguida por Cataluña con más de 400 y por la Comunitat Valenciana con más de 300.
+<https://www.huffingtonpost.es/entry/graficos-suicidio-espana_es_61b85b8de4b0358b5c4af1c5>
+![Imagen 9. Comunidades donde hay el mayor número de suicidios](input/images/Noticia_Suicidio_comunidades_2020.png)
+
 
 
 Por último, para el obejtivo de si hay o no RELACIÓN ENTRE LA CANTIDAD DE PARO, Y EL NÚMERO DE SUICIDIOS, necesitamos hacer un join, uniendo ambas tablas
