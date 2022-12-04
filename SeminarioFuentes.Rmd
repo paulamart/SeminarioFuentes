@@ -159,6 +159,13 @@ Plot_Paro_Sexo_Años
 Podemos obsevar como la tasa de paro en mujeres es mayor respecto a la tasa de paro en hombres, durante todos los años estudiados, es decir, desde 2006 a 2021. Sin embargo, podemos observar como al principio de los años, esta diferencia de tasas entre ambos sexos era bastante más notable. A partir de la crisis de 2009, podemos observar cómo ambas tasas comienzan a acercarse, hasta 2016, donde empiezan a separarse de nuevo. Hoy en día, la diferencia sigue siendo notable. 
 Esto podemos observarlo más rápidamente con la regresión lineal, en la cual vemos como la tasa de par de las mujeres está siempre por encima de la de los hombres.
 
+Podemos comprobar por qué la gráfica sufre un pico ealrededor de 2011-2012, y es porque el paro en España aumentó considerablemente, alcanzando cifras de casi 6.000.000 millones de parados
+Adjuntamos, posteriormente la noticia que verifica estos hechos:
+<https://www.libremercado.com/2013-01-24/la-tasa-de-paro-cierra-2012-en-el-26-1276480251/#:~:text=De%20esta%20forma%2C%202012%20se,en%202011%2C%20en%20577.000%20desempleados.>
+![Imagen 4. Noticia acerca del paro en España en 2012](input/images/Noticia_Paro_2012.png)
+
+
+
 
 Por otro lado, para el **objetivo de VARIACION DE PARO RESPECTO A LOS AÑOS**, AL SEXO Y A COMUNIDAD AUTONOMA, necesitamos un gráfico que nos muestre el paro respecto a hombres y mujeres, a lo largo del tiempo, diferenciando por comunidades autónomas.
 Para ello hicimos lo siguiente:
