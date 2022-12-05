@@ -366,3 +366,31 @@ Plot_JOIN <-
 
 Plot_JOIN
 
+
+#*INTENTO DE IMPORTAR EL JSON-------------------------
+library(tidyjson)
+library(rjson)
+ParoJSON <- fromJSON(file = "input/data/Paro.json")
+
+ParoJSON %>% 
+  spread_all() %>%
+  str()
+
+
+ParoJSON %>% 
+  gather_object %>% 
+  json_types %>% 
+  count(name, type)
+
+ParoJSON %>%
+  enter_object(Data) %>%
+  gather_array %>%
+  spread_all %>%
+  view()
+
+ParoJSON %>%
+  enter_object(MetaData) %>%
+  gather_array %>%
+  spread_all %>%
+  view()
+  
