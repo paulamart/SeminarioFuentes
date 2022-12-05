@@ -118,7 +118,7 @@ Tasa_de_Paro <- Tasa_de_Paro%>%
 
 
 2. Filtramos los datos para que nos salieran sólo aquellos datos que nos mostraran hombres y mujeres, ambos por separado, eliminando así aquellos datos que contenían una línea para "ambos sexos". Hicimos esto porque, para los objetivos que nos propusimos, era primordial filtrar por sexos, para, posteriormente estudiar, si hubieran, las diferencias entre ambos.
-```{r , eval = FALSE}
+```{r , eval = TRUE}
 library(dplyr)
 Tasa_de_Paro <-
   Tasa_de_Paro %>%
@@ -128,7 +128,7 @@ Tasa_de_Paro <-
 ```
 
 Y comprobamos cómo se eliminan la categoría de "ambos sexos":
-```{r , eval = FALSE}
+```{r , eval = TRUE,}
 ## (comprobamos que la categoria "ambos sexos", ha desaparecido)
 Tasa_de_Paro %>%
   filter(Sexo != "Ambos sexos") %>%
@@ -138,7 +138,7 @@ Tasa_de_Paro %>%
 
 3. Seguidamente, filtramos los datos anteriores, para que nos muestre sólo aquellos valores para los que la nacionalidad es "total", ya que no es objetivo de estudio de nuestro seminario distinguir entre el paro de España respecto a las nacionalidades de las personas.
 
-```{r , eval = FALSE}
+```{r , eval = TRUE}
 Tasa_de_Paro <-
   Tasa_de_Paro %>%
   mutate(Nacionalidad = Tasa_de_Paro$Nacionalidad) %>%
@@ -146,11 +146,23 @@ Tasa_de_Paro <-
   droplevels()
 ```
 
-Una vez tenemos los datos correctamente filtrados, nos pusimos a realizar la gráfica que nos sayudara a conseguir el objetivo inicialmente propuesto:
+Una vez tenemos los datos correctamente filtrados, nos pusimos a realizar la gráfica que nos ayudara a conseguir el objetivo inicialmente propuesto:
 
 Para la variación del paro respecto al sexo a lo largo de los años, necesitamos un gráfico que muestre cómo varía el paro nacional respecto al sexo y respecto al paso del tiempo.
-Para ello propusimos lo siguiente:
-```{r , eval = TRUE, fig.width=8}
+
+Para ello necesitaremos tan sólo el total nacional para hombres y mujeres por cada año, por lo que debemos crear un nuevo objeto (Paro_Total_Año), en el que tendremos que filtrar las Comunidades Autónomas por "total nacional", y nos mostrará el paro total nacional por cada año:
+
+```{r , eval = TRUE}
+Paro_Total_Año <-
+  Tasa_de_Paro %>%
+  mutate(`Comunidades y Ciudades Autónomas` = Tasa_de_Paro$`Comunidades y Ciudades Autónomas`) %>%
+  filter(`Comunidades y Ciudades Autónomas` == "Total Nacional") %>%
+  droplevels()
+
+```
+
+Y realizamos el gráfico a raíz de lo explicado anteriormente:
+```{r , eval = TRUE}
 Plot_Paro_Sexo_Años <- ## necesitamos guardarlo con un nombre determinado
   ggplot(data = Paro_Total_Año, aes(x = Periodo, y = Total)) +
   geom_point(aes(colour = factor(Sexo))) +
@@ -189,7 +201,7 @@ Por otro lado, para el **objetivo de VARIACION DE PARO RESPECTO A LOS AÑOS**, A
 Para ello hicimos lo siguiente:
 
 tuvimos que filtrar los datos, para que, en este caso, nos quitaran las final que incluían "total Nacional", ya que, necesitábamos saber la tasa de paro de cada una de las comunidades de las que consta España
-```{r , eval = FALSE}
+```{r , eval = TRUE}
 Tasa_de_Paro_CCAA <-
   Tasa_de_Paro %>%
   mutate(`CCAA` = Tasa_de_Paro$`CCAA`) %>%
@@ -199,7 +211,7 @@ Tasa_de_Paro_CCAA <-
 ```
 
 Y realizamos el gráfico:
-```{r , eval = TRUE, fig.width=8}
+```{r , eval = TRUE}
 Plot_Paro_CCAA <- ## necesitamos guardarlo con un nombre determinado
   ggplot(data = Tasa_de_Paro_CCAA, aes(x = Periodo, y = Total)) +
   geom_point(aes(colour = factor(Sexo))) +
