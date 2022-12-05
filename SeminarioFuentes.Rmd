@@ -32,13 +32,25 @@ Durante el desarrollo y estudio del seminario, hemos utilizado numerosas librer�
 
 Utilizamos readr para importar los datos extraídos de la base de datos del gobierno de España (gob.es). (Dichos datos están disponibles en la carpeta input/data del repositorio Github).
 
+```{r , eval = TRUE}
+library(readr)
+```
+
 2. library(dplyr)
 
 Utilizamos dplyr para modificar y filtrar los datos, y obtener así sólo aquellos que fueran de gran interés para ayudarnos a contestar las preguntas que propusimos antes de comenzar el proyecto.
 
+```{r , eval = TRUE}
+library(dplyr)
+```
+
 3. library(ggplot2)
 
 Utilizamos ggplot2 para representar de forma visual, mediante gráficos de todo tipo, los datos. 
+
+```{r , eval = TRUE}
+library(ggplot2)
+```
 
 ## 4. Desarrollo 
 Antes de empezar el seminario, tuvimos que decidir qué datos utilizar y dónde buscarlos. Tras un tiempo, decidimos recoger ambos sets de datos de la base de datos del gobierno de España (<https://datos.gob.es/es/catalogo>).
@@ -55,16 +67,15 @@ Por otro lado, los datos de suicidio los sacamos de la fotografía que se muestr
 
 Posteriormente, insertamos los datos en el proyecto, para poder estudiarlos y modificarlos de cara a los objetivos propuestos.
 Para la tasa de paro, importamos los datos de la siguiente manera:
-```{r , eval = FALSE}
-library(readr)
+```{r , eval = TRUE}
+## Para importar los datos de TASA DE PARO:
 Tasa_de_Paro <- read_delim("input/data/Tasa_de_Paro.csv", 
                            delim = ";", escape_double = FALSE, 
                            col_types = cols(Total = col_double()), 
                            trim_ws = TRUE)
 ```
 Por otro lado, para los datos de suicidio, tuvimos que importarlo de la siguiente forma:
-```{r , eval = FALSE}
-library(readr)
+```{r , eval = TRUE}
 Suicidio <- read_delim("input/data/Suicidio.csv", 
                        delim = ";", escape_double = FALSE, 
                        col_types = cols(Total = col_double()), 
@@ -78,8 +89,7 @@ De cara a conseguir el primero **objetivo de VARIACIÓN DE PARO RESPECTO AL SEXO
 
 1. Cambiamos el nombre de las comunidades y ciudades autónomas, para poder eliminar los números que aparecían al lado de cada comunidad autónoma, y añadimos los nuevos nombres, a una columna nueva del set de datos, que llamaremos CCAA.
 Para ello tuvimos que utilizar case_when:
-```{r , eval = FALSE}
-library(dplyr)
+```{r , eval = TRUE}
 Tasa_de_Paro <- Tasa_de_Paro%>%
   mutate(
     CCAA = case_when( ## cambiamos el nombre con un case_When
@@ -103,6 +113,7 @@ Tasa_de_Paro <- Tasa_de_Paro%>%
       Tasa_de_Paro$`Comunidades y Ciudades Autónomas`== "18 Ceuta" ~ "Ceuta",
       Tasa_de_Paro$`Comunidades y Ciudades Autónomas`== "19 Melilla" ~ "Melilla",
     )) ## y definimos que los nombres "antiguos", van a tener un "nuevo" nombre
+
 ```
 
 
@@ -114,17 +125,16 @@ Tasa_de_Paro <-
   mutate(Sexo = factor(Sexo)) %>%
   filter(Sexo != "Ambos sexos") %>%
   droplevels()
+```
 
-## para ver qué niveles de sexo tiene ahora el set de datos
-levels(Tasa_de_Paro$Sexo)
-## sólo tendrá Hombres y Mujeres, porque hemos eliminado la categoría "ambos sexos" ya que no es objeto de estudio
+Y comprobamos cómo se eliminan la categoría de "ambos sexos":
+```{r , eval = FALSE}
 ## (comprobamos que la categoria "ambos sexos", ha desaparecido)
 Tasa_de_Paro %>%
   filter(Sexo != "Ambos sexos") %>%
   levels() ## nos sale NULL porque ha desaparecido
 
 ```
-
 
 3. Seguidamente, filtramos los datos anteriores, para que nos muestre sólo aquellos valores para los que la nacionalidad es "total", ya que no es objetivo de estudio de nuestro seminario distinguir entre el paro de España respecto a las nacionalidades de las personas.
 
