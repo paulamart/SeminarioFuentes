@@ -332,43 +332,20 @@ str(Suicidio_JOIN)
 Paro_JOIN
 Suicidio_JOIN
 
-#FORMA 1-------------------------
-Paro_Suicidio <-
-  str(full_join(x=Paro_JOIN, y=Suicidio_JOIN))  #SE QUEDA COMO VALOR
 
-summary(Paro_Suicidio)
-
-library(ggplot2)
-Plot_JOIN <-
-  ggplot(data = Paro_Suicidio, aes(x = Total, y = TotalSuicidio)) +
-  geom_point() +
-  theme_light() +
-  theme_classic()
-
-#FORMA 2-----------------------
-Suicidio_Paro <-
-  full_join(x=Paro_JOIN, 
-            y =Suicidio_JOIN, 
-            by = c("Periodo", "CCAA", "Sexo") %>% 
-              summary()
-            )
-
+#JOIN-------------------
 
 Suicidio_Paro <-  
 Paro_JOIN %>% 
-#select("Sexo":"CCAA", "Periodo":"Total") %>%
+  select(c("Sexo","CCAA", "Periodo":"Total")) %>%
   full_join(x = ., 
-        y = Suicidio_JOIN, #%>% 
-          #select("CCAA", "Sexo", "Periodo":"TotalSuicidio"),
-        by = c("Periodo", "CCAA", "Sexo") ) %>%
-  summary()
+        y = Suicidio_JOIN %>% 
+          select(c("CCAA", "Sexo", "Periodo":"TotalSuicidio")),
+        by = c("Periodo", "CCAA", "Sexo") ) 
 
 str(Suicidio_Paro)
 
-Suicidio_Paro <-
-  na.omit(Suicidio_Paro) #si hacemos esto se borran todas las columnas de total.y porque son todos NA
 
-Suicidio_Paro
 
 # Relación entre el número de suicidios y la tasa de paro
 library(ggplot2)
