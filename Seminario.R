@@ -350,7 +350,8 @@ str(Suicidio_Paro)
 # Relación entre el número de suicidios y la tasa de paro
 library(ggplot2)
 Plot_JOIN <-
-  ggplot(data = Suicidio_Paro, mapping = aes(x = , y = IM)) +
+  ggplot(data = Suicidio_Paro, mapping = aes(x = Total, y = TotalSuicidio)) +
   geom_point(na.rm = TRUE)
 
+Plot_JOIN
 
