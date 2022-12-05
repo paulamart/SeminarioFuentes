@@ -140,7 +140,7 @@ Una vez tenemos los datos correctamente filtrados, nos pusimos a realizar la gr�
 
 Para la variación del paro respecto al sexo a lo largo de los años, necesitamos un gráfico que muestre cómo varía el paro nacional respecto al sexo y respecto al paso del tiempo.
 Para ello propusimos lo siguiente:
-```{r , eval = FALSE}
+```{r , eval = TRUE, fig.width=8}
 Plot_Paro_Sexo_Años <- ## necesitamos guardarlo con un nombre determinado
   ggplot(data = Paro_Total_Año, aes(x = Periodo, y = Total)) +
   geom_point(aes(colour = factor(Sexo))) +
@@ -151,6 +151,10 @@ Plot_Paro_Sexo_Años <- ## necesitamos guardarlo con un nombre determinado
 Plot_Paro_Sexo_Años
 
 ```
+
+
+
+
 
 ![Imagen 3. Gráfico del paro respecto al sexo a lo largo de los años](input/images/Paro_Sexo.png)
 
@@ -185,14 +189,15 @@ Tasa_de_Paro_CCAA <-
 ```
 
 Y realizamos el gráfico:
-```{r , eval = FALSE}
+```{r , eval = TRUE, fig.width=8}
 Plot_Paro_CCAA <- ## necesitamos guardarlo con un nombre determinado
   ggplot(data = Tasa_de_Paro_CCAA, aes(x = Periodo, y = Total)) +
   geom_point(aes(colour = factor(Sexo))) +
   facet_grid(Sexo ~ Tasa_de_Paro_CCAA$`CCAA`) +
   geom_smooth(method = "lm", aes(colour = factor(Sexo))) +
   theme_light() + #quitamos el gris de fondo
-  theme_classic()  #quitamos los cuadrados del fondo
+  theme_classic()+  #quitamos los cuadrados del fondo
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 
 Plot_Paro_CCAA
 

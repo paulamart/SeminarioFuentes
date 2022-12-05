@@ -147,10 +147,12 @@ library(ggplot2)
 Plot_Paro_CCAA <- ## necesitamos guardarlo con un nombre determinado
   ggplot(data = Tasa_de_Paro_CCAA, aes(x = Periodo, y = Total)) +
   geom_point(aes(colour = factor(Sexo))) +
-  facet_grid(Sexo ~ Tasa_de_Paro_CCAA$`CCAA`) +
+  #facet_grid(Sexo ~ Tasa_de_Paro_CCAA$`CCAA`) +
+  facet_grid(. ~ Tasa_de_Paro_CCAA$`CCAA`) +
   geom_smooth(method = "lm", aes(colour = factor(Sexo))) +
   theme_light() + #quitamos el gris de fondo
-  theme_classic()  #quitamos los cuadraditos
+  theme_classic() + #quitamos los cuadraditos
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 
 Plot_Paro_CCAA
 
