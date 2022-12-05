@@ -355,6 +355,13 @@ library(ggplot2)
 Plot_JOIN <-
   ggplot(data = Suicidio_Paro, mapping = aes(x = Total, y = TotalSuicidio)) +
   geom_point(na.rm = TRUE)+
+  geom_smooth()+
+  labs(
+    x= "Tasa de Paro" ,
+    y ="Tasa de Suicidio" , 
+    title= "Correlación entre paro y suicidio"
+  ) +
+  #lims(x = c(6, 35), y = c(0, 600))+
   theme_classic()
 
 Plot_JOIN
