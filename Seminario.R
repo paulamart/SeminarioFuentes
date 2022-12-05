@@ -314,6 +314,7 @@ Suicidio_JOIN <-
 
 ## ** JOIN entre PARO Y SUICIDIO ----------------------------------------------------------------------------------------
 
+#PREPARAMOS LAS TABLAS PARA EL JOIN
 # PARA VER SI HAY O NO RELACIÓN HACEMOS UN JOIN
 # Pivotes -- años y Cuidades y Comunidades Autónomas
 
@@ -333,7 +334,7 @@ Paro_JOIN
 Suicidio_JOIN
 
 
-#JOIN-------------------
+#LO UNIMOS
 
 Suicidio_Paro <-  
 Paro_JOIN %>% 
@@ -347,11 +348,12 @@ str(Suicidio_Paro)
 
 
 
-# Relación entre el número de suicidios y la tasa de paro
+# Relación visual entre el número de suicidios y la tasa de paro
 library(ggplot2)
 Plot_JOIN <-
   ggplot(data = Suicidio_Paro, mapping = aes(x = Total, y = TotalSuicidio)) +
-  geom_point(na.rm = TRUE)
+  geom_point(na.rm = TRUE)+
+  theme_classic()
 
 Plot_JOIN
 
