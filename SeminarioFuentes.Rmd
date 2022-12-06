@@ -54,7 +54,7 @@ library(ggplot2)
 
 ## 4. Desarrollo 
 Antes de empezar el seminario, tuvimos que decidir qué datos utilizar y dónde buscarlos. Tras un tiempo, decidimos recoger ambos sets de datos de la base de datos del gobierno de España (<https://datos.gob.es/es/catalogo>).
-Concretamente, los datos de tasa de paro los obtivimos de la siguiente fotografía:
+Concretamente, los datos de tasa de paro los obtuvimos de la siguiente fotografía:
 
 ![Imagen 1. Fotográfia datos de tasa de paro](input/images/Datos.gob_Tasa_de_Paro.png)
 
@@ -74,6 +74,7 @@ Tasa_de_Paro <- read_delim("input/data/Tasa_de_Paro.csv",
                            col_types = cols(Total = col_double()), 
                            trim_ws = TRUE)
 ```
+
 Por otro lado, para los datos de suicidio, tuvimos que importarlo de la siguiente forma:
 ```{r , eval = TRUE}
 Suicidio <- read_delim("input/data/Suicidio.csv", 
@@ -119,7 +120,6 @@ Tasa_de_Paro <- Tasa_de_Paro%>%
 
 2. Filtramos los datos para que nos salieran sólo aquellos datos que nos mostraran hombres y mujeres, ambos por separado, eliminando así aquellos datos que contenían una línea para "ambos sexos". Hicimos esto porque, para los objetivos que nos propusimos, era primordial filtrar por sexos, para, posteriormente estudiar, si hubieran, las diferencias entre ambos.
 ```{r , eval = TRUE}
-library(dplyr)
 Tasa_de_Paro <-
   Tasa_de_Paro %>%
   mutate(Sexo = factor(Sexo)) %>%
@@ -175,12 +175,6 @@ Plot_Paro_Sexo_Años
 ```
 
 
-
-
-
-![Imagen 3. Gráfico del paro respecto al sexo a lo largo de los años](input/images/Paro_Sexo.png)
-
-
 **CONCLUSIÓN**:
 Podemos obsevar como la tasa de paro en mujeres es mayor respecto a la tasa de paro en hombres, durante todos los años estudiados, es decir, desde 2006 a 2021. Sin embargo, podemos observar como al principio de los años, esta diferencia de tasas entre ambos sexos era bastante más notable. A partir de la crisis de 2009, podemos observar cómo ambas tasas comienzan a acercarse, hasta 2016, donde empiezan a separarse de nuevo. Hoy en día, la diferencia sigue siendo notable. 
 Esto podemos observarlo más rápidamente con la regresión lineal, en la cual vemos como la tasa de par de las mujeres está siempre por encima de la de los hombres.
@@ -191,7 +185,7 @@ Adjuntamos, posteriormente la noticia que verifica estos hechos:
 <https://www.libremercado.com/2013-01-24/la-tasa-de-paro-cierra-2012-en-el-26-1276480251/#:~:text=De%20esta%20forma%2C%202012%20se,en%202011%2C%20en%20577.000%20desempleados.>
 
 
-![Imagen 4. Noticia acerca del paro en España en 2012](input/images/Noticia_Paro_2012.png)
+![Imagen 3. Noticia acerca del paro en España en 2012](input/images/Noticia_Paro_2012.png)
 
 
 
@@ -211,7 +205,7 @@ Tasa_de_Paro_CCAA <-
 ```
 
 Y realizamos el gráfico:
-```{r , eval = TRUE}
+```{r , eval = TRUE, fig.width=15}
 Plot_Paro_CCAA <- ## necesitamos guardarlo con un nombre determinado
   ggplot(data = Tasa_de_Paro_CCAA, aes(x = Periodo, y = Total)) +
   geom_point(aes(colour = factor(Sexo))) +
@@ -225,8 +219,6 @@ Plot_Paro_CCAA
 
 ```
 
-![Imagen 5. Gráfico del paro respecto a cada Comunidad Autónoma](input/images/Paro_CCAA.png)
-
 
 **CONCLUSIÓN**:
 Podemos observar cómo hay diferencias considerables entre las diferentes comunidades autónomas, pero, las tasas de paro de ambos sexos parecen estar correlacionadas, ya que se asemejan entre comunidades autónomas, a pesar de que en mujeres son algo más elevadas que en hombres; por ejemplo, si nos fijamos en la comunidad autónoma de Andalucía, podemos ver que ambas tasas de paro son las mayores con respecto a las demás; así como en la comunidad de Aragón, ambas tasas descienden con respecto a la de Andalucía. Sin embargo, no es siempre así, porque si nos fijamos en la Comunidad valenciana y País Vasco, se puede observar cómo la tasa de paro de mujeres es mayor en la Comunidad Valenciana, sin embargo, la tasa de paro en hombres es mayor en el País Vasco, por lo que confirmamos que no hay una correlacón precisa, pero sí que van a la vez.
@@ -237,7 +229,7 @@ Para el **objetivo de VARIACIÓN DE SUICIDIO RESPECTO AL SEXO POR AÑOS**, tuvim
 1. Al igual que en el anterior set de datos, cambiamos el nombre de las comunidades y ciudades autónomas, y añadimos los nuevos nombres dados, a una columna nueva  del set de datos que llamaremos CCAA.
 Para ello tuvimos que utilizar case_when:
 
-```{r , eval = FALSE}
+```{r , eval = TRUE}
 ## Modificamos el nombre de las comunidades autónomas, y los añadimos a una nueva columna, que llamaremos CCAA
 Suicidio <- Suicidio%>%
   mutate(
@@ -266,7 +258,7 @@ Suicidio <- Suicidio%>%
 
 2. Filtramos el set de datos para que nos salieran sólo aquellas causas de muerte que correspondían con suicidio y/o lesiones autoinflingidas (debido a que el set de datos era tan extenso, que recogía el número de muertes debidas a otras causas, pero como en nuestro seminario queríamos hablar del suicidio, cogimos aquellos datos que nos interesaban)
 
-```{r , eval = FALSE}
+```{r , eval = TRUE}
 Suicidio <-
   Suicidio %>%
   mutate(`Causa de muerte (lista reducida)` = Suicidio$`Causa de muerte (lista reducida)`) %>%
@@ -276,7 +268,7 @@ Suicidio <-
 
 3. Posteriormente, al igual que en el set de datos de tasa de paro, tuvimos que filtrar para que nos salieran aquellos datos que mostraran hombres y mujeres, ambos por separados, y eliminara aquellos datos que unían ambos sexos. Hicimos esto porque nos interesaba estudiar cuál era el número de suicidios de hombres y de mujeres, ambos por separado, para, posteriormente, compararlos y establecer conclusiones.
 
-```{r , eval = FALSE}
+```{r , eval = TRUE}
 Suicidio <-
   Suicidio %>%
   mutate( Sexo = Suicidio$Sexo) %>%
@@ -287,7 +279,7 @@ Suicidio <-
 4. Asimismo, tuvimos que filtrar los datos anteriores, porque, al ser el set de datos tan largo y extenso, recogía información relacionada con el lugar de ocurrencia en el que se había desarrollado la muerte, pero, como no era objetivo de estudio de nuestro seminario, tuvimos que filtrar los datos para que nos mostrará lugar de ocurrencia "Total".
 
 
-```{r , eval = FALSE}
+```{r , eval = TRUE}
 Suicidio <-
   Suicidio %>%
   mutate(`Lugar de ocurrencia`= Suicidio$`Lugar de ocurrencia` ) %>%
@@ -297,18 +289,18 @@ Suicidio <-
 
 5. Finalmente, como vimos que el set de datos tenía algún valor no definido (NA), y que lo estábamos arrastrando de los anteriores filtros, tuvimos que eliminar todas las líneas que tuvieran algún valor NA en ellas, ya que ese valor nos produciría problemas más adelante.
 
-```{r , eval = FALSE}
+```{r , eval = TRUE}
 Suicidio <-
   na.omit(Suicidio)
 ```
 
-Posteriormente, con los datos bein organizados y filtrados, nos propusimos el objetivo de realizar las gráficas que dependieran del set de datos de suicidio:
+Posteriormente, con los datos bien organizados y filtrados, nos propusimos el objetivo de realizar las gráficas que dependieran del set de datos de suicidio:
 
 Para la **VARIACIÓN DE SUICIDIO RESPECTO AL SEXO Y AL TIEMPO**, necesitabamos una gráfica en la que nos mostrara todos los casos de suicidios, tanto de hombres como de mujeres, por cada uno de los años.
 Para ello:
 
 Creamos un nuevo objeto (Suicidio_Total), en el que incluimos la media del total de suicidios que se han producido en cada año, y la desviación, respecto de la media, del numero total de suicidios.
-```{r , eval = FALSE}
+```{r , eval = TRUE}
 Suicidio_Total <-
   Suicidio %>%
   group_by(año, Sexo)%>%
