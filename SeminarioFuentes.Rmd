@@ -32,7 +32,7 @@ Durante el desarrollo y estudio del seminario, hemos utilizado numerosas librer�
 
 Utilizamos readr para importar los datos extraídos de la base de datos del gobierno de España (gob.es). (Dichos datos están disponibles en la carpeta input/data del repositorio Github).
 
-```{r , eval = TRUE}
+```{r , eval = TRUE,message=FALSE}
 library(readr)
 ```
 
@@ -40,7 +40,7 @@ library(readr)
 
 Utilizamos dplyr para modificar y filtrar los datos, y obtener así sólo aquellos que fueran de gran interés para ayudarnos a contestar las preguntas que propusimos antes de comenzar el proyecto.
 
-```{r , eval = TRUE}
+```{r , eval = TRUE,message=FALSE}
 library(dplyr)
 ```
 
@@ -48,7 +48,7 @@ library(dplyr)
 
 Utilizamos ggplot2 para representar de forma visual, mediante gráficos de todo tipo, los datos. 
 
-```{r , eval = TRUE}
+```{r , eval = TRUE,message=FALSE,warning=FALSE}
 library(ggplot2)
 ```
 
@@ -67,7 +67,7 @@ Por otro lado, los datos de suicidio los sacamos de la fotografía que se muestr
 
 Posteriormente, insertamos los datos en el proyecto, para poder estudiarlos y modificarlos de cara a los objetivos propuestos.
 Para la tasa de paro, importamos los datos de la siguiente manera:
-```{r , eval = TRUE}
+```{r , eval = TRUE,warning=FALSE}
 ## Para importar los datos de TASA DE PARO:
 Tasa_de_Paro <- read_delim("input/data/Tasa_de_Paro.csv", 
                            delim = ";", escape_double = FALSE, 
@@ -76,7 +76,7 @@ Tasa_de_Paro <- read_delim("input/data/Tasa_de_Paro.csv",
 ```
 
 Por otro lado, para los datos de suicidio, tuvimos que importarlo de la siguiente forma:
-```{r , eval = TRUE}
+```{r , eval = TRUE,warning=FALSE}
 Suicidio <- read_delim("input/data/Suicidio.csv", 
                        delim = ";", escape_double = FALSE, 
                        col_types = cols(Total = col_double()), 
@@ -128,7 +128,7 @@ Tasa_de_Paro <-
 ```
 
 Y comprobamos cómo se eliminan la categoría de "ambos sexos":
-```{r , eval = TRUE,}
+```{r , eval = TRUE,results='hide'}
 ## (comprobamos que la categoria "ambos sexos", ha desaparecido)
 Tasa_de_Paro %>%
   filter(Sexo != "Ambos sexos") %>%
@@ -162,7 +162,7 @@ Paro_Total_Año <-
 ```
 
 Y realizamos el gráfico a raíz de lo explicado anteriormente:
-```{r , eval = TRUE}
+```{r , eval = TRUE,message=FALSE}
 Plot_Paro_Sexo_Años <- ## necesitamos guardarlo con un nombre determinado
   ggplot(data = Paro_Total_Año, aes(x = Periodo, y = Total)) +
   geom_point(aes(colour = factor(Sexo))) +
@@ -205,7 +205,7 @@ Tasa_de_Paro_CCAA <-
 ```
 
 Y realizamos el gráfico:
-```{r , eval = TRUE, fig.width=15}
+```{r , eval = TRUE, fig.width=20,fig.height=15,message=FALSE}
 Plot_Paro_CCAA <- ## necesitamos guardarlo con un nombre determinado
   ggplot(data = Tasa_de_Paro_CCAA, aes(x = Periodo, y = Total)) +
   geom_point(aes(colour = factor(Sexo))) +
@@ -300,7 +300,7 @@ Para la **VARIACIÓN DE SUICIDIO RESPECTO AL SEXO Y AL TIEMPO**, necesitabamos u
 Para ello:
 
 Creamos un nuevo objeto (Suicidio_Total), en el que incluimos la media del total de suicidios que se han producido en cada año, y la desviación, respecto de la media, del numero total de suicidios.
-```{r , eval = TRUE}
+```{r , eval = TRUE,warning=FALSE,message=FALSE}
 Suicidio_Total <-
   Suicidio %>%
   group_by(año, Sexo)%>%
@@ -340,19 +340,18 @@ En este mismo artículo, muestra la estadística, visualmente, del número de su
 
 Para el **objetivo de VARIACION DE SUICIDIOS RESPECTO A LOS AÑOS, AL SEXO Y A COMUNIDAD AUTONOMA**, necesitábamos una grafica en la que nos mostrara todos los casos de suicidios, tanto de hombres como de mujeres, por cada uno de los años en cada una de las comunidades autónomas de España.
 Para ello:
-```{r , eval = TRUE,fig.width=15}
+```{r , eval = TRUE,fig.width=20,fig.height=15,message=FALSE,warning=FALSE}
 Plot_Suicidio_CCAA <-
   ggplot(data = Suicidio, aes(x = año, y = Total)) +
   geom_point(aes(colour = factor(Sexo))) +
-  facet_grid(Sexo ~ Suicidio$CCAA) +
+  facet_grid(. ~ Suicidio$`CCAA`)+
   geom_smooth(method = "lm", aes(colour = factor(Sexo))) +
   theme_light() + #quitamos el gris de fondo
-  theme_classic()  #quitar los cuadraditos
+  theme_classic() + #quitar los cuadraditos
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 
 Plot_Suicidio_CCAA
 ```
-
-![Imagen 9. Gráfico del suicidio respecto a Comunidad Autónoma](input/images/Suicidio_CCAA.png)
 
 
 
@@ -395,6 +394,7 @@ Paro_JOIN <-
 
 ```
 
+
 II. Filtramos los datos de Suicidio, para que coincidan en años, con los datos filtrados de Tasa de Paro, es decir, queremos los años entre el 2017 y 2020 (ambos incluidos)
 Para ello, al igual que antes, crearemos otro nuevo objeto (Suicidio_JOIN), en el que incluiremos los datos de los años que nos interesan
 
@@ -433,7 +433,7 @@ Paro_JOIN %>%
 
 Y lo representamos en una gráfica, para poder ver, de manera visual, si ambos sets de datos tenían realación entre ellos o no:
 
-```{r , eval = TRUE,fig.width=9}
+```{r , eval = TRUE,fig.width=9,message=FALSE, warning=FALSE}
 Plot_JOIN <-
   ggplot(data = Suicidio_Paro, mapping = aes(x = Total, y = TotalSuicidio)) +
   geom_point(na.rm = TRUE)+
