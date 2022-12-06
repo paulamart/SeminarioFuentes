@@ -370,7 +370,7 @@ En el anterior artículo, tambien habla acerca de cuál de las Comunidades Autó
 
 
 
-Por último, para el obejtivo de si hay o no RELACIÓN ENTRE LA CANTIDAD DE PARO, Y EL NÚMERO DE SUICIDIOS, necesitamos hacer un join, uniendo ambas tablas, para ello debemos seguir una serie de pasos para la correcta realización:
+Por último, para el obejtivo de si **hay o no RELACIÓN ENTRE LA CANTIDAD DE PARO, Y EL NÚMERO DE SUICIDIOS**, necesitamos hacer un join, uniendo ambas tablas, para ello debemos seguir una serie de pasos para la correcta realización:
 
 I. Filtramos los datos de Tasa de Paro para que nos salgan sólo aquellos años mayores al 2016, y menores al 2021 (2017, 2018, 2019 y 2020)
 Para ello crearemos un nuevo objeto (Paro_JOIN), en el que incluiremos los datos de los años de interés
@@ -404,6 +404,49 @@ Suicidio_JOIN <-
   mutate(año = Suicidio$año) %>%
   filter(año > 2016 ) %>%
   droplevels()
+
+```
+
+Una vez tenemos los dos sets de datos bien filtrados, y con los mismos años, procedemos a unirlos mediante un full join, pero, previamente, tenemos que realizar unas pequeñas modificaciones para que el full join no cree problemas en la unión.
+
+En primer lugar, tuvimos que hacer que alguna columna de los dos sets de datos se llamasen igual, en este caso, tuvimos que renombrar la columna año, que pasará a llamarse periodo, para hacerlas coincidir.
+
+```{r , eval = TRUE}
+Suicidio_JOIN <-
+  Suicidio %>%
+  rename(`Periodo`=`año`, `TotalSuicidio`=`Total`) #año pasa a llamarse periodo en el set de datos de suicidio_JOIN
+
+```
+
+Tras las modificaciones, ya teníamos los datos de manera correcta para unirlos. y eso fue lo que hicimos, utilizamos un full join para su realización.
+
+```{r , eval = TRUE}
+Suicidio_Paro <-  
+Paro_JOIN %>% 
+  select(c("Sexo","CCAA", "Periodo":"Total")) %>%
+  full_join(x = ., 
+        y = Suicidio_JOIN %>% 
+          select(c("CCAA", "Sexo", "Periodo":"TotalSuicidio")),
+        by = c("Periodo", "CCAA", "Sexo") ) 
+
+```
+
+Y lo representamos en una gráfica, para poder ver, de manera visual, si ambos sets de datos tenían realación entre ellos o no:
+
+```{r , eval = TRUE,fig.width=9}
+Plot_JOIN <-
+  ggplot(data = Suicidio_Paro, mapping = aes(x = Total, y = TotalSuicidio)) +
+  geom_point(na.rm = TRUE)+
+  geom_smooth()+
+  labs(
+    x= "Tasa de Paro" ,
+    y ="Tasa de Suicidio" , 
+    title= "Correlación entre paro y suicidio"
+  ) +
+  #lims(x = c(6, 35), y = c(0, 600))+
+  theme_classic()
+
+Plot_JOIN
 
 ```
 
