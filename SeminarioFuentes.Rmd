@@ -310,8 +310,7 @@ Suicidio_Total <-
 ```
 
 Y procedemos a realizar la gráfica:
-```{r , eval = FALSE}
-library(ggplot2)
+```{r , eval = TRUE}
 Plot_Suicidio_Total_Sexo_Año <-  
   ggplot(data = Suicidio_Total, aes(x = Year, y = MT, fill = Sexo))+
   geom_bar( stat = "identity", position = "dodge")+
@@ -320,9 +319,6 @@ Plot_Suicidio_Total_Sexo_Año <-
 
 Plot_Suicidio_Total_Sexo_Año 
 ```
-
-![Imagen 6. Gráfico del suicidio respecto al sexo](input/images/Suicidio_Sexo.png)
-
 
 
 **CONCLUSIÓN**:
@@ -333,19 +329,18 @@ El suicidio es una de las causas de muerte más importantes en España, por ejem
 <https://www.huffingtonpost.es/entry/graficos-suicidio-espana_es_61b85b8de4b0358b5c4af1c5>
 
 
-![Imagen 7. Noticia del suicidio en España en 2020](input/images/Noticia_Suicidio_2020.png)
+![Imagen 4. Noticia del suicidio en España en 2020](input/images/Noticia_Suicidio_2020.png)
 
 En este mismo artículo, muestra la estadística, visualmente, del número de suicidios diarios
 
 
-![Imagen 8. Número de suicidios en España en 2020](input/images/Noticia_Suicidios_diarios_2020.png)
+![Imagen 5. Número de suicidios en España en 2020](input/images/Noticia_Suicidios_diarios_2020.png)
 
 
 
 Para el **objetivo de VARIACION DE SUICIDIOS RESPECTO A LOS AÑOS, AL SEXO Y A COMUNIDAD AUTONOMA**, necesitábamos una grafica en la que nos mostrara todos los casos de suicidios, tanto de hombres como de mujeres, por cada uno de los años en cada una de las comunidades autónomas de España.
 Para ello:
-```{r , eval = FALSE}
-library(ggplot2)
+```{r , eval = TRUE,fig.width=15}
 Plot_Suicidio_CCAA <-
   ggplot(data = Suicidio, aes(x = año, y = Total)) +
   geom_point(aes(colour = factor(Sexo))) +
@@ -371,17 +366,46 @@ En el anterior artículo, tambien habla acerca de cuál de las Comunidades Autó
 <https://www.huffingtonpost.es/entry/graficos-suicidio-espana_es_61b85b8de4b0358b5c4af1c5>
 
 
-![Imagen 10. Comunidades donde hay el mayor número de suicidios](input/images/Noticia_Suicidio_comunidades_2020.png)
+![Imagen 6. Comunidades donde hay el mayor número de suicidios](input/images/Noticia_Suicidio_comunidades_2020.png)
 
 
 
-Por último, para el obejtivo de si hay o no RELACIÓN ENTRE LA CANTIDAD DE PARO, Y EL NÚMERO DE SUICIDIOS, necesitamos hacer un join, uniendo ambas tablas
-(falta por hacer bien y mejorar)
+Por último, para el obejtivo de si hay o no RELACIÓN ENTRE LA CANTIDAD DE PARO, Y EL NÚMERO DE SUICIDIOS, necesitamos hacer un join, uniendo ambas tablas, para ello debemos seguir una serie de pasos para la correcta realización:
 
+I. Filtramos los datos de Tasa de Paro para que nos salgan sólo aquellos años mayores al 2016, y menores al 2021 (2017, 2018, 2019 y 2020)
+Para ello crearemos un nuevo objeto (Paro_JOIN), en el que incluiremos los datos de los años de interés
 
+```{r , eval = TRUE}
+Paro_JOIN <-
+  Tasa_de_Paro %>%
+  mutate(Periodo = Tasa_de_Paro$Periodo) %>%
+  filter(Periodo > 2016 & Periodo < 2021) %>%
+  droplevels()
 
+```
 
+Posteriormente, filtramos el objeto anterior, para que nos elimine aquellas filas de la columna CCAA, que poseen un valor "NA"
 
+```{r , eval = TRUE}
+Paro_JOIN <-
+  Paro_JOIN %>%
+  mutate(CCAA = Paro_JOIN$CCAA) %>%
+  filter(CCAA != is.na(CCAA)) %>%
+  droplevels()
+
+```
+
+II. Filtramos los datos de Suicidio, para que coincidan en años, con los datos filtrados de Tasa de Paro, es decir, queremos los años entre el 2017 y 2020 (ambos incluidos)
+Para ello, al igual que antes, crearemos otro nuevo objeto (Suicidio_JOIN), en el que incluiremos los datos de los años que nos interesan
+
+```{r , eval = TRUE}
+Suicidio_JOIN <-
+  Suicidio %>%
+  mutate(año = Suicidio$año) %>%
+  filter(año > 2016 ) %>%
+  droplevels()
+
+```
 
 ## Conclusiones y discusión de los resultados finales
 Tras analizar todos los aspectos, vemos a simple vista que no hay correlación, ya que la tasa de paro, en cómputo global, es mayor en mujeres que en hombres, y que el número de suicidio es mayor en hombres que en mujeres, pero para asegurarnos procedemos a juntar ambas tablas.
