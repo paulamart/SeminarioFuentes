@@ -372,30 +372,58 @@ Plot_JOIN
 #** Datos de Tasa de Paro ----------------------------
 library(tidyjson)
 library(rjson)
+
+#importamos el set de datos mediante JSON
 ParoJSON <- fromJSON(file = "input/data/Paro.json")
 
+#distribuye cualquier objeto JSON que sea escalar en nuevas columnas
 ParoJSON %>% 
   spread_all() %>%
   str()
 
-
+#vemos el tipo de datos que es cada variable
 ParoJSON %>% 
   gather_object %>% 
   json_types %>% 
   count(name, type)
 
+#seleccionamos las columnas que nos interesan de la variable DATA
+Paro1_JSON <-
 ParoJSON %>%
   enter_object(Data) %>%
   gather_array %>%
   spread_all %>%
-  view()
+  select(Anyo:Valor, document.id)
 
+#seleccionamos la columna que nos interesa de la variable MEGADATA
+Paro2_JSON<-
 ParoJSON %>%
   enter_object(MetaData) %>%
   gather_array %>%
-  spread_all %>%
-  view()
+  spread_all%>%
+  select(Nombre, document.id)
   
+
+#ParoJSON %>%
+  #enter_object(MetaData) %>% 
+  #gather_array %>%
+  #gather_object %>% 
+  #json_types %>% 
+  #count(name, type)
+
+#LUEGO HACER EL JOIN DE AMBOS
+
+PARO_JOIN_JSON <-
+  full_join(x=Paro1_JSON, y=Paro2_JSON, by=(document.id))
+
+PAROJSON <-
+Paro1_JOIN %>% 
+  select(c("Anyo", "Valor", "document.id")) %>%
+  full_join(x = ., 
+            y = Paro2_JOIN %>% 
+              select(c("CCAA", "Sexo", "Periodo":"TotalSuicidio")),
+            by = c("Periodo", "CCAA", "Sexo") ) 
+
 
 #** Datos de Suicidio --------------------------------
 
@@ -417,11 +445,9 @@ library(tidyverse)
 SuicidioJSON %>%
   enter_object(Data) %>%
   gather_array %>%
-  spread_all %>%
-  view()
+  spread_all 
 
 SuicidioJSON %>%
   enter_object(MetaData) %>%
   gather_array %>%
-  spread_all %>%
-  view()
+  spread_all 
