@@ -367,7 +367,9 @@ Plot_JOIN <-
 Plot_JOIN
 
 
-#*INTENTO DE IMPORTAR EL JSON-------------------------
+#* Importación mediante Json-------------------------
+
+#** Datos de Tasa de Paro ----------------------------
 library(tidyjson)
 library(rjson)
 ParoJSON <- fromJSON(file = "input/data/Paro.json")
@@ -394,3 +396,32 @@ ParoJSON %>%
   spread_all %>%
   view()
   
+
+#** Datos de Suicidio --------------------------------
+
+library(tidyjson)
+library(rjson)
+SuicidioJSON <- fromJSON(file = "input/data/suicidios.json")
+
+SuicidioJSON %>%
+  spread_all() %>%
+  str()
+
+library(dplyr)
+SuicidioJSON %>% 
+  gather_object %>% 
+  json_types %>% 
+  count(name, type)
+
+library(tidyverse)
+SuicidioJSON %>%
+  enter_object(Data) %>%
+  gather_array %>%
+  spread_all %>%
+  view()
+
+SuicidioJSON %>%
+  enter_object(MetaData) %>%
+  gather_array %>%
+  spread_all %>%
+  view()
