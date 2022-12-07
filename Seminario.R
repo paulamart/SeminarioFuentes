@@ -426,6 +426,21 @@ Paro1_JSON %>%
             by = c("document.id") ) 
 
 
+#FILTRAMOS POR AÑOS
+JOIN_PARO_JSON <-
+  JOIN_PARO_JSON %>%
+  filter(Anyo>2016)
+
+#FILTRAMOS POR AMBOS SEXO
+JOIN_PARO_JSON <-
+  JOIN_PARO_JSON %>%
+  
+  #filter(Nombre == "Hombres") %>%
+  #filter(Nombre == "Mujeres")
+  
+  #filter(Nombre == "Ambos sexos") %>%
+  #filter(Nombre == "Extranjera: Unión Europea") %>%
+  #filter(Nombre == "Tasa de paro de la población")
 
 #** Datos de Suicidio --------------------------------
 
@@ -469,3 +484,9 @@ JOIN_SUICIDIO_JSON <-
             y = Suicidio2_JSON %>% 
               select(c("Nombre", "document.id")),
             by = c("document.id") ) 
+
+
+#FILTRAMOS POR SEXO?
+JOIN_SUICIDIO_JSON <-
+  JOIN_SUICIDIO_JSON %>%
+  filter()
