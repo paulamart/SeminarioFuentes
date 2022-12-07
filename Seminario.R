@@ -372,6 +372,7 @@ Plot_JOIN
 #** Datos de Tasa de Paro ----------------------------
 library(tidyjson)
 library(rjson)
+library(tidyverse)
 
 #importamos el set de datos mediante JSON
 ParoJSON <- fromJSON(file = "input/data/Paro.json")
@@ -401,7 +402,8 @@ ParoJSON %>%
   enter_object(MetaData) %>%
   gather_array %>%
   spread_all%>%
-  select(Nombre, document.id)
+  select(Nombre, document.id) 
+  #filter(Nombre = c("Ambos sexos","Hombres", "Mujeres"))
   
 
 #ParoJSON %>%
@@ -411,18 +413,18 @@ ParoJSON %>%
   #json_types %>% 
   #count(name, type)
 
+
+
 #LUEGO HACER EL JOIN DE AMBOS
 
-PARO_JOIN_JSON <-
-  full_join(x=Paro1_JSON, y=Paro2_JSON, by=(document.id))
-
-PAROJSON <-
-Paro1_JOIN %>% 
+JOIN_PARO_JSON <-
+Paro1_JSON %>% 
   select(c("Anyo", "Valor", "document.id")) %>%
   full_join(x = ., 
-            y = Paro2_JOIN %>% 
-              select(c("CCAA", "Sexo", "Periodo":"TotalSuicidio")),
-            by = c("Periodo", "CCAA", "Sexo") ) 
+            y = Paro2_JSON %>% 
+              select(c("Nombre", "document.id")),
+            by = c("document.id") ) 
+
 
 
 #** Datos de Suicidio --------------------------------
@@ -442,12 +444,28 @@ SuicidioJSON %>%
   count(name, type)
 
 library(tidyverse)
-SuicidioJSON %>%
-  enter_object(Data) %>%
-  gather_array %>%
-  spread_all 
+Suicidio1_JSON <-
+  SuicidioJSON %>%
+    enter_object(Data) %>%
+    gather_array %>%
+    spread_all %>%
+    select("Valor","document.id")
 
-SuicidioJSON %>%
-  enter_object(MetaData) %>%
-  gather_array %>%
-  spread_all 
+Suicidio2_JSON <-
+  SuicidioJSON %>%
+    enter_object(MetaData) %>%
+    gather_array %>%
+    spread_all%>%
+    select("Nombre", "document.id")
+
+
+
+#LUEGO HACER EL JOIN DE AMBOS
+
+JOIN_SUICIDIO_JSON <-
+  Suicidio1_JSON %>% 
+  select(c("Valor", "document.id")) %>%
+  full_join(x = ., 
+            y = Suicidio2_JSON %>% 
+              select(c("Nombre", "document.id")),
+            by = c("document.id") ) 
