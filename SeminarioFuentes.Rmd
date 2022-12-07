@@ -52,6 +52,32 @@ Utilizamos ggplot2 para representar de forma visual, mediante gráficos de todo 
 library(ggplot2)
 ```
 
+4. library(tidyverse)
+
+Utilizamos tidyverse para manipular, importar, explorar y visualizar los sets de datos utilizados en el seminario.
+
+```{r , eval = TRUE,message=FALSE,warning=FALSE}
+library(tidyverse)
+```
+
+5. library(tidyjson)
+
+Utilizamos tidyjson para poder importar los datos de ambos sets de datos en formato json.
+
+```{r , eval = TRUE,message=FALSE,warning=FALSE}
+library(tidyjson)
+```
+
+6. library(rjson)
+
+Utilizamos rjson para poder leer los datos que se encuentran en formato json.
+
+```{r , eval = TRUE,message=FALSE,warning=FALSE}
+library(rjson)
+```
+
+
+
 ## 4. Desarrollo 
 Antes de empezar el seminario, tuvimos que decidir qué datos utilizar y dónde buscarlos. Tras un tiempo, decidimos recoger ambos sets de datos de la base de datos del gobierno de España (<https://datos.gob.es/es/catalogo>).
 Concretamente, los datos de tasa de paro los obtuvimos de la siguiente fotografía:
@@ -205,11 +231,11 @@ Tasa_de_Paro_CCAA <-
 ```
 
 Y realizamos el gráfico:
-```{r , eval = TRUE, fig.width=20,fig.height=15,message=FALSE}
+```{r , eval = TRUE, fig.width=15,fig.height=10,message=FALSE}
 Plot_Paro_CCAA <- ## necesitamos guardarlo con un nombre determinado
   ggplot(data = Tasa_de_Paro_CCAA, aes(x = Periodo, y = Total)) +
   geom_point(aes(colour = factor(Sexo))) +
-  facet_grid(Sexo ~ Tasa_de_Paro_CCAA$`CCAA`) +
+  facet_grid(. ~ Tasa_de_Paro_CCAA$`CCAA`) +
   geom_smooth(method = "lm", aes(colour = factor(Sexo))) +
   theme_light() + #quitamos el gris de fondo
   theme_classic()+  #quitamos los cuadrados del fondo
@@ -340,7 +366,7 @@ En este mismo artículo, muestra la estadística, visualmente, del número de su
 
 Para el **objetivo de VARIACION DE SUICIDIOS RESPECTO A LOS AÑOS, AL SEXO Y A COMUNIDAD AUTONOMA**, necesitábamos una grafica en la que nos mostrara todos los casos de suicidios, tanto de hombres como de mujeres, por cada uno de los años en cada una de las comunidades autónomas de España.
 Para ello:
-```{r , eval = TRUE,fig.width=20,fig.height=15,message=FALSE,warning=FALSE}
+```{r , eval = TRUE,fig.width=15,fig.height=10,message=FALSE,warning=FALSE}
 Plot_Suicidio_CCAA <-
   ggplot(data = Suicidio, aes(x = año, y = Total)) +
   geom_point(aes(colour = factor(Sexo))) +
