@@ -8,6 +8,9 @@ output:
     toc_depth: 6
     toc_float: true
 ---
+![](input/images/escudo universidad.jpg)
+
+
 
 # Índice de contenidos
 1. Introducción
@@ -18,23 +21,26 @@ output:
 
 ## 1. Introducción
 En este proyecto de seminario, trataremos de analizar los datos, respecto al sexo y a cada comunidad autónoma, de la tasa de paro nacional desde el año 2006 hasta el año 2021. A su vez, el seminario tratará de analizar los datos, respecto al sexo y a cada comunidad autónoma, del suicidio en España a lo largo de los años 2016, 2017, 2018, 2019 y 2020.
+
 Posteriormente, tras analizar y estructurar adecuadamente los datos, trataremos de ver la relación, si la hay, entre estos dos aspectos, es decir, trataremos de determinar si hay una relación entre la tasa de paro de una comunidad autónoma, y la cantidad de suicidios que se producen en la misma.
 
 ## 2. Objetivos
 El desarrollo del seminario se basa en la resolución y/o respuesta de una serie de objetivos bien marcados desde el inicio del proyecto:
 
-1. VARIACIÓN DE PARO RESPECTO AL SEXO POR AÑOS
-   VARIACIÓN DE SUICIDIO RESPECTO AL SEXO POR AÑOS
-2. VARIACION DE PARO RESPECTO A LOS AÑOS, AL SEXO Y A COMUNIDAD AUTONOMA
-   VARIACION DE SUICIDIOS RESPECTO A LOS AÑOS, AL SEXO Y A COMUNIDAD AUTONOMA
-3. VER SI EXISTE O NO RELACIÓN ENTRE LA CANTIDAD DE PARO, Y EL NÚMERO DE SUICIDIOS
+1. Variación del paro respecto al sexo por años.
+   Variación de suicidios respecto al sexo por años.
+   
+2. Variación de paro respecto a los años, al sexo y a la comunidad autónoma en España.
+   Variación de suicidios respecto a los años, al sexo y a la caomunidad autónoma en España.
+   
+3. Ver la relación entre el número de suicidios, y la tasa de paro.
 
-## 3. Métodos utilizados
-Durante el desarrollo y estudio del seminario, hemos utilizado numerosas librerías, entre las que cabe destacar:
+## 3. Métodos o paquetes utilizados
+Durante el desarrollo y estudio del seminario, hemos utilizado numerosas librerías y paquetes, entre las que cabe destacar:
 
 1. library(readr)
 
-Utilizamos readr para importar los datos extraídos de la base de datos del gobierno de España (gob.es). (Dichos datos están disponibles en la carpeta input/data del repositorio Github).
+Utilizamos readr para importar los datos extraídos de la base de datos del gobierno de España (<https://datos.gob.es/es/catalogo>). (Dichos datos están disponibles en la carpeta input/data del repositorio Github).
 
 ```{r , eval = TRUE,message=FALSE}
 library(readr)
@@ -66,7 +72,7 @@ library(tidyverse)
 
 5. library(tidyjson)
 
-Utilizamos tidyjson para poder importar los datos de ambos sets de datos en formato json.
+Utilizamos tidyjson para poder importar ambos sets de datos en formato json.
 
 ```{r , eval = TRUE,message=FALSE,warning=FALSE}
 library(tidyjson)
@@ -74,7 +80,7 @@ library(tidyjson)
 
 6. library(rjson)
 
-Utilizamos rjson para poder leer los datos que se encuentran en formato json.
+Utilizamos rjson para poder leer los sets de datos que se encuentran en formato json.
 
 ```{r , eval = TRUE,message=FALSE,warning=FALSE}
 library(rjson)
@@ -82,8 +88,11 @@ library(rjson)
 
 
 
-## 4. Desarrollo 
+## 4. Desarrollo y resultados
+
+### 4.1. Obtención de los datos
 Antes de empezar el seminario, tuvimos que decidir qué datos utilizar y dónde buscarlos. Tras un tiempo, decidimos recoger ambos sets de datos de la base de datos del gobierno de España (<https://datos.gob.es/es/catalogo>).
+
 Concretamente, los datos de tasa de paro los obtuvimos de la siguiente fotografía:
 
 ![Imagen 1. Fotográfia datos de tasa de paro](input/images/Datos.gob_Tasa_de_Paro.png)
@@ -95,7 +104,124 @@ Por otro lado, los datos de suicidio los sacamos de la fotografía que se muestr
 ![Imagen 2. Fotografía datos de suicidio](input/images/Datos.gob_Suicidios.png)
 
 
-Posteriormente, insertamos los datos en el proyecto, para poder estudiarlos y modificarlos de cara a los objetivos propuestos.
+### 4.2. Importación de los datos
+
+#### 4.2.1. Importación desde Json
+Para poder utilizar los datos en Json, tenemos que importarlos y realizar una serie de modificaciones para hacer que dichos datos sean exactamente iguales a los que obtenemos tras importar en CSV.
+Para ello, necesitaremos:
+Para la tasa de paro
+```{r , eval = TRUE,warning=FALSE}
+#importamos el set de datos mediante JSON
+ParoJSON <- fromJSON(file = "input/data/Paro.json")
+```
+
+```{r , eval = TRUE,warning=FALSE,results='hide'}
+#distribuye cualquier objeto JSON que sea escalar en nuevas columnas
+ParoJSON %>% 
+  spread_all() %>%
+  str()
+```
+
+```{r , eval = TRUE,warning=FALSE}
+#vemos el tipo de datos que es cada variable
+ParoJSON %>% 
+  gather_object %>% 
+  json_types %>% 
+  count(name, type)
+```
+
+```{r , eval = TRUE,warning=FALSE}
+#seleccionamos las columnas que nos interesan de la variable DATA
+Paro1_JSON <-
+ParoJSON %>%
+  enter_object(Data) %>%
+  gather_array %>%
+  spread_all %>%
+  select(Anyo:Valor, document.id)
+```
+
+```{r , eval = TRUE,warning=FALSE}
+#seleccionamos la columna que nos interesa de la variable MEGADATA
+Paro2_JSON<-
+ParoJSON %>%
+  enter_object(MetaData) %>%
+  gather_array %>%
+  spread_all%>%
+  select(Nombre, document.id) 
+  #filter(Nombre = c("Ambos sexos","Hombres", "Mujeres"))
+```
+
+```{r , eval = TRUE,warning=FALSE}
+#LUEGO HACER EL JOIN DE AMBOS
+JOIN_PARO_JSON <-
+Paro1_JSON %>% 
+  select(c("Anyo", "Valor", "document.id")) %>%
+  full_join(x = ., 
+            y = Paro2_JSON %>% 
+              select(c("Nombre", "document.id")),
+            by = c("document.id") ) 
+```
+
+```{r , eval = TRUE,warning=FALSE}
+#FILTRAMOS POR AÑOS
+JOIN_PARO_JSON <-
+  JOIN_PARO_JSON %>%
+  filter(Anyo>2016)
+```
+
+Para los datos de suicidio:
+
+```{r , eval = TRUE,warning=FALSE}
+SuicidioJSON <- fromJSON(file = "input/data/suicidios.json")
+
+```
+
+```{r , eval = TRUE,warning=FALSE, results='hide'}
+SuicidioJSON %>%
+  spread_all() %>%
+  str()
+```
+
+```{r , eval = TRUE,warning=FALSE}
+SuicidioJSON %>% 
+  gather_object %>% 
+  json_types %>% 
+  count(name, type)
+```
+
+```{r , eval = TRUE,warning=FALSE}
+Suicidio1_JSON <-
+  SuicidioJSON %>%
+    enter_object(Data) %>%
+    gather_array %>%
+    spread_all %>%
+    select("Valor","document.id")
+```
+
+```{r , eval = TRUE,warning=FALSE}
+Suicidio2_JSON <-
+  SuicidioJSON %>%
+    enter_object(MetaData) %>%
+    gather_array %>%
+    spread_all%>%
+    select("Nombre", "document.id")
+```
+
+```{r , eval = TRUE,warning=FALSE}
+#LUEGO HACER EL JOIN DE AMBOS
+
+JOIN_SUICIDIO_JSON <-
+  Suicidio1_JSON %>% 
+  select(c("Valor", "document.id")) %>%
+  full_join(x = ., 
+            y = Suicidio2_JSON %>% 
+              select(c("Nombre", "document.id")),
+            by = c("document.id") ) 
+```
+
+
+#### 4.2.2. Importación desde CSV
+Insertamos los datos en el proyecto, para poder estudiarlos y modificarlos de cara a poder resolver los objetivos propuestos.
 Para la tasa de paro, importamos los datos de la siguiente manera:
 ```{r , eval = TRUE,warning=FALSE}
 ## Para importar los datos de TASA DE PARO:
@@ -113,12 +239,16 @@ Suicidio <- read_delim("input/data/Suicidio.csv",
                        trim_ws = TRUE)
 ```
 
+### 4.3. Filtrado de datos
 
 Una vez teníamos los datos importados en el proyecto, procedimos a filtrarlos para que mostraran sólo aquella información que fuera de utilidad para el proyecto. Para poder llegar a los objetivos propuestos, tuvimos que modificar ambos sets de datos.
 
+
+#### 4.3.1. Filtrado para el objetivo de Variación de paro respecto al sexo por años
 De cara a conseguir el primero **objetivo de VARIACIÓN DE PARO RESPECTO AL SEXO POR AÑOS**, tuvimos que modificar el set de datos respectivo a la tasa de paro, de la siguiente forma:
 
-1. Cambiamos el nombre de las comunidades y ciudades autónomas, para poder eliminar los números que aparecían al lado de cada comunidad autónoma, y añadimos los nuevos nombres, a una columna nueva del set de datos, que llamaremos CCAA.
+##### 4.3.1.1. Cambio en el nombre de las Comunidades Autónomas
+Cambiamos el nombre de las comunidades y ciudades autónomas, para poder eliminar los números que aparecían al lado de cada comunidad autónoma, y añadimos los nuevos nombres, a una columna nueva del set de datos, que llamaremos CCAA.
 Para ello tuvimos que utilizar case_when:
 ```{r , eval = TRUE}
 Tasa_de_Paro <- Tasa_de_Paro%>%
@@ -147,8 +277,8 @@ Tasa_de_Paro <- Tasa_de_Paro%>%
 
 ```
 
-
-2. Filtramos los datos para que nos salieran sólo aquellos datos que nos mostraran hombres y mujeres, ambos por separado, eliminando así aquellos datos que contenían una línea para "ambos sexos". Hicimos esto porque, para los objetivos que nos propusimos, era primordial filtrar por sexos, para, posteriormente estudiar, si hubieran, las diferencias entre ambos.
+##### 4.3.1.2. Cambio en la variable del sexo
+Filtramos los datos para que nos salieran sólo aquellos datos que nos mostraran hombres y mujeres, ambos por separado, eliminando así aquellos datos que contenían una línea para "ambos sexos". Hicimos esto porque, para los objetivos que nos propusimos, era primordial filtrar por sexos, para, posteriormente estudiar, si hubieran, las diferencias entre ambos.
 ```{r , eval = TRUE}
 Tasa_de_Paro <-
   Tasa_de_Paro %>%
@@ -166,7 +296,8 @@ Tasa_de_Paro %>%
 
 ```
 
-3. Seguidamente, filtramos los datos anteriores, para que nos muestre sólo aquellos valores para los que la nacionalidad es "total", ya que no es objetivo de estudio de nuestro seminario distinguir entre el paro de España respecto a las nacionalidades de las personas.
+##### 4.3.1.3. Cambio en la variable "nacionalidad"
+Seguidamente, filtramos los datos anteriores, para que nos muestre sólo aquellos valores para los que la nacionalidad es "total", ya que no es objetivo de estudio de nuestro seminario distinguir entre el paro de España respecto a las nacionalidades de las personas.
 
 ```{r , eval = TRUE}
 Tasa_de_Paro <-
@@ -176,7 +307,9 @@ Tasa_de_Paro <-
   droplevels()
 ```
 
-Una vez tenemos los datos correctamente filtrados, nos pusimos a realizar la gráfica que nos ayudara a conseguir el objetivo inicialmente propuesto:
+
+##### 4.3.1.4. Realización gráfica
+Una vez tenemos los datos correctamente filtrados, nos pusimos a realizar la gráfica que nos ayudara a conseguir el objetivo inicialmente propuesto.
 
 Para la variación del paro respecto al sexo a lo largo de los años, necesitamos un gráfico que muestre cómo varía el paro nacional respecto al sexo y respecto al paso del tiempo.
 
@@ -210,6 +343,7 @@ Podemos obsevar como la tasa de paro en mujeres es mayor respecto a la tasa de p
 Esto podemos observarlo más rápidamente con la regresión lineal, en la cual vemos como la tasa de par de las mujeres está siempre por encima de la de los hombres.
 
 
+##### 4.3.1.5. Noticia relacionada
 Podemos comprobar por qué la gráfica sufre un pico alrededor de 2011-2012, y es porque el paro en España aumentó considerablemente, alcanzando cifras de casi 6.000.000 millones de parados
 Adjuntamos, posteriormente la noticia que verifica estos hechos:
 <https://www.libremercado.com/2013-01-24/la-tasa-de-paro-cierra-2012-en-el-26-1276480251/#:~:text=De%20esta%20forma%2C%202012%20se,en%202011%2C%20en%20577.000%20desempleados.>
@@ -219,12 +353,13 @@ Adjuntamos, posteriormente la noticia que verifica estos hechos:
 
 
 
+#### 4.3.2. Filtrado para el objetivo de Variación de paro respecto a los años, al sexo y a la comunidad autónoma
 
-
-Por otro lado, para el **objetivo de VARIACION DE PARO RESPECTO A LOS AÑOS**, AL SEXO Y A COMUNIDAD AUTONOMA, necesitamos un gráfico que nos muestre el paro respecto a hombres y mujeres, a lo largo del tiempo, diferenciando por comunidades autónomas.
+Por otro lado, para el **objetivo de VARIACION DE PARO RESPECTO A LOS AÑOS, AL SEXO Y A COMUNIDAD AUTONOMA**, necesitamos un gráfico que nos muestre el paro respecto a hombres y mujeres, a lo largo del tiempo, diferenciando por comunidades autónomas.
 Para ello hicimos lo siguiente:
 
-tuvimos que filtrar los datos, para que, en este caso, nos quitaran las final que incluían "total Nacional", ya que, necesitábamos saber la tasa de paro de cada una de las comunidades de las que consta España
+##### 4.3.2.1 Eliminacción de los NA
+Tuvimos que filtrar los datos, para que, en este caso, nos quitaran las NA que incluían "total Nacional", ya que, necesitábamos saber la tasa de paro de cada una de las comunidades de las que consta España
 ```{r , eval = TRUE}
 Tasa_de_Paro_CCAA <-
   Tasa_de_Paro %>%
@@ -234,6 +369,7 @@ Tasa_de_Paro_CCAA <-
 
 ```
 
+##### 4.3.2.2. Realización gráfica
 Y realizamos el gráfico:
 ```{r , eval = TRUE, fig.width=15,fig.height=10,message=FALSE}
 Plot_Paro_CCAA <- ## necesitamos guardarlo con un nombre determinado
@@ -254,9 +390,11 @@ Plot_Paro_CCAA
 Podemos observar cómo hay diferencias considerables entre las diferentes comunidades autónomas, pero, las tasas de paro de ambos sexos parecen estar correlacionadas, ya que se asemejan entre comunidades autónomas, a pesar de que en mujeres son algo más elevadas que en hombres; por ejemplo, si nos fijamos en la comunidad autónoma de Andalucía, podemos ver que ambas tasas de paro son las mayores con respecto a las demás; así como en la comunidad de Aragón, ambas tasas descienden con respecto a la de Andalucía. Sin embargo, no es siempre así, porque si nos fijamos en la Comunidad valenciana y País Vasco, se puede observar cómo la tasa de paro de mujeres es mayor en la Comunidad Valenciana, sin embargo, la tasa de paro en hombres es mayor en el País Vasco, por lo que confirmamos que no hay una correlacón precisa, pero sí que van a la vez.
 
 
+#### 4.3.3. Filtrado para el objetivo de Variación del suicidio respecto al sexo por años
 Para el **objetivo de VARIACIÓN DE SUICIDIO RESPECTO AL SEXO POR AÑOS**, tuvimos que modificar los datos de suicidios para que indicaran aquellos aspectos de interés:
 
-1. Al igual que en el anterior set de datos, cambiamos el nombre de las comunidades y ciudades autónomas, y añadimos los nuevos nombres dados, a una columna nueva  del set de datos que llamaremos CCAA.
+##### 4.3.3.1. Cambio en el nombre de las Comunidades Autónomas
+Al igual que en el anterior set de datos, cambiamos el nombre de las comunidades y ciudades autónomas, y añadimos los nuevos nombres dados, a una columna nueva  del set de datos que llamaremos CCAA.
 Para ello tuvimos que utilizar case_when:
 
 ```{r , eval = TRUE}
@@ -286,7 +424,8 @@ Suicidio <- Suicidio%>%
     )) ## y le damos un "nuevo" nombre a cada comunidad
 ```
 
-2. Filtramos el set de datos para que nos salieran sólo aquellas causas de muerte que correspondían con suicidio y/o lesiones autoinflingidas (debido a que el set de datos era tan extenso, que recogía el número de muertes debidas a otras causas, pero como en nuestro seminario queríamos hablar del suicidio, cogimos aquellos datos que nos interesaban)
+##### 4.3.3.2. Cambio en la variable "Causa de muerte"
+Filtramos el set de datos para que nos salieran sólo aquellas causas de muerte que correspondían con suicidio y/o lesiones autoinflingidas (debido a que el set de datos era tan extenso, que recogía el número de muertes debidas a otras causas, pero como en nuestro seminario queríamos hablar del suicidio, cogimos aquellos datos que nos interesaban)
 
 ```{r , eval = TRUE}
 Suicidio <-
@@ -296,7 +435,8 @@ Suicidio <-
   droplevels()
 ```
 
-3. Posteriormente, al igual que en el set de datos de tasa de paro, tuvimos que filtrar para que nos salieran aquellos datos que mostraran hombres y mujeres, ambos por separados, y eliminara aquellos datos que unían ambos sexos. Hicimos esto porque nos interesaba estudiar cuál era el número de suicidios de hombres y de mujeres, ambos por separado, para, posteriormente, compararlos y establecer conclusiones.
+##### 4.3.3.3. Cambio en la variable del sexo
+Posteriormente, al igual que en el set de datos de tasa de paro, tuvimos que filtrar para que nos salieran aquellos datos que mostraran hombres y mujeres, ambos por separados, y eliminara aquellos datos que unían ambos sexos. Hicimos esto porque nos interesaba estudiar cuál era el número de suicidios de hombres y de mujeres, ambos por separado, para, posteriormente, compararlos y establecer conclusiones.
 
 ```{r , eval = TRUE}
 Suicidio <-
@@ -306,7 +446,8 @@ Suicidio <-
   droplevels() 
 ```
 
-4. Asimismo, tuvimos que filtrar los datos anteriores, porque, al ser el set de datos tan largo y extenso, recogía información relacionada con el lugar de ocurrencia en el que se había desarrollado la muerte, pero, como no era objetivo de estudio de nuestro seminario, tuvimos que filtrar los datos para que nos mostrará lugar de ocurrencia "Total".
+##### 4.3.3.4. Cambio en la variable "Lugar de ocurrencia"
+Asimismo, tuvimos que filtrar los datos anteriores, porque, al ser el set de datos tan largo y extenso, recogía información relacionada con el lugar de ocurrencia en el que se había desarrollado la muerte, pero, como no era objetivo de estudio de nuestro seminario, tuvimos que filtrar los datos para que nos mostrará lugar de ocurrencia "Total".
 
 
 ```{r , eval = TRUE}
@@ -317,7 +458,8 @@ Suicidio <-
   droplevels()
 ```
 
-5. Finalmente, como vimos que el set de datos tenía algún valor no definido (NA), y que lo estábamos arrastrando de los anteriores filtros, tuvimos que eliminar todas las líneas que tuvieran algún valor NA en ellas, ya que ese valor nos produciría problemas más adelante.
+##### 4.3.3.5. Eliminación de los NA
+Finalmente, como vimos que el set de datos tenía algún valor no definido (NA), y que lo estábamos arrastrando de los anteriores filtros, tuvimos que eliminar todas las líneas que tuvieran algún valor NA en ellas, ya que ese valor nos produciría problemas más adelante.
 
 ```{r , eval = TRUE}
 Suicidio <-
@@ -326,6 +468,7 @@ Suicidio <-
 
 Posteriormente, con los datos bien organizados y filtrados, nos propusimos el objetivo de realizar las gráficas que dependieran del set de datos de suicidio:
 
+#### 4.3.4. Filtrado para la Variación de suicidio respecto al sexo por años
 Para la **VARIACIÓN DE SUICIDIO RESPECTO AL SEXO Y AL TIEMPO**, necesitabamos una gráfica en la que nos mostrara todos los casos de suicidios, tanto de hombres como de mujeres, por cada uno de los años.
 Para ello:
 
@@ -339,6 +482,7 @@ Suicidio_Total <-
             desviacion = sd(Total))
 ```
 
+##### 4.3.4.1. Realización gráfica
 Y procedemos a realizar la gráfica:
 ```{r , eval = TRUE}
 Plot_Suicidio_Total_Sexo_Año <-  
@@ -355,6 +499,7 @@ Plot_Suicidio_Total_Sexo_Año
 En la tercera de las gráficas, podemos observar claramente cómo el número de suicidios en todos los años estudiados (2016-2020) es mayor en el sexo masculino que en el sexo femenino. Además, hemos representado la desviación estándar con una línea sobre las barras, de lo que deducimos que hay gran variedad en el número de suicidios.  
 
 
+##### 4.3.4.2. Noticia relacionada
 El suicidio es una de las causas de muerte más importantes en España, por ejemplo en 2020, las estadísticas marcaron que, al día, se suicidaba la escalofriante cifra de 11 personas, y según estas, irá en aumento a lo largo de los años.
 <https://www.huffingtonpost.es/entry/graficos-suicidio-espana_es_61b85b8de4b0358b5c4af1c5>
 
@@ -367,7 +512,8 @@ En este mismo artículo, muestra la estadística, visualmente, del número de su
 ![Imagen 5. Número de suicidios en España en 2020](input/images/Noticia_Suicidios_diarios_2020.png)
 
 
-
+#### 4.3.5. Filtrado para la Variación de suicidios respecto a los años, al sexo y a la Comunidad Autónoma
+##### 4.3.5.1. Realización gráfica
 Para el **objetivo de VARIACION DE SUICIDIOS RESPECTO A LOS AÑOS, AL SEXO Y A COMUNIDAD AUTONOMA**, necesitábamos una grafica en la que nos mostrara todos los casos de suicidios, tanto de hombres como de mujeres, por cada uno de los años en cada una de las comunidades autónomas de España.
 Para ello:
 ```{r , eval = TRUE,fig.width=15,fig.height=10,message=FALSE,warning=FALSE}
@@ -390,7 +536,7 @@ Podemos observar cómo hay diferencias considerables entre las diferentes comuni
 En este gráfico hay una cosa que llama la atención, ya que en la ciudad de Ceuta en el número de suicidios de hombres hay un único punto, es decir, solo se ha producido un suicidio a lo largo de todos los años estudiados.
 
 
-
+##### 4.3.5.2. Noticia relacionada
 En el anterior artículo, tambien habla acerca de cuál de las Comunidades Autónomas de España sufren mayor cantidad de suicidios. Entre las más destacadas habla de Andalucí, la cual a fue la comunidad en la que más personas se quitaron la vida con más de 600  suicidios en 2020, seguida por Cataluña con más de 400 y por la Comunitat Valenciana con más de 300.
 <https://www.huffingtonpost.es/entry/graficos-suicidio-espana_es_61b85b8de4b0358b5c4af1c5>
 
@@ -398,10 +544,11 @@ En el anterior artículo, tambien habla acerca de cuál de las Comunidades Autó
 ![Imagen 6. Comunidades donde hay el mayor número de suicidios](input/images/Noticia_Suicidio_comunidades_2020.png)
 
 
-
+#### 4.3.6. Filtrado para la relación entre paro y suicidio
 Por último, para el obejtivo de si **hay o no RELACIÓN ENTRE LA CANTIDAD DE PARO, Y EL NÚMERO DE SUICIDIOS**, necesitamos hacer un join, uniendo ambas tablas, para ello debemos seguir una serie de pasos para la correcta realización:
 
-I. Filtramos los datos de Tasa de Paro para que nos salgan sólo aquellos años mayores al 2016, y menores al 2021 (2017, 2018, 2019 y 2020)
+##### 4.3.6.1. Cambio en los años del set de Tasa de paro
+Filtramos los datos de Tasa de Paro para que nos salgan sólo aquellos años mayores al 2016, y menores al 2021 (2017, 2018, 2019 y 2020)
 Para ello crearemos un nuevo objeto (Paro_JOIN), en el que incluiremos los datos de los años de interés
 
 ```{r , eval = TRUE}
@@ -413,6 +560,7 @@ Paro_JOIN <-
 
 ```
 
+###### 4.3.6.1.1. Eliminación de NA
 Posteriormente, filtramos el objeto anterior, para que nos elimine aquellas filas de la columna CCAA, que poseen un valor "NA"
 
 ```{r , eval = TRUE}
@@ -424,7 +572,7 @@ Paro_JOIN <-
 
 ```
 
-
+##### 4.3.6.2. Cambio en los años del set Suicidio
 II. Filtramos los datos de Suicidio, para que coincidan en años, con los datos filtrados de Tasa de Paro, es decir, queremos los años entre el 2017 y 2020 (ambos incluidos)
 Para ello, al igual que antes, crearemos otro nuevo objeto (Suicidio_JOIN), en el que incluiremos los datos de los años que nos interesan
 
@@ -437,8 +585,11 @@ Suicidio_JOIN <-
 
 ```
 
+##### 4.3.6.3. Unión mediante un full join
 Una vez tenemos los dos sets de datos bien filtrados, y con los mismos años, procedemos a unirlos mediante un full join, pero, previamente, tenemos que realizar unas pequeñas modificaciones para que el full join no cree problemas en la unión.
 
+
+###### 4.3.6.3.1.Renombrar columna "año"
 En primer lugar, tuvimos que hacer que alguna columna de los dos sets de datos se llamasen igual, en este caso, tuvimos que renombrar la columna año, que pasará a llamarse periodo, para hacerlas coincidir.
 
 ```{r , eval = TRUE}
@@ -461,6 +612,7 @@ Paro_JOIN %>%
 
 ```
 
+###### 4.3.6.3.2. Representación gráfica
 Y lo representamos en una gráfica, para poder ver, de manera visual, si ambos sets de datos tenían realación entre ellos o no:
 
 ```{r , eval = TRUE,fig.width=9,message=FALSE, warning=FALSE}
@@ -480,6 +632,6 @@ Plot_JOIN
 
 ```
 
-## Conclusiones y discusión de los resultados finales
+## 5. Conclusiones y discusión de los resultados finales
 Tras analizar todos los aspectos, vemos a simple vista que no hay correlación, ya que la tasa de paro, en cómputo global, es mayor en mujeres que en hombres, y que el número de suicidio es mayor en hombres que en mujeres, pero para asegurarnos procedemos a juntar ambas tablas.
 
