@@ -1626,26 +1626,43 @@ se muestra a continuación:</p>
 <p>Para poder utilizar los datos en Json, tenemos que importarlos y
 realizar una serie de modificaciones para hacer que dichos datos sean
 exactamente iguales a los que obtenemos tras importar en CSV. Para ello,
-necesitaremos: Para la tasa de paro</p>
+necesitaremos: Para la tasa de paro:</p>
+<p>Importamos los datos desde JSON</p>
 <pre class="r"><code>#importamos el set de datos mediante JSON
 ParoJSON &lt;- fromJSON(file = &quot;input/data/Paro.json&quot;)</code></pre>
-<pre class="r"><code>#distribuye cualquier objeto JSON que sea escalar en nuevas columnas
+<p>Distribuimos los predicados del JSOn en forma de columnas</p>
+<pre class="r"><code>#Distribuimos los objetos JSON en forma de nuevas columnas (es decir, colocamos los predicados como columnas)
 ParoJSON %&gt;% 
   spread_all() %&gt;%
   str()</code></pre>
-<pre class="r"><code>#vemos el tipo de datos que es cada variable
+<p>Estudiamos los tipos de datos que había en cada variable</p>
+<pre class="r"><code># Estudiamos el tipo de datos que es cada variable
 ParoJSON %&gt;% 
   gather_object %&gt;% 
   json_types %&gt;% 
   count(name, type)</code></pre>
-<pre class="r"><code>#seleccionamos las columnas que nos interesan de la variable DATA
+<pre><code>## # A tibble: 6 × 3
+##   name      type       n
+##   &lt;chr&gt;     &lt;fct&gt;  &lt;int&gt;
+## 1 COD       string   300
+## 2 Data      array    300
+## 3 MetaData  array    300
+## 4 Nombre    string   300
+## 5 T3_Escala string   300
+## 6 T3_Unidad string   300</code></pre>
+<p>Y nos quedamos con aquellas variables en las que el tipo es “array”,
+ya que tendremos que indagar más en ellas y seleccionar los datos que
+nos interesen.</p>
+<p>Por ello, miramos la variable DATA:</p>
+<pre class="r"><code># Seleccionamos aquellas columnas que nos interesen de la variable DATA
 Paro1_JSON &lt;-
 ParoJSON %&gt;%
   enter_object(Data) %&gt;%
   gather_array %&gt;%
   spread_all %&gt;%
   select(Anyo:Valor, document.id)</code></pre>
-<pre class="r"><code>#seleccionamos la columna que nos interesa de la variable MEGADATA
+<p>Y METADATA:</p>
+<pre class="r"><code># Y hacemos lo mismo con la variable MEGADATA
 Paro2_JSON&lt;-
 ParoJSON %&gt;%
   enter_object(MetaData) %&gt;%
@@ -1653,23 +1670,30 @@ ParoJSON %&gt;%
   spread_all%&gt;%
   select(Nombre, document.id) 
   #filter(Nombre = c(&quot;Ambos sexos&quot;,&quot;Hombres&quot;, &quot;Mujeres&quot;))</code></pre>
-<pre class="r"><code>#LUEGO HACER EL JOIN DE AMBOS
-JOIN_PARO_JSON &lt;-
+<p>Posteriormente, hacemos el join de ambas variables, para conseguir el
+set de datos adecuado para trabajar</p>
+<pre class="r"><code>JOIN_PARO_JSON &lt;-
 Paro1_JSON %&gt;% 
   select(c(&quot;Anyo&quot;, &quot;Valor&quot;, &quot;document.id&quot;)) %&gt;%
   full_join(x = ., 
             y = Paro2_JSON %&gt;% 
               select(c(&quot;Nombre&quot;, &quot;document.id&quot;)),
             by = c(&quot;document.id&quot;) ) </code></pre>
+<p>Filtramos el join anterior por años:</p>
 <pre class="r"><code>#FILTRAMOS POR AÑOS
 JOIN_PARO_JSON &lt;-
   JOIN_PARO_JSON %&gt;%
   filter(Anyo&gt;2016)</code></pre>
-<p>Para los datos de suicidio:</p>
+<p>Y nos quedamos en el filtrado por sexo</p>
+<p>Para los datos de suicidio hacemos algo parecido a lo anterior:</p>
+<p>Importamos los datos desde JSON</p>
 <pre class="r"><code>SuicidioJSON &lt;- fromJSON(file = &quot;input/data/suicidios.json&quot;)</code></pre>
+<p>Distribuimos los objetos JSON en forma de nuevas columnas (es decir,
+colocamos los predicados como columnas)</p>
 <pre class="r"><code>SuicidioJSON %&gt;%
   spread_all() %&gt;%
   str()</code></pre>
+<p>Estudiamos el tipo de datos de cada variable</p>
 <pre class="r"><code>SuicidioJSON %&gt;% 
   gather_object %&gt;% 
   json_types %&gt;% 
@@ -1680,18 +1704,23 @@ JOIN_PARO_JSON &lt;-
 ## 1 Data     array    960
 ## 2 MetaData array    960
 ## 3 Nombre   string   960</code></pre>
+<p>Y estudiamos las variables que tienen el tipo array; DATA y METADATA
+Para DATA:</p>
 <pre class="r"><code>Suicidio1_JSON &lt;-
   SuicidioJSON %&gt;%
     enter_object(Data) %&gt;%
     gather_array %&gt;%
     spread_all %&gt;%
     select(&quot;Valor&quot;,&quot;document.id&quot;)</code></pre>
+<p>Para METADATA:</p>
 <pre class="r"><code>Suicidio2_JSON &lt;-
   SuicidioJSON %&gt;%
     enter_object(MetaData) %&gt;%
     gather_array %&gt;%
     spread_all%&gt;%
     select(&quot;Nombre&quot;, &quot;document.id&quot;)</code></pre>
+<p>Luego Hacemos EL JOIN entre las columnas que nos interesan de DATA y
+MEGADATA para conseguir el set de datos adecuado para trabajar</p>
 <pre class="r"><code>#LUEGO HACER EL JOIN DE AMBOS
 
 JOIN_SUICIDIO_JSON &lt;-
@@ -1701,6 +1730,7 @@ JOIN_SUICIDIO_JSON &lt;-
             y = Suicidio2_JSON %&gt;% 
               select(c(&quot;Nombre&quot;, &quot;document.id&quot;)),
             by = c(&quot;document.id&quot;) ) </code></pre>
+<p>Y nos quedamos en el filtrado por sexo</p>
 </div>
 <div id="importación-desde-csv" class="section level4">
 <h4>4.2.2. Importación desde CSV</h4>
@@ -1822,16 +1852,16 @@ por cada año:</p>
 
 Plot_Paro_Sexo_Años</code></pre>
 <p><img src="data:image/png;base64,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" width="672" /></p>
-<p><strong>CONCLUSIÓN</strong>: Podemos obsevar como la tasa de paro en
-mujeres es mayor respecto a la tasa de paro en hombres, durante todos
-los años estudiados, es decir, desde 2006 a 2021. Sin embargo, podemos
-observar como al principio de los años, esta diferencia de tasas entre
+<p><strong>CONCLUSIÓN</strong>: Podemos obsevar cómo la tasa de paro en
+mujeres es mayor respecto a la tasa de paro en hombres durante todos los
+años estudiados, es decir, desde 2006 a 2021. Sin embargo, podemos
+observar cómo al principio de los años, esta diferencia de tasas entre
 ambos sexos era bastante más notable. A partir de la crisis de 2009,
 podemos observar cómo ambas tasas comienzan a acercarse, hasta 2016,
 donde empiezan a separarse de nuevo. Hoy en día, la diferencia sigue
-siendo notable. Esto podemos observarlo más rápidamente con la regresión
-lineal, en la cual vemos como la tasa de par de las mujeres está siempre
-por encima de la de los hombres.</p>
+siendo notable. Esto podemos observarlo rápidamente con la regresión
+lineal, en la cual vemos cómo la tasa de paro de las mujeres está
+siempre por encima de la de los hombres.</p>
 </div>
 <div id="noticia-relacionada" class="section level5">
 <h5>4.3.1.5. Noticia relacionada</h5>
@@ -1884,10 +1914,10 @@ considerables entre las diferentes comunidades autónomas, pero, las
 tasas de paro de ambos sexos parecen estar correlacionadas, ya que se
 asemejan entre comunidades autónomas, a pesar de que en mujeres son algo
 más elevadas que en hombres; por ejemplo, si nos fijamos en la comunidad
-autónoma de Andalucía, podemos ver que ambas tasas de paro son las
-mayores con respecto a las demás; así como en la comunidad de Aragón,
-ambas tasas descienden con respecto a la de Andalucía. Sin embargo, no
-es siempre así, porque si nos fijamos en la Comunidad valenciana y País
+autónoma de Andalucía, podemos ver que ambas tasas de paro son mayores
+con respecto a las demás; así como en la comunidad de Aragón, ambas
+tasas descienden con respecto a la de Andalucía. Sin embargo, no es
+siempre así, porque si nos fijamos en la Comunidad valenciana y País
 Vasco, se puede observar cómo la tasa de paro de mujeres es mayor en la
 Comunidad Valenciana, sin embargo, la tasa de paro en hombres es mayor
 en el País Vasco, por lo que confirmamos que no hay una correlacón
@@ -2016,7 +2046,7 @@ observar claramente cómo el número de suicidios en todos los años
 estudiados (2016-2020) es mayor en el sexo masculino que en el sexo
 femenino. Además, hemos representado la desviación estándar con una
 línea sobre las barras, de lo que deducimos que hay gran variedad en el
-número de suicidios.</p>
+número de suicidios, tanto en hombres como en mujeres.</p>
 </div>
 <div id="noticia-relacionada-1" class="section level5">
 <h5>4.3.4.2. Noticia relacionada</h5>
@@ -2060,15 +2090,14 @@ Plot_Suicidio_CCAA</code></pre>
 <p><strong>CONCLUSIÓN</strong>: Podemos observar cómo hay diferencias
 considerables entre las diferentes comunidades autónomas, pero, el
 número de suicidios de ambos sexos parecen estar correlacionado, ya que
-se asemejan entre comunidades autónomas, a pesar de que en hombres son
-algo más elevadas que en mujeres; por ejemplo, si nos fijamos en la
-comunidad autónoma de Andalucía, podemos ver que ambos números de
-suicidio son los más altos, con respecto a las demás; así como en la
-ciudad de Melilla, ambas tasas descienden con respecto a la de
-Andalucía. En este gráfico hay una cosa que llama la atención, ya que en
-la ciudad de Ceuta en el número de suicidios de hombres hay un único
-punto, es decir, solo se ha producido un suicidio a lo largo de todos
-los años estudiados.</p>
+se asemejan entre comunidades, a pesar de que en hombres, son algo más
+elevadas que en mujeres; por ejemplo, si nos fijamos en la comunidad
+autónoma de Andalucía, podemos ver que ambos números de suicidio son los
+más altos, con respecto a las demás; así como en la ciudad de Melilla,
+ambas tasas descienden con respecto a la de Andalucía. En este gráfico
+hay una cosa que llama la atención, ya que en la ciudad de Ceuta en el
+número de suicidios de hombres hay un único punto, es decir, solo se ha
+producido un suicidio a lo largo de todos los años estudiados.</p>
 </div>
 <div id="noticia-relacionada-2" class="section level5">
 <h5>4.3.5.2. Noticia relacionada</h5>
@@ -2178,11 +2207,24 @@ Plot_JOIN</code></pre>
 </div>
 <div id="conclusiones-y-discusión-de-los-resultados-finales" class="section level2">
 <h2>5. Conclusiones y discusión de los resultados finales</h2>
-<p>Tras analizar todos los aspectos, vemos a simple vista que no hay
-correlación, ya que la tasa de paro, en cómputo global, es mayor en
-mujeres que en hombres, y que el número de suicidio es mayor en hombres
-que en mujeres, pero para asegurarnos procedemos a juntar ambas
-tablas.</p>
+<p>Tras analizar todos los aspectos y objetivos que propusimos
+previamente a la realización del seminario, vemos que, a simple vista,
+parece que no hay una relación clara entre ambos aspectos; Paro y
+Suicidio, cosa que nos crea curiosidad, ya que, nosotros mismos, antes
+de realizar el seminario, creíamos que estos dos ámbitos tenían una
+relación estrecha entre ellos, ya que “el dinero es la potencia que
+mueve al mundo”, y muchas de las personas que están en el paro, apenas
+tienen dinero para alimentarse, por ello, nosotros inicialmente creíamos
+que esa era una de las razones de peso por las que las personas decidían
+quitarse la vida, pero tras realizar el estudio hemos visto como esto
+era erróneo.</p>
+<p>La no relación entre estos aspectos puede venir dada porque la tasa
+de paro, en cómputo global, es mayor en mujeres que en hombres (debido a
+que, desgraciadamente, a lo largo de la historia, las mujeres han
+obtenido menor número de puestos de trabajp), y porque el número de
+suicidio es mayor en hombres que en mujeres, cosa que nos hace ver que
+estos términos no tienen una relación exacta.</p>
+<p>No obstante</p>
 </div>
 </div>
 

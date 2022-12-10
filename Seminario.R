@@ -377,18 +377,20 @@ library(tidyverse)
 #importamos el set de datos mediante JSON
 ParoJSON <- fromJSON(file = "input/data/Paro.json")
 
-#distribuye cualquier objeto JSON que sea escalar en nuevas columnas
+#Distribuimos los objetos JSON en forma de nuevas columnas (es decir, colocamos los predicados como columnas)
 ParoJSON %>% 
   spread_all() %>%
   str()
 
-#vemos el tipo de datos que es cada variable
+# Estudiamos el tipo de datos que es cada variable
 ParoJSON %>% 
   gather_object %>% 
   json_types %>% 
   count(name, type)
 
-#seleccionamos las columnas que nos interesan de la variable DATA
+## Y estudiamos las variables que tienen el tipo array
+
+# Seleccionamos aquellas columnas que nos interesen de la variable DATA
 Paro1_JSON <-
 ParoJSON %>%
   enter_object(Data) %>%
@@ -396,7 +398,7 @@ ParoJSON %>%
   spread_all %>%
   select(Anyo:Valor, document.id)
 
-#seleccionamos la columna que nos interesa de la variable MEGADATA
+# Y hacemos lo mismo con la variable MEGADATA
 Paro2_JSON<-
 ParoJSON %>%
   enter_object(MetaData) %>%
@@ -406,16 +408,8 @@ ParoJSON %>%
   #filter(Nombre = c("Ambos sexos","Hombres", "Mujeres"))
   
 
-#ParoJSON %>%
-  #enter_object(MetaData) %>% 
-  #gather_array %>%
-  #gather_object %>% 
-  #json_types %>% 
-  #count(name, type)
 
-
-
-#LUEGO HACER EL JOIN DE AMBOS
+#Luego Hacemos EL JOIN entre las columnas que nos interesan de DATA y MEGADATA para conseguir el set de datos adecuado para trabajar
 
 JOIN_PARO_JSON <-
 Paro1_JSON %>% 
@@ -431,7 +425,8 @@ JOIN_PARO_JSON <-
   JOIN_PARO_JSON %>%
   filter(Anyo>2016)
 
-#FILTRAMOS POR AMBOS SEXO
+
+# e intentamos FILTRAMOS POR AMBOS SEXO
 JOIN_PARO_JSON <-
   JOIN_PARO_JSON %>%
   
@@ -446,18 +441,25 @@ JOIN_PARO_JSON <-
 
 library(tidyjson)
 library(rjson)
+
+# Importamos los datos desde JSON
 SuicidioJSON <- fromJSON(file = "input/data/suicidios.json")
 
+#Distribuimos los objetos JSON en forma de nuevas columnas (es decir, colocamos los predicados como columnas)
 SuicidioJSON %>%
   spread_all() %>%
   str()
 
+# Estudiamos el tipo de datos que es cada variable
 library(dplyr)
 SuicidioJSON %>% 
   gather_object %>% 
   json_types %>% 
   count(name, type)
 
+## Y estudiamos las variables que tienen el tipo array
+
+# Seleccionamos aquellas columnas que nos interesen de la variable DATA
 library(tidyverse)
 Suicidio1_JSON <-
   SuicidioJSON %>%
@@ -466,6 +468,7 @@ Suicidio1_JSON <-
     spread_all %>%
     select("Valor","document.id")
 
+# Y hacemos lo mismo con la variable MEGADATA
 Suicidio2_JSON <-
   SuicidioJSON %>%
     enter_object(MetaData) %>%
@@ -475,7 +478,7 @@ Suicidio2_JSON <-
 
 
 
-#LUEGO HACER EL JOIN DE AMBOS
+#Luego Hacemos EL JOIN entre las columnas que nos interesan de DATA y MEGADATA para conseguir el set de datos adecuado para trabajar
 
 JOIN_SUICIDIO_JSON <-
   Suicidio1_JSON %>% 
@@ -486,7 +489,7 @@ JOIN_SUICIDIO_JSON <-
             by = c("document.id") ) 
 
 
-#FILTRAMOS POR SEXO?
+#e intentamos filtrar POR SEXO
 JOIN_SUICIDIO_JSON <-
   JOIN_SUICIDIO_JSON %>%
   filter()

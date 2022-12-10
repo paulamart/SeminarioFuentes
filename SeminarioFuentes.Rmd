@@ -109,29 +109,35 @@ Por otro lado, los datos de suicidio los sacamos de la fotografía que se muestr
 #### 4.2.1. Importación desde Json
 Para poder utilizar los datos en Json, tenemos que importarlos y realizar una serie de modificaciones para hacer que dichos datos sean exactamente iguales a los que obtenemos tras importar en CSV.
 Para ello, necesitaremos:
-Para la tasa de paro
+Para la tasa de paro:
+
+Importamos los datos desde JSON
 ```{r , eval = TRUE,warning=FALSE}
 #importamos el set de datos mediante JSON
 ParoJSON <- fromJSON(file = "input/data/Paro.json")
 ```
 
+Distribuimos los predicados del JSOn en forma de columnas
 ```{r , eval = TRUE,warning=FALSE,results='hide'}
-#distribuye cualquier objeto JSON que sea escalar en nuevas columnas
+#Distribuimos los objetos JSON en forma de nuevas columnas (es decir, colocamos los predicados como columnas)
 ParoJSON %>% 
   spread_all() %>%
   str()
 ```
 
+Estudiamos los tipos de datos que había en cada variable
 ```{r , eval = TRUE,warning=FALSE}
-#vemos el tipo de datos que es cada variable
+# Estudiamos el tipo de datos que es cada variable
 ParoJSON %>% 
   gather_object %>% 
   json_types %>% 
   count(name, type)
 ```
+Y nos quedamos con aquellas variables en las que el tipo es "array", ya que tendremos que indagar más en ellas y seleccionar los datos que nos interesen.
 
+Por ello, miramos la variable DATA:
 ```{r , eval = TRUE,warning=FALSE}
-#seleccionamos las columnas que nos interesan de la variable DATA
+# Seleccionamos aquellas columnas que nos interesen de la variable DATA
 Paro1_JSON <-
 ParoJSON %>%
   enter_object(Data) %>%
@@ -140,8 +146,9 @@ ParoJSON %>%
   select(Anyo:Valor, document.id)
 ```
 
+Y METADATA:
 ```{r , eval = TRUE,warning=FALSE}
-#seleccionamos la columna que nos interesa de la variable MEGADATA
+# Y hacemos lo mismo con la variable MEGADATA
 Paro2_JSON<-
 ParoJSON %>%
   enter_object(MetaData) %>%
@@ -151,8 +158,8 @@ ParoJSON %>%
   #filter(Nombre = c("Ambos sexos","Hombres", "Mujeres"))
 ```
 
+Posteriormente, hacemos el join de ambas variables, para conseguir el set de datos adecuado para trabajar 
 ```{r , eval = TRUE,warning=FALSE}
-#LUEGO HACER EL JOIN DE AMBOS
 JOIN_PARO_JSON <-
 Paro1_JSON %>% 
   select(c("Anyo", "Valor", "document.id")) %>%
@@ -162,32 +169,40 @@ Paro1_JSON %>%
             by = c("document.id") ) 
 ```
 
+Filtramos el join anterior por años:
 ```{r , eval = TRUE,warning=FALSE}
 #FILTRAMOS POR AÑOS
 JOIN_PARO_JSON <-
   JOIN_PARO_JSON %>%
   filter(Anyo>2016)
 ```
+Y nos quedamos en el filtrado por sexo
 
-Para los datos de suicidio:
+Para los datos de suicidio hacemos algo parecido a lo anterior:
 
+Importamos los datos desde JSON
 ```{r , eval = TRUE,warning=FALSE}
 SuicidioJSON <- fromJSON(file = "input/data/suicidios.json")
 
 ```
 
+Distribuimos los objetos JSON en forma de nuevas columnas (es decir, colocamos los predicados como columnas)
 ```{r , eval = TRUE,warning=FALSE, results='hide'}
 SuicidioJSON %>%
   spread_all() %>%
   str()
 ```
 
+Estudiamos el tipo de datos de cada variable
 ```{r , eval = TRUE,warning=FALSE}
 SuicidioJSON %>% 
   gather_object %>% 
   json_types %>% 
   count(name, type)
 ```
+
+Y estudiamos las variables que tienen el tipo array; DATA y METADATA
+Para DATA:
 
 ```{r , eval = TRUE,warning=FALSE}
 Suicidio1_JSON <-
@@ -198,6 +213,7 @@ Suicidio1_JSON <-
     select("Valor","document.id")
 ```
 
+Para METADATA:
 ```{r , eval = TRUE,warning=FALSE}
 Suicidio2_JSON <-
   SuicidioJSON %>%
@@ -207,6 +223,7 @@ Suicidio2_JSON <-
     select("Nombre", "document.id")
 ```
 
+Luego Hacemos EL JOIN entre las columnas que nos interesan de DATA y MEGADATA para conseguir el set de datos adecuado para trabajar
 ```{r , eval = TRUE,warning=FALSE}
 #LUEGO HACER EL JOIN DE AMBOS
 
@@ -218,7 +235,7 @@ JOIN_SUICIDIO_JSON <-
               select(c("Nombre", "document.id")),
             by = c("document.id") ) 
 ```
-
+Y nos quedamos en el filtrado por sexo
 
 #### 4.2.2. Importación desde CSV
 Insertamos los datos en el proyecto, para poder estudiarlos y modificarlos de cara a poder resolver los objetivos propuestos.
@@ -339,8 +356,8 @@ Plot_Paro_Sexo_Años
 
 
 **CONCLUSIÓN**:
-Podemos obsevar como la tasa de paro en mujeres es mayor respecto a la tasa de paro en hombres, durante todos los años estudiados, es decir, desde 2006 a 2021. Sin embargo, podemos observar como al principio de los años, esta diferencia de tasas entre ambos sexos era bastante más notable. A partir de la crisis de 2009, podemos observar cómo ambas tasas comienzan a acercarse, hasta 2016, donde empiezan a separarse de nuevo. Hoy en día, la diferencia sigue siendo notable. 
-Esto podemos observarlo más rápidamente con la regresión lineal, en la cual vemos como la tasa de par de las mujeres está siempre por encima de la de los hombres.
+Podemos obsevar cómo la tasa de paro en mujeres es mayor respecto a la tasa de paro en hombres durante todos los años estudiados, es decir, desde 2006 a 2021. Sin embargo, podemos observar cómo al principio de los años, esta diferencia de tasas entre ambos sexos era bastante más notable. A partir de la crisis de 2009, podemos observar cómo ambas tasas comienzan a acercarse, hasta 2016, donde empiezan a separarse de nuevo. Hoy en día, la diferencia sigue siendo notable. 
+Esto podemos observarlo rápidamente con la regresión lineal, en la cual vemos cómo la tasa de paro de las mujeres está siempre por encima de la de los hombres.
 
 
 ##### 4.3.1.5. Noticia relacionada
@@ -387,7 +404,7 @@ Plot_Paro_CCAA
 
 
 **CONCLUSIÓN**:
-Podemos observar cómo hay diferencias considerables entre las diferentes comunidades autónomas, pero, las tasas de paro de ambos sexos parecen estar correlacionadas, ya que se asemejan entre comunidades autónomas, a pesar de que en mujeres son algo más elevadas que en hombres; por ejemplo, si nos fijamos en la comunidad autónoma de Andalucía, podemos ver que ambas tasas de paro son las mayores con respecto a las demás; así como en la comunidad de Aragón, ambas tasas descienden con respecto a la de Andalucía. Sin embargo, no es siempre así, porque si nos fijamos en la Comunidad valenciana y País Vasco, se puede observar cómo la tasa de paro de mujeres es mayor en la Comunidad Valenciana, sin embargo, la tasa de paro en hombres es mayor en el País Vasco, por lo que confirmamos que no hay una correlacón precisa, pero sí que van a la vez.
+Podemos observar cómo hay diferencias considerables entre las diferentes comunidades autónomas, pero, las tasas de paro de ambos sexos parecen estar correlacionadas, ya que se asemejan entre comunidades autónomas, a pesar de que en mujeres son algo más elevadas que en hombres; por ejemplo, si nos fijamos en la comunidad autónoma de Andalucía, podemos ver que ambas tasas de paro son mayores con respecto a las demás; así como en la comunidad de Aragón, ambas tasas descienden con respecto a la de Andalucía. Sin embargo, no es siempre así, porque si nos fijamos en la Comunidad valenciana y País Vasco, se puede observar cómo la tasa de paro de mujeres es mayor en la Comunidad Valenciana, sin embargo, la tasa de paro en hombres es mayor en el País Vasco, por lo que confirmamos que no hay una correlacón precisa, pero sí que van a la vez.
 
 
 #### 4.3.3. Filtrado para el objetivo de Variación del suicidio respecto al sexo por años
@@ -496,7 +513,7 @@ Plot_Suicidio_Total_Sexo_Año
 
 
 **CONCLUSIÓN**:
-En la tercera de las gráficas, podemos observar claramente cómo el número de suicidios en todos los años estudiados (2016-2020) es mayor en el sexo masculino que en el sexo femenino. Además, hemos representado la desviación estándar con una línea sobre las barras, de lo que deducimos que hay gran variedad en el número de suicidios.  
+En la tercera de las gráficas, podemos observar claramente cómo el número de suicidios en todos los años estudiados (2016-2020) es mayor en el sexo masculino que en el sexo femenino. Además, hemos representado la desviación estándar con una línea sobre las barras, de lo que deducimos que hay gran variedad en el número de suicidios, tanto en hombres como en mujeres.  
 
 
 ##### 4.3.4.2. Noticia relacionada
@@ -532,7 +549,7 @@ Plot_Suicidio_CCAA
 
 
 **CONCLUSIÓN**:
-Podemos observar cómo hay diferencias considerables entre las diferentes comunidades autónomas, pero, el número de suicidios de ambos sexos parecen estar correlacionado, ya que se asemejan entre comunidades autónomas, a pesar de que en hombres son algo más elevadas que en mujeres; por ejemplo, si nos fijamos en la comunidad autónoma de Andalucía, podemos ver que ambos números de suicidio son los más altos, con respecto a las demás; así como en la ciudad de Melilla, ambas tasas descienden con respecto a la de Andalucía. 
+Podemos observar cómo hay diferencias considerables entre las diferentes comunidades autónomas, pero, el número de suicidios de ambos sexos parecen estar correlacionado, ya que se asemejan entre comunidades, a pesar de que en hombres, son algo más elevadas que en mujeres; por ejemplo, si nos fijamos en la comunidad autónoma de Andalucía, podemos ver que ambos números de suicidio son los más altos, con respecto a las demás; así como en la ciudad de Melilla, ambas tasas descienden con respecto a la de Andalucía. 
 En este gráfico hay una cosa que llama la atención, ya que en la ciudad de Ceuta en el número de suicidios de hombres hay un único punto, es decir, solo se ha producido un suicidio a lo largo de todos los años estudiados.
 
 
@@ -633,5 +650,9 @@ Plot_JOIN
 ```
 
 ## 5. Conclusiones y discusión de los resultados finales
-Tras analizar todos los aspectos, vemos a simple vista que no hay correlación, ya que la tasa de paro, en cómputo global, es mayor en mujeres que en hombres, y que el número de suicidio es mayor en hombres que en mujeres, pero para asegurarnos procedemos a juntar ambas tablas.
+Tras analizar todos los aspectos y objetivos que propusimos previamente a la realización del seminario, vemos que, a simple vista, parece que no hay una relación clara entre ambos aspectos; Paro y Suicidio, cosa que nos crea curiosidad, ya que, nosotros mismos, antes de realizar el seminario, creíamos que estos dos ámbitos tenían una relación estrecha entre ellos, ya que "el dinero es la potencia que mueve al mundo", y muchas de las personas que están en el paro, apenas tienen dinero para alimentarse, por ello, nosotros inicialmente creíamos que esa era una de las razones de peso por las que las personas decidían quitarse la vida, pero tras realizar el estudio hemos visto como esto era erróneo.
+
+La no relación entre estos aspectos puede venir dada porque la tasa de paro, en cómputo global, es mayor en mujeres que en hombres (debido a que, desgraciadamente, a lo largo de la historia, las mujeres han obtenido menor número de puestos de trabajp), y porque el número de suicidio es mayor en hombres que en mujeres, cosa que nos hace ver que estos términos no tienen una relación exacta.
+
+No obstante podemos ver que hay mayor concentración de suicidios cuando la tasa de paro es medianamente pequeña, y que, a medida que aumentamos la tasa de paro, la concentración de suicidios disminuye, pero el número sigue siendo alto.
 
