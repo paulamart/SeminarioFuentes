@@ -72,7 +72,7 @@ library(tidyverse)
 
 5. library(tidyjson)
 
-Utilizamos tidyjson para poder importar ambos sets de datos en formato json.
+Utilizamos tidyjson para importar ambos sets de datos en formato json.
 
 ```{r , eval = TRUE,message=FALSE,warning=FALSE}
 library(tidyjson)
@@ -80,7 +80,7 @@ library(tidyjson)
 
 6. library(rjson)
 
-Utilizamos rjson para poder leer los sets de datos que se encuentran en formato json.
+Utilizamos rjson para leer los sets de datos que se encuentran en formato json.
 
 ```{r , eval = TRUE,message=FALSE,warning=FALSE}
 library(rjson)
@@ -109,7 +109,7 @@ Por otro lado, los datos de suicidio los sacamos de la fotografía que se muestr
 #### 4.2.1. Importación desde Json
 Para poder utilizar los datos en Json, tenemos que importarlos y realizar una serie de modificaciones para hacer que dichos datos sean exactamente iguales a los que obtenemos tras importar en CSV.
 Para ello, necesitaremos:
-Para la tasa de paro:
+- Para la tasa de paro:
 
 Importamos los datos desde JSON
 ```{r , eval = TRUE,warning=FALSE}
@@ -117,7 +117,7 @@ Importamos los datos desde JSON
 ParoJSON <- fromJSON(file = "input/data/Paro.json")
 ```
 
-Distribuimos los predicados del JSOn en forma de columnas
+Distribuimos los predicados del JSON en forma de columnas
 ```{r , eval = TRUE,warning=FALSE,results='hide'}
 #Distribuimos los objetos JSON en forma de nuevas columnas (es decir, colocamos los predicados como columnas)
 ParoJSON %>% 
@@ -146,7 +146,7 @@ ParoJSON %>%
   select(Anyo:Valor, document.id)
 ```
 
-Y METADATA:
+Y la variable METADATA:
 ```{r , eval = TRUE,warning=FALSE}
 # Y hacemos lo mismo con la variable MEGADATA
 Paro2_JSON<-
@@ -178,7 +178,7 @@ JOIN_PARO_JSON <-
 ```
 Y nos quedamos en el filtrado por sexo
 
-Para los datos de suicidio hacemos algo parecido a lo anterior:
+- Para los datos de suicidio hacemos algo parecido a lo anterior:
 
 Importamos los datos desde JSON
 ```{r , eval = TRUE,warning=FALSE}
@@ -652,7 +652,7 @@ Plot_JOIN
 ## 5. Conclusiones y discusión de los resultados finales
 Tras analizar todos los aspectos y objetivos que propusimos previamente a la realización del seminario, vemos que, a simple vista, parece que no hay una relación clara entre ambos aspectos; Paro y Suicidio, cosa que nos crea curiosidad, ya que, nosotros mismos, antes de realizar el seminario, creíamos que estos dos ámbitos tenían una relación estrecha entre ellos, ya que "el dinero es la potencia que mueve al mundo", y muchas de las personas que están en el paro, apenas tienen dinero para alimentarse, por ello, nosotros inicialmente creíamos que esa era una de las razones de peso por las que las personas decidían quitarse la vida, pero tras realizar el estudio hemos visto como esto era erróneo.
 
-La no relación entre estos aspectos puede venir dada porque la tasa de paro, en cómputo global, es mayor en mujeres que en hombres (debido a que, desgraciadamente, a lo largo de la historia, las mujeres han obtenido menor número de puestos de trabajp), y porque el número de suicidio es mayor en hombres que en mujeres, cosa que nos hace ver que estos términos no tienen una relación exacta.
+La no relación entre estos aspectos puede venir dada porque la tasa de paro, en cómputo global, es mayor en mujeres que en hombres (debido a que, desgraciadamente, a lo largo de la historia, las mujeres han obtenido menor número de puestos de trabajo), y porque el número de suicidio es mayor en hombres que en mujeres, cosa que nos hace ver que estos términos no tienen una relación exacta.
 
 No obstante podemos ver que hay mayor concentración de suicidios cuando la tasa de paro es medianamente pequeña, y que, a medida que aumentamos la tasa de paro, la concentración de suicidios disminuye, pero el número sigue siendo alto.
-
+A su vez, podemos observar que cuando la tasa de paro es o muy pequeña o muy grande, la cantidad de suicidios es pequeña, pero,  cuando la tasa de paro es media, podemos observar mayor cantidad de suicidios.

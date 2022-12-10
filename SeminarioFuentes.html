@@ -1589,14 +1589,14 @@ los sets de datos utilizados en el seminario.</p>
 <ol start="5" style="list-style-type: decimal">
 <li>library(tidyjson)</li>
 </ol>
-<p>Utilizamos tidyjson para poder importar ambos sets de datos en
-formato json.</p>
+<p>Utilizamos tidyjson para importar ambos sets de datos en formato
+json.</p>
 <pre class="r"><code>library(tidyjson)</code></pre>
 <ol start="6" style="list-style-type: decimal">
 <li>library(rjson)</li>
 </ol>
-<p>Utilizamos rjson para poder leer los sets de datos que se encuentran
-en formato json.</p>
+<p>Utilizamos rjson para leer los sets de datos que se encuentran en
+formato json.</p>
 <pre class="r"><code>library(rjson)</code></pre>
 </div>
 <div id="desarrollo-y-resultados" class="section level2">
@@ -1626,11 +1626,11 @@ se muestra a continuación:</p>
 <p>Para poder utilizar los datos en Json, tenemos que importarlos y
 realizar una serie de modificaciones para hacer que dichos datos sean
 exactamente iguales a los que obtenemos tras importar en CSV. Para ello,
-necesitaremos: Para la tasa de paro:</p>
+necesitaremos: - Para la tasa de paro:</p>
 <p>Importamos los datos desde JSON</p>
 <pre class="r"><code>#importamos el set de datos mediante JSON
 ParoJSON &lt;- fromJSON(file = &quot;input/data/Paro.json&quot;)</code></pre>
-<p>Distribuimos los predicados del JSOn en forma de columnas</p>
+<p>Distribuimos los predicados del JSON en forma de columnas</p>
 <pre class="r"><code>#Distribuimos los objetos JSON en forma de nuevas columnas (es decir, colocamos los predicados como columnas)
 ParoJSON %&gt;% 
   spread_all() %&gt;%
@@ -1661,7 +1661,7 @@ ParoJSON %&gt;%
   gather_array %&gt;%
   spread_all %&gt;%
   select(Anyo:Valor, document.id)</code></pre>
-<p>Y METADATA:</p>
+<p>Y la variable METADATA:</p>
 <pre class="r"><code># Y hacemos lo mismo con la variable MEGADATA
 Paro2_JSON&lt;-
 ParoJSON %&gt;%
@@ -1685,7 +1685,9 @@ JOIN_PARO_JSON &lt;-
   JOIN_PARO_JSON %&gt;%
   filter(Anyo&gt;2016)</code></pre>
 <p>Y nos quedamos en el filtrado por sexo</p>
-<p>Para los datos de suicidio hacemos algo parecido a lo anterior:</p>
+<ul>
+<li>Para los datos de suicidio hacemos algo parecido a lo anterior:</li>
+</ul>
 <p>Importamos los datos desde JSON</p>
 <pre class="r"><code>SuicidioJSON &lt;- fromJSON(file = &quot;input/data/suicidios.json&quot;)</code></pre>
 <p>Distribuimos los objetos JSON en forma de nuevas columnas (es decir,
@@ -2221,10 +2223,16 @@ era erróneo.</p>
 <p>La no relación entre estos aspectos puede venir dada porque la tasa
 de paro, en cómputo global, es mayor en mujeres que en hombres (debido a
 que, desgraciadamente, a lo largo de la historia, las mujeres han
-obtenido menor número de puestos de trabajp), y porque el número de
+obtenido menor número de puestos de trabajo), y porque el número de
 suicidio es mayor en hombres que en mujeres, cosa que nos hace ver que
 estos términos no tienen una relación exacta.</p>
-<p>No obstante</p>
+<p>No obstante podemos ver que hay mayor concentración de suicidios
+cuando la tasa de paro es medianamente pequeña, y que, a medida que
+aumentamos la tasa de paro, la concentración de suicidios disminuye,
+pero el número sigue siendo alto. A su vez, podemos observar que cuando
+la tasa de paro es o muy pequeña o muy grande, la cantidad de suicidios
+es pequeña, pero, cuando la tasa de paro es media, podemos observar
+mayor cantidad de suicidios.</p>
 </div>
 </div>
 
