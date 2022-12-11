@@ -360,6 +360,8 @@ Plot_Paro_Sexo_Años <- ## necesitamos guardarlo con un nombre determinado
 Plot_Paro_Sexo_Años
 
 ```
+
+
 Hay que tener en cuenta que cuando hablamos de Tasa de Paro, estamos refiriéndonos al número total de desempleados, dividido entre la población activa (ocupados + desempleados), multiplicado por 100:
 
 ![](input/images/Fórmula Tasa de Paro.jpg)
@@ -578,11 +580,11 @@ Plot_Suicidio_CCAA
 
 **CONCLUSIÓN**:
 Podemos observar cómo hay diferencias considerables entre las diferentes comunidades autónomas, pero, el número de suicidios de ambos sexos parecen estar correlacionado, ya que se asemejan entre comunidades, a pesar de que en hombres, son algo más elevadas que en mujeres; por ejemplo, si nos fijamos en la comunidad autónoma de Andalucía, podemos ver que ambos números de suicidio son los más altos, con respecto a las demás; así como en la ciudad de Melilla, ambas tasas descienden con respecto a la de Andalucía. 
-En este gráfico hay una cosa que llama la atención, ya que en la ciudad de Ceuta en el número de suicidios de hombres hay un único punto, es decir, solo se ha producido un suicidio a lo largo de todos los años estudiados.
+En este gráfico hay una cosa que llama la atención, ya que en la ciudad de Ceuta en el número de suicidios de mujeres hay un único punto, es decir, solo se ha producido un suicidio a lo largo de todos los años estudiados.
 
 
 ##### 4.3.5.2. Noticia relacionada
-En el anterior artículo, tambien habla acerca de cuál de las Comunidades Autónomas de España sufren mayor cantidad de suicidios. Entre las más destacadas habla de Andalucí, la cual a fue la comunidad en la que más personas se quitaron la vida con más de 600  suicidios en 2020, seguida por Cataluña con más de 400 y por la Comunitat Valenciana con más de 300.
+En el anterior artículo, tambien habla acerca de cuál de las Comunidades Autónomas de España sufren mayor cantidad de suicidios. Entre las más destacadas habla de Andalucía, la cual a fue la comunidad en la que más personas se quitaron la vida con más de 600  suicidios en 2020, seguida por Cataluña con más de 400 y por la Comunitat Valenciana con más de 300.
 <https://www.huffingtonpost.es/entry/graficos-suicidio-espana_es_61b85b8de4b0358b5c4af1c5>
 
 
