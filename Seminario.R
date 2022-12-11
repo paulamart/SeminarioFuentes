@@ -121,6 +121,11 @@ Plot_Paro_Sexo_Años <- ## necesitamos guardarlo con un nombre determinado
   geom_point(aes(colour = factor(Sexo))) +
   theme_light() +
   geom_smooth(method = "lm", aes(colour = factor(Sexo))) +
+  labs(
+    x= "Años" ,
+    y ="Tasa de Paro" , 
+    title= "Paro respecto años/sexo"
+  )+
   theme_classic()
 
 Plot_Paro_Sexo_Años
@@ -149,6 +154,11 @@ Plot_Paro_CCAA <- ## necesitamos guardarlo con un nombre determinado
   geom_point(aes(colour = factor(Sexo))) +
   facet_grid(. ~ Tasa_de_Paro_CCAA$`CCAA`) +
   geom_smooth(method = "lm", aes(colour = factor(Sexo))) +
+  labs(
+    x= "Años" ,
+    y ="Tasa de paro" , 
+    title= "Paro por Comunidad Autónoma"
+  )+
   theme_light() + #quitamos el gris de fondo
   theme_classic() + #quitamos los cuadraditos
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
@@ -253,8 +263,12 @@ library(ggplot2)
 Plot_Suicidio_Total_Sexo_Año <-  
   ggplot(data = Suicidio_Total, aes(x = Year, y = MT, fill = Sexo))+
   geom_bar( stat = "identity", position = "dodge")+
-  geom_errorbar(aes(ymin = MT- desviacion, ymax = MT + desviacion), width=.2,
-  position=position_dodge(.9) )   
+  geom_errorbar(aes(ymin = MT- desviacion, ymax = MT + desviacion), width=.2+
+  position = position_dodge(.9))+
+  labs(
+    x= "Años" ,
+    y ="Número de suicidios" , 
+    title= "Suicidio total por año/sexo")   
 
 Plot_Suicidio_Total_Sexo_Año
 
@@ -270,6 +284,11 @@ Plot_Suicidio_CCAA <-
   geom_point(aes(colour = factor(Sexo))) +
   facet_grid(. ~ Suicidio$`CCAA`)+
   geom_smooth(method = "lm", aes(colour = factor(Sexo))) +
+  labs(
+    x= "Años" ,
+    y ="Número de suicidios" , 
+    title= "Suicidio por Comunidad Autónoma"
+  ) + 
   theme_light() + #quitamos el gris de fondo
   theme_classic() + #quitar los cuadraditos
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
@@ -358,10 +377,9 @@ Plot_JOIN <-
   geom_smooth()+
   labs(
     x= "Tasa de Paro" ,
-    y ="Tasa de Suicidio" , 
+    y ="Número de Suicidios" , 
     title= "Correlación entre paro y suicidio"
   ) +
-  #lims(x = c(6, 35), y = c(0, 600))+
   theme_classic()
 
 Plot_JOIN

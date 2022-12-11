@@ -343,16 +343,25 @@ Paro_Total_Año <-
 
 Y realizamos el gráfico a raíz de lo explicado anteriormente:
 ```{r , eval = TRUE,message=FALSE}
+library(ggplot2) 
 Plot_Paro_Sexo_Años <- ## necesitamos guardarlo con un nombre determinado
   ggplot(data = Paro_Total_Año, aes(x = Periodo, y = Total)) +
   geom_point(aes(colour = factor(Sexo))) +
   theme_light() +
   geom_smooth(method = "lm", aes(colour = factor(Sexo))) +
+  labs(
+    x= "Años" ,
+    y ="Tasa de Paro" , 
+    title= "Paro respecto años/sexo"
+  )+
   theme_classic()
 
 Plot_Paro_Sexo_Años
 
 ```
+Hay que tener en cuenta que cuando hablamos de Tasa de Paro, estamos refiriéndonos al número total de desempleados, dividido entre la población activa (ocupados + desempleados), multiplicado por 100:
+
+![](input/images/Fórmula Tasa de Paro.jpg)
 
 
 **CONCLUSIÓN**:
@@ -394,13 +403,22 @@ Plot_Paro_CCAA <- ## necesitamos guardarlo con un nombre determinado
   geom_point(aes(colour = factor(Sexo))) +
   facet_grid(. ~ Tasa_de_Paro_CCAA$`CCAA`) +
   geom_smooth(method = "lm", aes(colour = factor(Sexo))) +
+  labs(
+    x= "Años" ,
+    y ="Tasa de paro" , 
+    title= "Paro por Comunidad Autónoma"
+  )+
   theme_light() + #quitamos el gris de fondo
-  theme_classic()+  #quitamos los cuadrados del fondo
+  theme_classic() + #quitamos los cuadraditos
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 
 Plot_Paro_CCAA
 
 ```
+
+Hay que tener en cuenta que cuando hablamos de Tasa de Paro, estamos refiriéndonos al número total de desempleados, dividido entre la población activa (ocupados + desempleados), multiplicado por 100:
+
+![](input/images/Fórmula Tasa de Paro.jpg)
 
 
 **CONCLUSIÓN**:
@@ -506,7 +524,11 @@ Plot_Suicidio_Total_Sexo_Año <-
   ggplot(data = Suicidio_Total, aes(x = Year, y = MT, fill = Sexo))+
   geom_bar( stat = "identity", position = "dodge")+
   geom_errorbar(aes(ymin = MT- desviacion, ymax = MT + desviacion), width=.2,
-  position=position_dodge(.9) )   
+  position = position_dodge(.9))+
+  labs(
+    x= "Años" ,
+    y ="Número de suicidios" , 
+    title= "Suicidio total por año/sexo")   
 
 Plot_Suicidio_Total_Sexo_Año 
 ```
@@ -539,6 +561,11 @@ Plot_Suicidio_CCAA <-
   geom_point(aes(colour = factor(Sexo))) +
   facet_grid(. ~ Suicidio$`CCAA`)+
   geom_smooth(method = "lm", aes(colour = factor(Sexo))) +
+  labs(
+    x= "Años" ,
+    y ="Número de suicidios" , 
+    title= "Suicidio por Comunidad Autónoma"
+  ) + 
   theme_light() + #quitamos el gris de fondo
   theme_classic() + #quitar los cuadraditos
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
@@ -639,15 +666,19 @@ Plot_JOIN <-
   geom_smooth()+
   labs(
     x= "Tasa de Paro" ,
-    y ="Tasa de Suicidio" , 
+    y ="Número de Suicidios" , 
     title= "Correlación entre paro y suicidio"
   ) +
-  #lims(x = c(6, 35), y = c(0, 600))+
   theme_classic()
 
 Plot_JOIN
 
 ```
+Hay que tener en cuenta que cuando hablamos de Tasa de Paro, estamos refiriéndonos al número total de desempleados, dividido entre la población activa (ocupados + desempleados), multiplicado por 100:
+
+![](input/images/Fórmula Tasa de Paro.jpg)
+
+
 
 ## 5. Conclusiones y discusión de los resultados finales
 Tras analizar todos los aspectos y objetivos que propusimos previamente a la realización del seminario, vemos que, a simple vista, parece que no hay una relación clara entre ambos aspectos; Paro y Suicidio, cosa que nos crea curiosidad, ya que, nosotros mismos, antes de realizar el seminario, creíamos que estos dos ámbitos tenían una relación estrecha entre ellos, ya que "el dinero es la potencia que mueve al mundo", y muchas de las personas que están en el paro, apenas tienen dinero para alimentarse, por ello, nosotros inicialmente creíamos que esa era una de las razones de peso por las que las personas decidían quitarse la vida, pero tras realizar el estudio hemos visto como esto era erróneo.
