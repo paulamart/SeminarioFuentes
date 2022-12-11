@@ -1,5 +1,6 @@
 ---
 title: "Seminario Fuentes de  Biómédicas y Web Semántica"
+subtitle: "Relación entre Paro y Suicidio"
 author: "Javier Sáez García y Paula Martínez Terrados"
 date: "2022-11-08"
 output:
