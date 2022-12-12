@@ -506,7 +506,6 @@ Suicidio <-
 
 Posteriormente, con los datos bien organizados y filtrados, nos propusimos el objetivo de realizar las gráficas que dependieran del set de datos de suicidio:
 
-#### 4.3.4. Filtrado para la Variación de suicidio respecto al sexo por años
 Para la **VARIACIÓN DE SUICIDIO RESPECTO AL SEXO Y AL TIEMPO**, necesitabamos una gráfica en la que nos mostrara todos los casos de suicidios, tanto de hombres como de mujeres, por cada uno de los años.
 Para ello:
 
@@ -520,7 +519,7 @@ Suicidio_Total <-
             desviacion = sd(Total))
 ```
 
-##### 4.3.4.1. Realización gráfica
+##### 4.3.3.6. Realización gráfica
 Y procedemos a realizar la gráfica:
 ```{r , eval = TRUE}
 Plot_Suicidio_Total_Sexo_Año <-  
@@ -541,7 +540,7 @@ Plot_Suicidio_Total_Sexo_Año
 En la tercera de las gráficas, podemos observar claramente cómo el número de suicidios en todos los años estudiados (2016-2020) es mayor en el sexo masculino que en el sexo femenino. Además, hemos representado la desviación estándar con una línea sobre las barras, de lo que deducimos que hay gran variedad en el número de suicidios, tanto en hombres como en mujeres.  
 
 
-##### 4.3.4.2. Noticia relacionada
+##### 4.3.3.7. Noticia relacionada
 El suicidio es una de las causas de muerte más importantes en España, por ejemplo en 2020, las estadísticas marcaron que, al día, se suicidaba la escalofriante cifra de 11 personas, y según estas, irá en aumento a lo largo de los años.
 <https://www.huffingtonpost.es/entry/graficos-suicidio-espana_es_61b85b8de4b0358b5c4af1c5>
 
@@ -554,8 +553,8 @@ En este mismo artículo, muestra la estadística, visualmente, del número de su
 ![Imagen 5. Número de suicidios en España en 2020](input/images/Noticia_Suicidios_diarios_2020.png)
 
 
-#### 4.3.5. Filtrado para la Variación de suicidios respecto a los años, al sexo y a la Comunidad Autónoma
-##### 4.3.5.1. Realización gráfica
+#### 4.3.4. Filtrado para la Variación de suicidios respecto a los años, al sexo y a la Comunidad Autónoma
+##### 4.3.4.1. Realización gráfica
 Para el **objetivo de VARIACION DE SUICIDIOS RESPECTO A LOS AÑOS, AL SEXO Y A COMUNIDAD AUTONOMA**, necesitábamos una grafica en la que nos mostrara todos los casos de suicidios, tanto de hombres como de mujeres, por cada uno de los años en cada una de las comunidades autónomas de España.
 Para ello:
 ```{r , eval = TRUE,fig.width=15,fig.height=10,message=FALSE,warning=FALSE}
@@ -583,7 +582,7 @@ Podemos observar cómo hay diferencias considerables entre las diferentes comuni
 En este gráfico hay una cosa que llama la atención, ya que en la ciudad de Ceuta en el número de suicidios de mujeres hay un único punto, es decir, solo se ha producido un suicidio a lo largo de todos los años estudiados.
 
 
-##### 4.3.5.2. Noticia relacionada
+##### 4.3.4.2. Noticia relacionada
 En el anterior artículo, tambien habla acerca de cuál de las Comunidades Autónomas de España sufren mayor cantidad de suicidios. Entre las más destacadas habla de Andalucía, la cual a fue la comunidad en la que más personas se quitaron la vida con más de 600  suicidios en 2020, seguida por Cataluña con más de 400 y por la Comunitat Valenciana con más de 300.
 <https://www.huffingtonpost.es/entry/graficos-suicidio-espana_es_61b85b8de4b0358b5c4af1c5>
 
@@ -591,10 +590,10 @@ En el anterior artículo, tambien habla acerca de cuál de las Comunidades Autó
 ![Imagen 6. Comunidades donde hay el mayor número de suicidios](input/images/Noticia_Suicidio_comunidades_2020.png)
 
 
-#### 4.3.6. Filtrado para la relación entre paro y suicidio
+#### 4.3.5. Filtrado para la relación entre paro y suicidio
 Por último, para el obejtivo de si **hay o no RELACIÓN ENTRE LA CANTIDAD DE PARO, Y EL NÚMERO DE SUICIDIOS**, necesitamos hacer un join, uniendo ambas tablas, para ello debemos seguir una serie de pasos para la correcta realización:
 
-##### 4.3.6.1. Cambio en los años del set de Tasa de paro
+##### 4.3.5.1. Cambio en los años del set de Tasa de paro
 Filtramos los datos de Tasa de Paro para que nos salgan sólo aquellos años mayores al 2016, y menores al 2021 (2017, 2018, 2019 y 2020)
 Para ello crearemos un nuevo objeto (Paro_JOIN), en el que incluiremos los datos de los años de interés
 
@@ -607,7 +606,7 @@ Paro_JOIN <-
 
 ```
 
-###### 4.3.6.1.1. Eliminación de NA
+###### 4.3.5.1.1. Eliminación de NA
 Posteriormente, filtramos el objeto anterior, para que nos elimine aquellas filas de la columna CCAA, que poseen un valor "NA"
 
 ```{r , eval = TRUE}
@@ -619,7 +618,7 @@ Paro_JOIN <-
 
 ```
 
-##### 4.3.6.2. Cambio en los años del set Suicidio
+##### 4.3.5.2. Cambio en los años del set Suicidio
 II. Filtramos los datos de Suicidio, para que coincidan en años, con los datos filtrados de Tasa de Paro, es decir, queremos los años entre el 2017 y 2020 (ambos incluidos)
 Para ello, al igual que antes, crearemos otro nuevo objeto (Suicidio_JOIN), en el que incluiremos los datos de los años que nos interesan
 
@@ -632,11 +631,11 @@ Suicidio_JOIN <-
 
 ```
 
-##### 4.3.6.3. Unión mediante un full join
+##### 4.3.5.3. Unión mediante un full join
 Una vez tenemos los dos sets de datos bien filtrados, y con los mismos años, procedemos a unirlos mediante un full join, pero, previamente, tenemos que realizar unas pequeñas modificaciones para que el full join no cree problemas en la unión.
 
 
-###### 4.3.6.3.1.Renombrar columna "año"
+###### 4.3.5.3.1.Renombrar columna "año"
 En primer lugar, tuvimos que hacer que alguna columna de los dos sets de datos se llamasen igual, en este caso, tuvimos que renombrar la columna año, que pasará a llamarse periodo, para hacerlas coincidir.
 
 ```{r , eval = TRUE}
@@ -659,7 +658,7 @@ Paro_JOIN %>%
 
 ```
 
-###### 4.3.6.3.2. Representación gráfica
+###### 4.3.5.3.2. Representación gráfica
 Y lo representamos en una gráfica, para poder ver, de manera visual, si ambos sets de datos tenían realación entre ellos o no:
 
 ```{r , eval = TRUE,fig.width=9,message=FALSE, warning=FALSE}
